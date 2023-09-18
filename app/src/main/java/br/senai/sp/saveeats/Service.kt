@@ -10,7 +10,7 @@ interface Service {
 
     //cadastro cliente
     @Headers("Content-Type: application/json")
-    @POST("/v1/saveeats/cadastro/cliente")
+    @POST("v1/saveeats/cadastro/cliente")
     suspend fun signupClient(@Body body: JsonObject): Response<JsonObject>
 
     //login cliente

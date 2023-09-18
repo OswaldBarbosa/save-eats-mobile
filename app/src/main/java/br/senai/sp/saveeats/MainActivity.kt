@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.homecomponents.screen.HomeScreen
 import br.senai.sp.saveeats.logincomponents.screen.LoginScreen
 import br.senai.sp.saveeats.singupcomponents.screen.SignupScreen
+import br.senai.sp.saveeats.splashcomponents.screen.SplashScreen
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,8 +23,12 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "login_screen"
+                    startDestination = "splash_screen"
                 ) {
+
+                    composable("splash_screen") {
+                        SplashScreen(navController = navController)
+                    }
 
                     composable("login_screen") {
                         LoginScreen(navController = navController, lifecycleScope = lifecycleScope)

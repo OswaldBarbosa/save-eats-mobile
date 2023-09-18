@@ -47,18 +47,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Retrofit
 import br.senai.sp.saveeats.Service
-import br.senai.sp.saveeats.components.CustomOutlineTextField
+import br.senai.sp.saveeats.components.InputOutlineTextField
 import kotlinx.coroutines.launch
 
 @Composable
@@ -151,7 +148,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
 
     }
 
-    fun signup (
+    fun signup(
         name: String,
         cpf: String,
         cep: String,
@@ -179,7 +176,8 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                 phone,
                 password,
                 confirmPassword
-            )) {
+            )
+        ) {
 
             val signup = SignupRepository()
 
@@ -201,23 +199,22 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
 
                 if (response.isSuccessful) {
 
-                    val validation = response.body()?.get("status")
-
-                    if (validation.toString() == "500") {
-                        Toast.makeText(context, "Alguns campos estão inválidos", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Faça seu login", Toast.LENGTH_SHORT).show()
-                        navController.navigate("login_screen")
-                    }
+                    Toast.makeText(context, "Faça seu login", Toast.LENGTH_SHORT).show()
+                    navController.navigate("login_screen")
 
                 } else {
 
                     val errorBody = response.errorBody()?.string()
 
-                    Log.e(MainActivity::class.java.simpleName, "Erro durante o login: $errorBody")
+                    if (errorBody == "401") {
 
-                    Toast.makeText(context, "Erro durante o registro", Toast.LENGTH_SHORT).show()
+                        Log.e(MainActivity::class.java.simpleName, "Erro durante o cadastro: $errorBody")
 
+                        Toast.makeText(context, "Esse e-mail já está vinculado a uma conta.", Toast.LENGTH_SHORT).show()
+
+                    } else {
+
+                    }
 
                 }
 
@@ -267,7 +264,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                             contentDescription = "Prato de comida"
                         )
 
-                        Column (
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -294,7 +291,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
 
                 }
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = name,
                     onValueChange = { name = it },
                     label = stringResource(id = R.string.name),
@@ -311,7 +308,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = cpf,
                     onValueChange = { cpf = it },
                     label = stringResource(id = R.string.cpf),
@@ -328,7 +325,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = phone,
                     onValueChange = { phone = it },
                     label = stringResource(id = R.string.phone),
@@ -345,7 +342,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = cep,
                     onValueChange = { cep = it },
                     label = stringResource(id = R.string.cep),
@@ -362,7 +359,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = state,
                     onValueChange = { state = it },
                     label = stringResource(id = R.string.state),
@@ -379,7 +376,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = city,
                     onValueChange = { city = it },
                     label = stringResource(id = R.string.city),
@@ -396,7 +393,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = neighborhood,
                     onValueChange = { neighborhood = it },
                     label = stringResource(id = R.string.neighborhood),
@@ -413,7 +410,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = street,
                     onValueChange = { street = it },
                     label = stringResource(id = R.string.street),
@@ -430,7 +427,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = number,
                     onValueChange = { number = it },
                     label = stringResource(id = R.string.number),
@@ -447,7 +444,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = email,
                     onValueChange = { email = it },
                     label = stringResource(id = R.string.email),
@@ -464,7 +461,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = password,
                     onValueChange = { password = it },
                     label = stringResource(id = R.string.password),
@@ -478,13 +475,13 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                         keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
                     ),
                     keyboardActions = KeyboardActions(onDone = {
-                        focusManager.clearFocus()
+                        focusManager.moveFocus(FocusDirection.Down)
                     }),
                     borderColor = Color(72, 138, 39),
                     border = ShapeDefaults.Small
                 )
 
-                CustomOutlineTextField(
+                InputOutlineTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
                     label = stringResource(id = R.string.confirm_password),
@@ -519,20 +516,20 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                         .height(60.dp)
                         .width(200.dp),
                     onClick = {
-                              signup(
-                                  name,
-                                  cpf,
-                                  cep,
-                                  state,
-                                  city,
-                                  neighborhood,
-                                  street,
-                                  number,
-                                  email,
-                                  phone,
-                                  password,
-                                  confirmPassword
-                              )
+                        signup(
+                            name,
+                            cpf,
+                            cep,
+                            state,
+                            city,
+                            neighborhood,
+                            street,
+                            number,
+                            email,
+                            phone,
+                            password,
+                            confirmPassword
+                        )
                     },
                     colors = ButtonDefaults.buttonColors(Color(255, 141, 6))
 

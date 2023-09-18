@@ -54,7 +54,7 @@ import androidx.navigation.NavController
 import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Service
-import br.senai.sp.saveeats.components.CustomOutlineTextField
+import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import kotlinx.coroutines.launch
 
@@ -95,8 +95,7 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
     var isPasswordVisibible by rememberSaveable { mutableStateOf(false) }
 
     val validateEmailError = "The format of the email doesn't seem right"
-    val validatePasswordError =
-        "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
+    val validatePasswordError = "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
 
     fun validateData(email: String, password: String): Boolean {
 
@@ -126,7 +125,7 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
 
                     val validation = response.body()?.get("status")
 
-                    if (validation.toString() == "401") {
+                    if (validation.toString() == "404") {
                         Toast.makeText(context, "Email ou senha inválido", Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
@@ -234,7 +233,7 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-                        CustomOutlineTextField(
+                        InputOutlineTextField(
                             value = email,
                             onValueChange = { email = it },
                             label = stringResource(id = R.string.email),
@@ -252,7 +251,7 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
                             border = ShapeDefaults.Small
                         )
 
-                        CustomOutlineTextField(
+                        InputOutlineTextField(
                             value = password,
                             onValueChange = { password = it },
                             label = stringResource(id = R.string.password),
