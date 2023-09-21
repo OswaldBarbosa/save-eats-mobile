@@ -95,7 +95,8 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
     var isPasswordVisibible by rememberSaveable { mutableStateOf(false) }
 
     val validateEmailError = "The format of the email doesn't seem right"
-    val validatePasswordError = "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
+    val validatePasswordError =
+        "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
 
     fun validateData(email: String, password: String): Boolean {
 
@@ -123,21 +124,14 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
 
                 if (response.isSuccessful) {
 
-                    val validation = response.body()?.get("status")
-
-                    if (validation.toString() == "404") {
-                        Toast.makeText(context, "Email ou senha inválido", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
-                        navController.navigate("home_screen")
-                    }
+                    Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
+                    navController.navigate("home_screen")
 
                 } else {
 
                     val errorBody = response.errorBody()?.string()
 
-                    Log.e(MainActivity::class.java.simpleName, "Erro durante o login: $errorBody")
-                    Toast.makeText(context, "Email ou senha inválido", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "E-mail ou senha inválido", Toast.LENGTH_SHORT).show()
 
                 }
 

@@ -47,4 +47,5 @@
     <string name="phone_error">The format of the phone number "doesn't" seem right</string>
     <string name="password_error">Must mix capital and non-capital letters, a number, special character and a minium legth of 8</string>
     <string name="password_equal_error">Passwords must be equal</string>
+    <string name="search">Search</string>
 </resources>

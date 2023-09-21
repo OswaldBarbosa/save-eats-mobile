@@ -199,22 +199,15 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
 
                 if (response.isSuccessful) {
 
-                    Toast.makeText(context, "Faça seu login", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Faça login", Toast.LENGTH_SHORT).show()
                     navController.navigate("login_screen")
 
                 } else {
 
                     val errorBody = response.errorBody()?.string()
 
-                    if (errorBody == "401") {
-
-                        Log.e(MainActivity::class.java.simpleName, "Erro durante o cadastro: $errorBody")
-
-                        Toast.makeText(context, "Esse e-mail já está vinculado a uma conta.", Toast.LENGTH_SHORT).show()
-
-                    } else {
-
-                    }
+                    Log.e(MainActivity::class.java.simpleName, "Erro durante o login: $errorBody")
+                    Toast.makeText(context, "Esse e-mail já está vinculado a uma conta", Toast.LENGTH_SHORT).show()
 
                 }
 
@@ -474,7 +467,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
                     ),
-                    keyboardActions = KeyboardActions(onDone = {
+                    keyboardActions = KeyboardActions(onNext = {
                         focusManager.moveFocus(FocusDirection.Down)
                     }),
                     borderColor = Color(72, 138, 39),
