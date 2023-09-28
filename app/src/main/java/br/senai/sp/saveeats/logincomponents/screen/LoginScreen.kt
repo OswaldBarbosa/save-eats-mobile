@@ -54,6 +54,7 @@ import androidx.navigation.NavController
 import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Service
+import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import kotlinx.coroutines.launch
@@ -293,19 +294,10 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
                 verticalArrangement = Arrangement.Center
             ) {
 
-                Button(
-                    modifier = Modifier
-                        .height(60.dp)
-                        .width(200.dp), onClick = {
-                        login(email, password)
-                    }, colors = ButtonDefaults.buttonColors(Color(255, 141, 6))
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.login),
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                CustomButton(
+                    onCLick = {  login(email, password) },
+                    text = stringResource(id = R.string.login)
+                )
 
             }
 

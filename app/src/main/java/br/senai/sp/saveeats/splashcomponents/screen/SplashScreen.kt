@@ -37,7 +37,7 @@ fun SplashScreen(navController: NavHostController) {
             )
         )
         delay(1000L)
-        navController.navigate("login_screen")
+        navController.navigate("first_presentation_screen")
     }
 
     Surface(

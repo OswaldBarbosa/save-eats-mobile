@@ -22,7 +22,6 @@
     <string name="ssn">SSN</string>
     <string name="zip_code">Zip Code</string>
     <string name="phone">Phone Number</string>
-    <string name="next">NEXT</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="welcome_text_1">Join this sustainable movement that fights food waste by redeeming fresh produce from restaurants, bakeries and fruit and vegetable shops with discounts of up to 70%.</string>
@@ -31,9 +30,9 @@
     <string name="title_activity_splash" translatable="false">SplashActivity</string>
     <string name="categories">Categories</string>
     <string name="restaurant">Restaurants</string>
-    <string name="text1_slider">Enjoy discounts of up to 70% and buy quality food!</string>
-    <string name="text2_slider">Discover partner restaurants of your choice!</string>
-    <string name="text3_slider">Explore simple recipes and get tips for preserving your food effectively.</string>
+    <string name="slide_one">Enjoy discounts of up to 70% and buy quality food!</string>
+    <string name="slide_two">Discover partner restaurants of your choice!</string>
+    <string name="slide_three">Explore simple recipes and get tips for preserving your food effectively.</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="name_error">Please, input a valid name</string>
     <string name="cpf_error">Please, input a valid CPF</string>
@@ -48,4 +47,6 @@
     <string name="password_error">Must mix capital and non-capital letters, a number, special character and a minium legth of 8</string>
     <string name="password_equal_error">Passwords must be equal</string>
     <string name="search">Search</string>
+    <string name="next">Next</string>
+    <string name="recipes">Recipes</string>
 </resources>

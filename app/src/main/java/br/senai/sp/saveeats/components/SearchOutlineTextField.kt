@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,7 +32,8 @@ fun SearchOutlineTextField(
     borderColor: Color,
     border: Shape,
     keyboardOptions: KeyboardOptions,
-    keyboardActions: KeyboardActions
+    keyboardActions: KeyboardActions,
+    tint: Color
 ) {
 
     Column(
@@ -43,7 +46,8 @@ fun SearchOutlineTextField(
             value = value,
             onValueChange = { onValueChange(it) },
             modifier = Modifier
-                .fillMaxWidth(0.8f)
+                .width(360.dp)
+                .height(70.dp)
                 .padding(bottom = 10.dp),
             colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = borderColor,
@@ -54,7 +58,8 @@ fun SearchOutlineTextField(
             leadingIcon = {
                 Icon(
                     imageVector = leadingIconImageVector,
-                    contentDescription = leadingIconDescription
+                    contentDescription = leadingIconDescription,
+                    tint = tint
                 )
             },
             keyboardOptions = keyboardOptions,

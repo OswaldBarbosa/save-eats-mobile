@@ -55,6 +55,7 @@ import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Retrofit
 import br.senai.sp.saveeats.Service
+import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import kotlinx.coroutines.launch
 
@@ -63,9 +64,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
 
     lateinit var service: Service
 
-    service = Retrofit
-        .getInstance()
-        .create(Service::class.java)
+    service = Retrofit.getInstance().create(Service::class.java)
 
     var context = LocalContext.current
     var focusManager = LocalFocusManager.current
@@ -207,7 +206,9 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                     val errorBody = response.errorBody()?.string()
 
                     Log.e(MainActivity::class.java.simpleName, "Erro durante o login: $errorBody")
-                    Toast.makeText(context, "Esse e-mail já está vinculado a uma conta", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context, "Esse e-mail já está vinculado a uma conta", Toast.LENGTH_SHORT
+                    ).show()
 
                 }
 
@@ -232,8 +233,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
         ) {
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
 
                 Column(
@@ -244,9 +244,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                 ) {
 
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        Alignment.Center
+                        modifier = Modifier.fillMaxWidth(), Alignment.Center
                     ) {
 
                         Image(
@@ -258,8 +256,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                         )
 
                         Column(
-                            modifier = Modifier
-                                .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
@@ -504,11 +501,8 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                 verticalArrangement = Arrangement.Center
             ) {
 
-                Button(
-                    modifier = Modifier
-                        .height(60.dp)
-                        .width(200.dp),
-                    onClick = {
+                CustomButton(
+                    onCLick = {
                         signup(
                             name,
                             cpf,
@@ -523,18 +517,8 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
                             password,
                             confirmPassword
                         )
-                    },
-                    colors = ButtonDefaults.buttonColors(Color(255, 141, 6))
-
-                ) {
-
-                    Text(
-                        text = stringResource(id = R.string.signup),
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-
-                }
+                    }, text = stringResource(id = R.string.signup)
+                )
 
             }
 
