@@ -43,7 +43,7 @@ fun SplashScreen(navController: NavHostController) {
     Surface(
         modifier = Modifier
             .fillMaxSize(),
-        color = Color(255, 255, 255)
+        color = Color(76,132,62)
     ) {
 
         Image(

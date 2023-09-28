@@ -7,8 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.saveeats.homecomponents.screen.HomeScreen
 import br.senai.sp.saveeats.logincomponents.screen.LoginScreen
+import br.senai.sp.saveeats.menubarcomponents.screen.MenuScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.FirstPresentationScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.SecondPresentationScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.ThirdPresentationScreen
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("home_screen") {
-                        HomeScreen(navController = navController)
+                        MenuScreen(navController2 = navController)
                     }
 
                 }

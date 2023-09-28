@@ -26,7 +26,7 @@ fun CustomButton(
             .height(55.dp),
         shape = RoundedCornerShape(30.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(229,125,56)
+            backgroundColor = Color(76,132,62)
         )
        ) {
 

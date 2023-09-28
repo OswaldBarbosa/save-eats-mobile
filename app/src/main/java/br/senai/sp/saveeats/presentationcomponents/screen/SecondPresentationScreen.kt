@@ -41,12 +41,14 @@ fun SecondPresentationScreen(navController: NavController) {
         Column (
             modifier = Modifier
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight(.6f),
+                verticalArrangement = Arrangement.Bottom
             ) {
 
                 Image(
@@ -67,14 +69,8 @@ fun SecondPresentationScreen(navController: NavController) {
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.recipes),
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Normal
-                )
-
-                Text(
                     modifier = Modifier
-                        .width(385.dp),
+                        .width(350.dp),
                     text = "Descubra uma variedade de receitas e dicas para conservar e reaproveitar seus alimentos de forma criativa",
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp,
@@ -101,7 +97,7 @@ fun SecondPresentationScreen(navController: NavController) {
                         Modifier
                             .width(22.dp)
                             .height(12.dp),
-                        backgroundColor = Color(236,174,117)
+                        backgroundColor = Color(76, 132, 62)
                     ){}
 
                     Spacer(modifier = Modifier.width(35.dp))
@@ -129,8 +125,8 @@ fun SecondPresentationScreen(navController: NavController) {
 
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SecondPresentationPreview() {
+fun teste2() {
     SecondPresentationScreen(navController = rememberNavController())
 }

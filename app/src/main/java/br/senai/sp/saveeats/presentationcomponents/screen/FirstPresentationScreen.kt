@@ -22,33 +22,37 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.components.CustomButton
 
 @Composable
 fun FirstPresentationScreen(navController: NavController) {
 
-    Surface (
+    Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
-         ) {
+        ) {
 
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                ) {
+                    .fillMaxHeight(.6f),
+                verticalArrangement = Arrangement.Bottom
+            ) {
 
                 Image(
-                    painter = painterResource(id = R.drawable.chef),
+                    painter = painterResource(id = R.drawable.chef_one),
                     contentDescription = "Chef",
                     modifier = Modifier
                         .size(410.dp)
@@ -56,7 +60,7 @@ fun FirstPresentationScreen(navController: NavController) {
 
             }
 
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
@@ -65,51 +69,45 @@ fun FirstPresentationScreen(navController: NavController) {
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.app_name),
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Normal
-                )
-
-                Text(
                     modifier = Modifier
-                        .width(385.dp),
+                        .width(370.dp),
                     text = "Participe deste movimento sustentável que combate o desperdício de alimentos ao resgatar produtos frescos de restaurantes, padarias e hortifrutis com descontos de até 70%",
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color(98,98,98)
+                    color = Color(98, 98, 98)
                 )
 
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
-                ){
+                ) {
 
-                    Card (
+                    Card(
                         Modifier
                             .width(22.dp)
                             .height(12.dp),
-                        backgroundColor = Color(236,174,117)
-                    ){}
+                        backgroundColor = Color(76, 132, 62)
+                    ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
 
-                    Card (
+                    Card(
                         Modifier
                             .width(22.dp)
                             .height(12.dp),
-                        backgroundColor = Color(217,217,217)
-                    ){}
+                        backgroundColor = Color(217, 217, 217)
+                    ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
 
-                    Card (
+                    Card(
                         Modifier
                             .width(22.dp)
                             .height(12.dp),
-                        backgroundColor = Color(217,217,217)
-                    ){}
+                        backgroundColor = Color(217, 217, 217)
+                    ) {}
 
                 }
 
@@ -124,5 +122,4 @@ fun FirstPresentationScreen(navController: NavController) {
         }
 
     }
-
 }

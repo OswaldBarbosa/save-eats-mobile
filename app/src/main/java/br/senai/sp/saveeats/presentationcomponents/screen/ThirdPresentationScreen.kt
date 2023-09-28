@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
@@ -46,14 +47,15 @@ fun ThirdPresentationScreen(navController: NavController) {
 
             Column (
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Image(
                     painter = painterResource(id = R.drawable.chef_two),
                     contentDescription = "Chef",
                     modifier = Modifier
-                        .size(410.dp)
+                        .size(350.dp)
                 )
 
             }
@@ -61,16 +63,11 @@ fun ThirdPresentationScreen(navController: NavController) {
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxHeight(.9f)
+                    .padding(top = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceAround
             ) {
-
-                Text(
-                    text = stringResource(id = R.string.app_name),
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Normal
-                )
 
                 Text(
                     modifier = Modifier
@@ -110,7 +107,7 @@ fun ThirdPresentationScreen(navController: NavController) {
                         Modifier
                             .width(22.dp)
                             .height(12.dp),
-                        backgroundColor = Color(236,174,117)
+                        backgroundColor = Color(76,132,62)
                     ){}
 
                 }
@@ -136,6 +133,6 @@ fun ThirdPresentationScreen(navController: NavController) {
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun ThirdPresentationPreview() {
+fun teste() {
     ThirdPresentationScreen(navController = rememberNavController())
 }
