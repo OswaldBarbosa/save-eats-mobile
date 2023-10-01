@@ -1,16 +1,12 @@
-package br.senai.sp.saveeats.singupcomponents.screen
+package br.senai.sp.saveeats.model
 
-import br.senai.sp.saveeats.Retrofit
-import br.senai.sp.saveeats.Service
 import com.google.gson.JsonObject
 import retrofit2.Response
-import retrofit2.create
 
 class SignupRepository {
 
-    private val service = Retrofit
-        .getInstance()
-        .create(Service::class.java)
+    private val service = RetrofitFactory
+        .getSignup()
 
     suspend fun signupClient(name: String, cpf: String, cep: String, state: String, city: String, neighborhood: String, street: String, number: String, email: String, phone: String, password: String): Response<JsonObject> {
 

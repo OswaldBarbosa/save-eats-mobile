@@ -49,4 +49,8 @@
     <string name="search">Search</string>
     <string name="next">Next</string>
     <string name="recipes">Recipes</string>
+    <string name="title_activity_teste">teste</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_category_restaurants_screen">CategoryRestaurantsScreen</string>
+    <string name="title_activity_category_restaurant_screen">CategoryRestaurantScreen</string>
 </resources>

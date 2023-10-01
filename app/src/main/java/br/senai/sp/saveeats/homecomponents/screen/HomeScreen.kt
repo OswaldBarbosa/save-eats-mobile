@@ -1,15 +1,16 @@
 package br.senai.sp.saveeats.homecomponents.screen
 
+import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,8 +19,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -30,7 +33,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -40,7 +42,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -51,14 +55,32 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.saveeats.productsrestaurantcomponents.screen.ProductsRestaurantScreen
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
+import br.senai.sp.saveeats.categoryrestaurantcomponents.screen.CategoryRestaurantScreen
+import br.senai.sp.saveeats.model.RetrofitFactory
 import br.senai.sp.saveeats.components.SearchOutlineTextField
+import br.senai.sp.saveeats.model.Category
+import br.senai.sp.saveeats.model.CategoryList
+import br.senai.sp.saveeats.model.RestaurantList
+import br.senai.sp.saveeats.model.Restaurant
+import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
+import coil.compose.AsyncImage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineScope, viewModel: ViewModel) {
+
+    var context = LocalContext.current
 
     val imageSlide = remember {
         mutableStateListOf(
@@ -90,10 +112,64 @@ fun HomeScreen(navController: NavHostController) {
         }
     )
 
-
     val focusManager = LocalFocusManager.current
 
     var searh by rememberSaveable { mutableStateOf("") }
+
+    var listCategory by remember {
+        mutableStateOf(listOf<Category>())
+    }
+
+    var listRestaurant by remember {
+        mutableStateOf(listOf<Restaurant>())
+    }
+
+    //cria uma chamada para o endpoint
+    var callCategory = RetrofitFactory
+        .getCategory()
+        .getCategory()
+
+    callCategory.enqueue(object : Callback<CategoryList> {
+        override fun onResponse(
+            call: Call<CategoryList>,
+            response: Response<CategoryList>
+        ) {
+            listCategory = response.body()!!.categorias
+        }
+
+        override fun onFailure(
+            call: Call<CategoryList>,
+            t: Throwable
+        ) {
+
+            Log.i("ds3t", "onFailure: ${t.message}")
+
+        }
+
+    })
+
+    var callRestaurant = RetrofitFactory
+        .getRestaurant()
+        .getRestaurantCall()
+
+    callRestaurant.enqueue(object : Callback<RestaurantList> {
+        override fun onResponse(
+            call: Call<RestaurantList>,
+            response: Response<RestaurantList>
+        ) {
+            listRestaurant = response.body()!!.restaurantes
+        }
+
+        override fun onFailure(
+            call: Call<RestaurantList>,
+            t: Throwable
+        ) {
+
+            Log.i("ds3t", "onFailure: ${t.message}")
+
+        }
+
+    })
 
     Surface(
         modifier = Modifier
@@ -156,19 +232,8 @@ fun HomeScreen(navController: NavHostController) {
             ) {
 
                 SearchOutlineTextField(
-                    value = searh,
-                    onValueChange = {},
-                    label = stringResource(id = R.string.search),
-                    leadingIconImageVector = Icons.Default.Search,
-                    borderColor = Color(85, 85, 85),
-                    border = RoundedCornerShape(10.dp),
-                    tint = Color(76, 132, 62),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text
-                    ),
-                    keyboardActions = KeyboardActions(onDone = {
-                        focusManager.clearFocus()
-                    })
+                    lifecycleScope = lifecycle,
+                    viewModel = RestaurantViewModel()
                 )
 
             }
@@ -193,35 +258,48 @@ fun HomeScreen(navController: NavHostController) {
                         .padding(start = 25.dp)
                 ) {
 
-                    items(5) {
+                    items(listCategory) {
 
                         Card(
                             modifier = Modifier
-                                .width(160.dp)
+                                .width(180.dp)
                                 .height(45.dp)
-                                .padding(end = 15.dp),
-                            border = BorderStroke(0.8.dp, Color(212,212,212)),
+                                .padding(end = 15.dp)
+                                .clickable {
+                                    var openCategoryRestaurant =
+                                        Intent(context, CategoryRestaurantScreen()::class.java)
+                                    openCategoryRestaurant.putExtra(
+                                        "name_category",
+                                        it.nome_categoria
+                                    )
+                                    context.startActivity(openCategoryRestaurant)
+                                },
+                            border = BorderStroke(0.8.dp, Color(212, 212, 212)),
                             colors = CardDefaults.cardColors(
                                 containerColor = Color.White
                             )
 
                         ) {
+
                             Row(
                                 modifier = Modifier
                                     .fillMaxSize(),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceAround
+                                horizontalArrangement = Arrangement.Center
                             ) {
 
-                                Image(
+                                AsyncImage(
                                     modifier = Modifier
-                                        .size(50.dp),
-                                    painter = painterResource(id = R.drawable.logo),
-                                    contentDescription = "teste"
+                                        .size(35.dp),
+                                    model = it.img_categoria,
+                                    contentDescription = "Image Category"
                                 )
 
+                                Spacer(modifier = Modifier.width(10.dp))
+
                                 Text(
-                                    text = "Mercado",
+                                    text = it.nome_categoria,
+                                    textAlign = TextAlign.Center,
                                     color = Color.Black
                                 )
 
@@ -246,7 +324,7 @@ fun HomeScreen(navController: NavHostController) {
                 Card(
                     modifier = Modifier
                         .width(360.dp)
-                        .height(200.dp)
+                        .height(180.dp)
                 ) {
 
                     HorizontalPager(
@@ -366,7 +444,7 @@ fun HomeScreen(navController: NavHostController) {
 
             }
 
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -388,18 +466,65 @@ fun HomeScreen(navController: NavHostController) {
                     .fillMaxWidth()
             ) {
 
-                items(6) {
+                items(listRestaurant) {
 
-                    Surface (
+                    Surface(
                         modifier = Modifier
                             .width(380.dp)
                             .height(70.dp)
-                            .padding(start = 25.dp, bottom = 10.dp),
+                            .padding(start = 25.dp, bottom = 10.dp)
+                            .clickable {
+
+                                var openProductsRestaurant =
+                                    Intent(context, ProductsRestaurantScreen::class.java)
+                                openProductsRestaurant.putExtra("name_restaurant", it.nome_fantasia)
+                                context.startActivity(openProductsRestaurant)
+
+                            },
                         shape = RoundedCornerShape(10.dp),
-                        border = BorderStroke(0.8.dp, color = Color(212,212,212))
+                        border = BorderStroke(0.8.dp, color = Color(212, 212, 212))
                     ) {
 
-                        Text(text = "teste")
+                        Row(
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+
+                            AsyncImage(
+                                modifier = Modifier
+                                    .size(60.dp)
+                                    .clip(CircleShape),
+                                model = it.foto,
+                                contentDescription = "Image Restaurant",
+                            )
+
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(5.dp)
+                            ) {
+
+                                Text(
+                                    text = it.nome_fantasia
+                                )
+
+                                Row(
+                                    modifier = Modifier
+                                        .width(50.dp),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+
+
+
+                                }
+
+                            }
+
+                        }
 
                     }
 
@@ -411,10 +536,4 @@ fun HomeScreen(navController: NavHostController) {
 
     }
 
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun teste() {
-    HomeScreen(navController = rememberNavController())
 }

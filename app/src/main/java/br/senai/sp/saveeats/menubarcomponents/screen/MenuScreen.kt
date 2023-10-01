@@ -14,6 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -24,7 +27,7 @@ import br.senai.sp.saveeats.R
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MenuScreen(navController2: NavHostController) {
+fun MenuScreen(navController2: NavHostController, lifecycle: LifecycleCoroutineScope, viewModel: ViewModel) {
 
     val navController = rememberNavController()
 
@@ -32,7 +35,7 @@ fun MenuScreen(navController2: NavHostController) {
         bottomBar = { BottomBar(navController = navController)}
     ) {
 
-        BottomNavGraph(navController = navController, navController2)
+        BottomNavGraph(navController = navController, navController2, lifecycle = lifecycle, viewModel = viewModel)
 
     }
 }
@@ -42,9 +45,9 @@ fun BottomBar(navController: NavHostController) {
 
     val screens = listOf(
         MenuBar.Home,
-        MenuBar.Historico,
-        MenuBar.Receitas,
-        MenuBar.Perfil
+        MenuBar.Orders,
+        MenuBar.Recipes,
+        MenuBar.Profile
     )
 
     val  navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -54,7 +57,7 @@ fun BottomBar(navController: NavHostController) {
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.white),
         modifier = Modifier
-            .height(70.dp)
+            .height(50.dp)
     ) {
 
         screens.forEach { screen ->
@@ -87,10 +90,10 @@ fun RowScope.AddItem(
 
             Icon(
                 modifier = Modifier
-                    .size(40.dp),
+                    .size(30.dp),
                 imageVector = screen.icon,
                 contentDescription = "",
-                tint = if(selected) colorResource(id = R.color.slide_three)else colorResource(id = R.color. slide_one)
+                tint = if(selected) colorResource(id = R.color.green)else colorResource(id = R.color.gray)
             )
 
         },

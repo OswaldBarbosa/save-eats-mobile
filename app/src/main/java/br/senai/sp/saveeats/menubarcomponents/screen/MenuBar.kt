@@ -1,37 +1,37 @@
 package br.senai.sp.saveeats.menubarcomponents.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.ui.res.painterResource
-import br.senai.sp.saveeats.R
+import androidx.compose.material.icons.outlined.Book
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.ListAlt
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class MenuBar(
     val route: String,
     val title: String,
-    val icon: Unit
+    val icon: ImageVector
 ){
     object Home: MenuBar(
         route = "home",
         title = "Home",
-        icon = Image(painter = painterResource(id = R.drawable.home), contentDescription = "")
+        icon = Icons.Outlined.Home
     )
-    object Historico: MenuBar(
-        route = "historico",
-        title = "Historico",
-        icon = Icons.Default.List
+    object Orders: MenuBar(
+        route = "orders",
+        title = "Orders",
+        icon = Icons.Outlined.ListAlt
     )
-    object Receitas: MenuBar(
-        route = "receitas",
-        title = "Receitas",
-        icon = Icons.Default.DateRange
+    object Recipes: MenuBar(
+        route = "recipes",
+        title = "Recipes",
+        icon = Icons.Outlined.Book
     )
-    object Perfil: MenuBar(
-        route = "perfil",
-        title = "Perfil",
-        icon = Icons.Default.Person
+    object Profile: MenuBar(
+        route = "profile",
+        title = "Profile",
+        icon = Icons.Outlined.Person
     )
 
 }

@@ -1,5 +1,6 @@
 package br.senai.sp.saveeats.logincomponents.screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -25,8 +26,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Password
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
@@ -51,11 +50,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
-import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
-import br.senai.sp.saveeats.Service
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
+import br.senai.sp.saveeats.model.LoginRepository
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import kotlinx.coroutines.launch
 
@@ -79,11 +77,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutineScope) {
-
-    lateinit var service: Service
-
-    service = br.senai.sp.saveeats.Retrofit.getInstance().create(Service::class.java)
+fun LoginScreen(navController: NavController,lifecycleScope: LifecycleCoroutineScope) {
 
     var context = LocalContext.current
     var focusManager = LocalFocusManager.current
@@ -96,8 +90,7 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
     var isPasswordVisibible by rememberSaveable { mutableStateOf(false) }
 
     val validateEmailError = "The format of the email doesn't seem right"
-    val validatePasswordError =
-        "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
+    val validatePasswordError = "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
 
     fun validateData(email: String, password: String): Boolean {
 
@@ -125,12 +118,12 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
 
                 if (response.isSuccessful) {
 
+                    Log.e("DS3T", "login: ${response.body()}")
+
                     Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
                     navController.navigate("home_screen")
 
                 } else {
-
-                    val errorBody = response.errorBody()?.string()
 
                     Toast.makeText(context, "E-mail ou senha inválido", Toast.LENGTH_SHORT).show()
 
@@ -295,7 +288,9 @@ fun LoginScreen(navController: NavController, lifecycleScope: LifecycleCoroutine
             ) {
 
                 CustomButton(
-                    onCLick = {  login(email, password) },
+                    onCLick = {
+                        login(email, password)
+                    },
                     text = stringResource(id = R.string.login)
                 )
 

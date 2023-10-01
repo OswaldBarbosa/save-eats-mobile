@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SaveEats"
         tools:targetApi="31">
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.SaveEats" />
+        <activity
+            android:name=".categoryrestaurantcomponents.screen.CategoryRestaurantScreen"
+            android:exported="false"
+            android:label="@string/title_activity_category_restaurant_screen"
+            android:theme="@style/Theme.SaveEats" />
+        <activity
+            android:name=".productsrestaurantcomponents.screen.ProductsRestaurantScreen"
+            android:exported="false"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.SaveEats" />
+        <activity
+            android:name=".teste"
+            android:exported="false"
+            android:label="@string/title_activity_teste"
+            android:theme="@style/Theme.SaveEats" />
         <activity
             android:name=".logincomponents.screen.LoginActivity"
             android:exported="false"

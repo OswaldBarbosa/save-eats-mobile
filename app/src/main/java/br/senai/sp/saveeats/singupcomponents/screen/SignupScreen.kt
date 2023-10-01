@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,8 +25,6 @@ import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,18 +49,13 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
 import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
-import br.senai.sp.saveeats.Retrofit
-import br.senai.sp.saveeats.Service
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
+import br.senai.sp.saveeats.model.SignupRepository
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoroutineScope) {
-
-    lateinit var service: Service
-
-    service = Retrofit.getInstance().create(Service::class.java)
 
     var context = LocalContext.current
     var focusManager = LocalFocusManager.current

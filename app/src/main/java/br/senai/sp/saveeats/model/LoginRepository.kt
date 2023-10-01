@@ -1,15 +1,12 @@
-package br.senai.sp.saveeats.logincomponents.screen
+package br.senai.sp.saveeats.model
 
-import br.senai.sp.saveeats.Retrofit
-import br.senai.sp.saveeats.Service
 import com.google.gson.JsonObject
 import retrofit2.Response
 
 class LoginRepository {
 
-    private val service = Retrofit
-        .getInstance()
-        .create(Service::class.java)
+    private val service = RetrofitFactory
+        .getLogin()
 
     suspend fun loginClient(email: String, password: String) : Response<JsonObject> {
         val requestBody = JsonObject().apply {
