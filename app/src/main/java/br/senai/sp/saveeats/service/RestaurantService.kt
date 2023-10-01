@@ -11,6 +11,6 @@ interface RestaurantService {
     fun getRestaurantCall(): Call<RestaurantList>
 
     @GET("/v1/saveeats/restaurantes")
-    fun getRestaurantResponse(): Response<RestaurantList>
+    suspend fun getRestaurantResponse(): Response<RestaurantList>
 
 }

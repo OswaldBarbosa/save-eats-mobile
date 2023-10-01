@@ -7,7 +7,7 @@ import retrofit2.Response
 class RestaurantRepository {
 
     private val apiService = RetrofitFactory.getRestaurant()
-    fun getRestaurant(): Response<RestaurantList> {
+    suspend fun getRestaurant(): Response<RestaurantList> {
         return apiService.getRestaurantResponse()
     }
 

@@ -7,6 +7,6 @@ import androidx.lifecycle.ViewModel
 
 class RestaurantViewModel: ViewModel() {
 
-    var selectRestaurant: String by mutableStateOf("")
+    var selectRestaurant: String = ""
 
 }
