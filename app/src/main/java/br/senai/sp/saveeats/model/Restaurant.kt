@@ -8,7 +8,8 @@ data class Restaurant(
     val email: String,
     val senha: String,
     val foto: String,
-    val id_categoria_restaurante: Int,
-    val id_endereco_restaurante: String,
     val cnpj: String,
+    val id_categoria_restaurante: Int,
+    val nome_categoria_restaurante: String,
+    val id_endereco_restaurante: Int
 )

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -78,7 +80,11 @@ import retrofit2.Response
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineScope, viewModel: ViewModel) {
+fun HomeScreen(
+    navController: NavHostController,
+    lifecycle: LifecycleCoroutineScope,
+    viewModel: ViewModel
+) {
 
     var context = LocalContext.current
 
@@ -112,10 +118,6 @@ fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineSc
         }
     )
 
-    val focusManager = LocalFocusManager.current
-
-    var searh by rememberSaveable { mutableStateOf("") }
-
     var listCategory by remember {
         mutableStateOf(listOf<Category>())
     }
@@ -124,7 +126,6 @@ fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineSc
         mutableStateOf(listOf<Restaurant>())
     }
 
-    //cria uma chamada para o endpoint
     var callCategory = RetrofitFactory
         .getCategory()
         .getCategory()
@@ -262,7 +263,7 @@ fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineSc
 
                         Card(
                             modifier = Modifier
-                                .width(180.dp)
+                                .width(200.dp)
                                 .height(45.dp)
                                 .padding(end = 15.dp)
                                 .clickable {
@@ -298,6 +299,8 @@ fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineSc
                                 Spacer(modifier = Modifier.width(10.dp))
 
                                 Text(
+                                    modifier = Modifier
+                                        .width(85.dp),
                                     text = it.nome_categoria,
                                     textAlign = TextAlign.Center,
                                     color = Color.Black
@@ -464,6 +467,7 @@ fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineSc
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight()
             ) {
 
                 items(listRestaurant) {
@@ -487,40 +491,31 @@ fun HomeScreen(navController: NavHostController, lifecycle: LifecycleCoroutineSc
 
                         Row(
                             modifier = Modifier
-                                .padding(5.dp)
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            horizontalArrangement = Arrangement.SpaceAround
                         ) {
 
                             AsyncImage(
                                 modifier = Modifier
                                     .size(60.dp)
-                                    .clip(CircleShape),
+                                    .padding(start = 20.dp)
+                                    .clip(shape = RoundedCornerShape(100.dp)),
                                 model = it.foto,
-                                contentDescription = "Image Restaurant",
+                                contentDescription = "Image Restaurant"
                             )
+                            
+                            Spacer(modifier = Modifier.width(20.dp))
 
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(5.dp)
                             ) {
 
                                 Text(
-                                    text = it.nome_fantasia
+                                    text = it.nome_fantasia,
+                                    fontSize = 16.sp
                                 )
-
-                                Row(
-                                    modifier = Modifier
-                                        .width(50.dp),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-
-
-
-                                }
 
                             }
 

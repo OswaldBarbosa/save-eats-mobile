@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
+import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.model.RestaurantRepository
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
 import kotlinx.coroutines.launch
@@ -138,14 +140,15 @@ fun SearchOutlineTextField(lifecycleScope: LifecycleCoroutineScope, viewModel: R
         Column(modifier = Modifier.fillMaxWidth()) {
 
             Row(modifier = Modifier.fillMaxWidth()) {
+
                 androidx.compose.material.TextField(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(heightTextFields)
                         .border(
-                            width = 1.8.dp,
+                            width = 0.8.dp,
                             color = Color.Black,
-                            shape = RoundedCornerShape(5.dp)
+                            shape = RoundedCornerShape(10.dp)
                         )
                         .onGloballyPositioned { coordinates ->
                             textFieldSize = coordinates.size.toSize()
@@ -178,7 +181,8 @@ fun SearchOutlineTextField(lifecycleScope: LifecycleCoroutineScope, viewModel: R
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Search"
+                            contentDescription = "Search",
+                            tint = colorResource(id = R.color.green)
                         )
                     },
 
