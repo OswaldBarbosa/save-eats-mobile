@@ -118,6 +118,8 @@ fun LoginScreen(navController: NavController,lifecycleScope: LifecycleCoroutineS
 
                 if (response.isSuccessful) {
 
+
+
                     Log.e("DS3T", "login: ${response.body()}")
 
                     Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()

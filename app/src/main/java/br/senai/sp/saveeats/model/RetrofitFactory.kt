@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitFactory {
 
-    private const val baseURL = "https://save-eats.cyclic.cloud/"
+    private const val baseURL = "http://10.107.144.8:8080"
 
     private var retrofitFactory = Retrofit
         .Builder()

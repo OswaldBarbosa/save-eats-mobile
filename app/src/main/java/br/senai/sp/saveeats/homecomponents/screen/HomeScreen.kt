@@ -468,6 +468,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
+                    .padding(bottom = 20.dp)
             ) {
 
                 items(listRestaurant) {
@@ -515,6 +516,12 @@ fun HomeScreen(
                                 Text(
                                     text = it.nome_fantasia,
                                     fontSize = 16.sp
+                                )
+
+                                Text(
+                                    text = it.nome_categoria_restaurante,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.W300
                                 )
 
                             }
