@@ -28,6 +28,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -70,6 +71,8 @@ import br.senai.sp.saveeats.model.RetrofitFactory
 import br.senai.sp.saveeats.components.SearchOutlineTextField
 import br.senai.sp.saveeats.model.Category
 import br.senai.sp.saveeats.model.CategoryList
+import br.senai.sp.saveeats.model.ClientAddress
+import br.senai.sp.saveeats.model.ClientAddressList
 import br.senai.sp.saveeats.model.RestaurantList
 import br.senai.sp.saveeats.model.Restaurant
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
@@ -83,7 +86,7 @@ import retrofit2.Response
 fun HomeScreen(
     navController: NavHostController,
     lifecycle: LifecycleCoroutineScope,
-    viewModel: ViewModel
+    localStorage: Storage
 ) {
 
     var context = LocalContext.current
@@ -126,6 +129,24 @@ fun HomeScreen(
         mutableStateOf(listOf<Restaurant>())
     }
 
+    var listClientAddress by remember {
+        mutableStateOf(
+            listOf(
+                ClientAddress(
+                    0,
+                    "",
+                    "",
+                    "",
+                    0,
+                    "",
+                    ""
+                )
+            )
+        )
+    }
+
+    //API CATEGORY - START
+
     var callCategory = RetrofitFactory
         .getCategory()
         .getCategory()
@@ -149,6 +170,10 @@ fun HomeScreen(
 
     })
 
+    //API CATEGORY - END
+
+    //API RESTAURANT - START
+
     var callRestaurant = RetrofitFactory
         .getRestaurant()
         .getRestaurantCall()
@@ -171,6 +196,37 @@ fun HomeScreen(
         }
 
     })
+
+    //API RESTAURANT - END
+
+    //API CLIENT ADDRESS - START
+
+    val idClient = localStorage.readData(context, "idClient")
+
+    var callClientAddress = RetrofitFactory
+        .getAddressClient()
+        .getAddressClient(idClient)
+
+    callClientAddress.enqueue(object : Callback<ClientAddressList> {
+        override fun onResponse(
+            call: Call<ClientAddressList>,
+            response: Response<ClientAddressList>
+        ) {
+            listClientAddress = response.body()!!.endereco_cliente
+        }
+
+        override fun onFailure(
+            call: Call<ClientAddressList>,
+            t: Throwable
+        ) {
+
+            Log.e("ds3t", "onFailure: ${t.message}")
+
+        }
+
+    })
+
+    //API CLIENT ADDRESS - END
 
     Surface(
         modifier = Modifier
@@ -210,21 +266,49 @@ fun HomeScreen(
 
                     Spacer(modifier = Modifier.width(5.dp))
 
-                    Text(
-                        text = "Rua Elton Silva 95, Jandira",
-                        fontSize = 17.sp
+                    Row {
 
-                    )
+                        Text(
+                            text = "${listClientAddress[0].rua}",
+                            fontSize = 17.sp
+
+                        )
+                        
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Text(
+                            text = "${listClientAddress[0].numero},",
+                            fontSize = 17.sp
+
+                        )
+
+                        Spacer(modifier = Modifier.width(5.dp))
+
+                        Text(
+                            text = "${listClientAddress[0].nome_cidade}",
+                            fontSize = 17.sp
+
+                        )
+
+                    }
 
                 }
 
-                Icon(
-                    modifier = Modifier
-                        .size(25.dp),
-                    painter = painterResource(id = R.drawable.carrinho),
-                    contentDescription = "Carrinho de Compras",
-                    tint = Color(76, 132, 62)
-                )
+                IconButton(onClick = {
+                    navController.navigate("")
+                }
+
+                ) {
+
+                    Icon(
+                        modifier = Modifier
+                            .size(25.dp),
+                        painter = painterResource(id = R.drawable.carrinho),
+                        contentDescription = "Carrinho de Compras",
+                        tint = Color(76, 132, 62)
+                    )
+
+                }
 
             }
 
@@ -468,16 +552,17 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 45.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 items(listRestaurant) {
 
                     Surface(
                         modifier = Modifier
-                            .width(380.dp)
-                            .height(70.dp)
-                            .padding(start = 25.dp, bottom = 10.dp)
+                            .width(350.dp)
+                            .height(60.dp)
+                            .padding(bottom = 10.dp)
                             .clickable {
 
                                 var openProductsRestaurant =
@@ -486,43 +571,71 @@ fun HomeScreen(
                                 context.startActivity(openProductsRestaurant)
 
                             },
-                        shape = RoundedCornerShape(10.dp),
-                        border = BorderStroke(0.8.dp, color = Color(212, 212, 212))
+                        shape = RoundedCornerShape(10.dp)
                     ) {
 
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceAround
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
 
                             AsyncImage(
                                 modifier = Modifier
-                                    .size(60.dp)
-                                    .padding(start = 20.dp)
                                     .clip(shape = RoundedCornerShape(100.dp)),
                                 model = it.foto,
                                 contentDescription = "Image Restaurant"
                             )
-                            
-                            Spacer(modifier = Modifier.width(20.dp))
+
+                            Spacer(modifier = Modifier.width(15.dp))
 
                             Column(
                                 modifier = Modifier
-                                    .fillMaxWidth()
+                                    .fillMaxWidth(),
                             ) {
 
                                 Text(
                                     text = it.nome_fantasia,
-                                    fontSize = 16.sp
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.W500
                                 )
 
-                                Text(
-                                    text = it.nome_categoria_restaurante,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.W300
-                                )
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+
+                                    Image(
+                                        modifier = Modifier
+                                            .size(15.dp),
+                                        painter = painterResource(id = R.drawable.star),
+                                        contentDescription = "Star"
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+                                        text = "4,8",
+                                        fontSize = 13.sp,
+                                        color = Color(252, 187, 0)
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Image(
+                                        modifier = Modifier
+                                            .size(20.dp),
+                                        painter = painterResource(id = R.drawable.pointer),
+                                        contentDescription = "Pointer"
+                                    )
+
+                                    Text(
+                                        text = it.nome_categoria_restaurante,
+                                        fontSize = 13.sp
+                                    )
+
+                                }
 
                             }
 

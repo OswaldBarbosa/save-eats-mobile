@@ -2,6 +2,7 @@ package br.senai.sp.saveeats.model
 
 import br.senai.sp.saveeats.service.CategoryRestaurantService
 import br.senai.sp.saveeats.service.CategoryService
+import br.senai.sp.saveeats.service.ClientService
 import br.senai.sp.saveeats.service.LoginService
 import br.senai.sp.saveeats.service.ProductsRestaurantService
 import br.senai.sp.saveeats.service.RestaurantService
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitFactory {
 
-    private const val baseURL = "http://10.107.144.8:8080"
+    private const val baseURL = "http://192.168.100.164:8080/"
 
     private var retrofitFactory = Retrofit
         .Builder()
@@ -35,6 +36,10 @@ object RetrofitFactory {
     }
     fun getCategoryRestaurant(): CategoryRestaurantService {
         return retrofitFactory.create(CategoryRestaurantService::class.java)
+    }
+
+    fun getAddressClient(): ClientService {
+        return retrofitFactory.create(ClientService::class.java)
     }
 
 }

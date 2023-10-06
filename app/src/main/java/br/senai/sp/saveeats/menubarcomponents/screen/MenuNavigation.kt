@@ -29,7 +29,7 @@ fun BottomNavGraph(
     ){
 
         composable(route = MenuBar.Home.route) {
-            HomeScreen(navController = navController, lifecycle = lifecycle, viewModel)
+            HomeScreen(navController = navController, lifecycle = lifecycle, localStorage = Storage())
         }
 
         composable(route = MenuBar.Orders.route) {

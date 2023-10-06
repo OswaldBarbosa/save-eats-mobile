@@ -5,11 +5,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,7 +21,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,19 +36,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.model.CategoryRestaurant
 import br.senai.sp.saveeats.model.CategoryRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
+import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,13 +65,16 @@ class CategoryRestaurantScreen : ComponentActivity() {
 
         setContent {
             SaveEatsTheme {
-                // A surface container using the 'background' color from the theme
+
+                val navController = rememberNavController()
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     CategoryRestaurantScreen(
-                        getCategoryRestaurant.toString()
+                        getCategoryRestaurant.toString(),
+                        navController
                     )
                 }
             }
@@ -70,7 +83,7 @@ class CategoryRestaurantScreen : ComponentActivity() {
 }
 
 @Composable
-fun CategoryRestaurantScreen(nameCategory: String) {
+fun CategoryRestaurantScreen(nameCategory: String, navController: NavController) {
 
     var listCategoryRestaurant by remember {
         mutableStateOf(listOf<CategoryRestaurant>())
@@ -105,7 +118,7 @@ fun CategoryRestaurantScreen(nameCategory: String) {
             .fillMaxSize()
     ) {
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -115,25 +128,35 @@ fun CategoryRestaurantScreen(nameCategory: String) {
                     .offset(x = 30.dp, y = 58.dp)
             ) {
 
-                Image(
+                IconButton(
                     modifier = Modifier
-                        .size(15.dp),
-                    painter = painterResource(id = R.drawable.arrow),
-                    contentDescription = "Arrow"
-                )
+                        .size(20.dp),
+                    onClick = {
+                        navController.navigate("home_screen")
+                    }
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = "Arrow",
+                        tint = Color(76,132,62)
+                    )
+
+                }
 
             }
 
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .height(100.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
 
                 Text(
                     text = nameCategory.uppercase(),
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.W400
                 )
 
@@ -141,13 +164,91 @@ fun CategoryRestaurantScreen(nameCategory: String) {
 
         }
 
-        LazyColumn() {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
             items(listCategoryRestaurant) {
 
-                Text(
-                    text = it.nome_fantasia
-                )
+                Surface(
+                    modifier = Modifier
+                        .width(350.dp)
+                        .height(60.dp)
+                        .padding(bottom = 10.dp),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        AsyncImage(
+                            modifier = Modifier
+                                .clip(shape = RoundedCornerShape(100.dp)),
+                            model = it.foto,
+                            contentDescription = "Image Restaurant"
+                        )
+
+                        Spacer(modifier = Modifier.width(15.dp))
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                        ) {
+
+                            Text(
+                                text = it.nome_fantasia,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.W500
+                            )
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+
+                                Image(
+                                    modifier = Modifier
+                                        .size(15.dp),
+                                    painter = painterResource(id = R.drawable.star),
+                                    contentDescription = "Star"
+                                )
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Text(
+                                    text = "4,8",
+                                    fontSize = 13.sp,
+                                    color = Color(252, 187, 0)
+                                )
+
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Image(
+                                    modifier = Modifier
+                                        .size(20.dp),
+                                    painter = painterResource(id = R.drawable.pointer),
+                                    contentDescription = "Pointer"
+                                )
+
+                                Text(
+                                    text = "Hortifruti",
+                                    fontSize = 13.sp
+                                )
+
+                            }
+
+                        }
+
+                    }
+
+                }
 
             }
 
@@ -155,10 +256,4 @@ fun CategoryRestaurantScreen(nameCategory: String) {
 
     }
 
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun Teste() {
-    CategoryRestaurantScreen(nameCategory = "")
 }

@@ -51,17 +51,17 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.model.LoginRepository
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         setContent {
             SaveEatsTheme {
@@ -77,7 +77,11 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(navController: NavController,lifecycleScope: LifecycleCoroutineScope) {
+fun LoginScreen(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope,
+    localStorage: Storage
+) {
 
     var context = LocalContext.current
     var focusManager = LocalFocusManager.current
@@ -90,7 +94,8 @@ fun LoginScreen(navController: NavController,lifecycleScope: LifecycleCoroutineS
     var isPasswordVisibible by rememberSaveable { mutableStateOf(false) }
 
     val validateEmailError = "The format of the email doesn't seem right"
-    val validatePasswordError = "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
+    val validatePasswordError =
+        "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
 
     fun validateData(email: String, password: String): Boolean {
 
@@ -118,11 +123,16 @@ fun LoginScreen(navController: NavController,lifecycleScope: LifecycleCoroutineS
 
                 if (response.isSuccessful) {
 
+                    val json = response.body().toString()
 
+                    val jsonObject = JSONObject(json)
 
-                    Log.e("DS3T", "login: ${response.body()}")
+                    val clientObject = jsonObject.getJSONObject("clientes")
+
+                    val id = clientObject.getInt("id")
 
                     Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
+                    localStorage.saveDataInt(context, id, "idClient")
                     navController.navigate("home_screen")
 
                 } else {
