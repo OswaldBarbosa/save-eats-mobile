@@ -14,9 +14,11 @@ object RetrofitFactory {
 
     private const val baseURL = "http://192.168.100.164:8080/"
 
+    private const val baseURL2 = "http://10.107.144.8:8080/"
+
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL)
+        .baseUrl(baseURL2)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     fun getSignup(): SignupService {
