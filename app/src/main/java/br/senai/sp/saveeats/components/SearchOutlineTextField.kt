@@ -58,6 +58,7 @@ import androidx.lifecycle.ViewModel
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.model.RestaurantRepository
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
+import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -136,6 +137,7 @@ fun SearchOutlineTextField(lifecycleScope: LifecycleCoroutineScope, viewModel: R
                     isExpanded = false
                 }
             )
+
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
 

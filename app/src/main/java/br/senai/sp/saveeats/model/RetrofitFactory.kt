@@ -16,9 +16,11 @@ object RetrofitFactory {
 
     private const val baseURL2 = "http://10.107.144.8:8080/"
 
+    private const val baseURL3 = "https://save-eats.cyclic.cloud/"
+
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL2)
+        .baseUrl(baseURL3)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     fun getSignup(): SignupService {

@@ -201,7 +201,7 @@ fun HomeScreen(
 
     //API CLIENT ADDRESS - START
 
-    val idClient = localStorage.readData(context, "idClient")
+    val idClient = localStorage.readDataInt(context, "idClient")
 
     var callClientAddress = RetrofitFactory
         .getAddressClient()
@@ -273,7 +273,7 @@ fun HomeScreen(
                             fontSize = 17.sp
 
                         )
-                        
+
                         Spacer(modifier = Modifier.width(5.dp))
 
                         Text(
@@ -565,6 +565,10 @@ fun HomeScreen(
                             .padding(bottom = 10.dp)
                             .clickable {
 
+                                localStorage.saveDataString(context, it.foto, "imageRestaurant")
+                                localStorage.saveDataString(context, it.nome_fantasia, "nameRestaurant")
+                                localStorage.saveDataString(context, it.nome_categoria_restaurante, "nameCategoryRestaurant")
+
                                 var openProductsRestaurant =
                                     Intent(context, ProductsRestaurantScreen::class.java)
                                 openProductsRestaurant.putExtra("name_restaurant", it.nome_fantasia)
@@ -580,12 +584,26 @@ fun HomeScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            AsyncImage(
-                                modifier = Modifier
-                                    .clip(shape = RoundedCornerShape(100.dp)),
-                                model = it.foto,
-                                contentDescription = "Image Restaurant"
-                            )
+                            if (it.foto == "") {
+
+                                Image(
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                        .clip(shape = RoundedCornerShape(100.dp)),
+                                    painter = painterResource(id = R.drawable.logo),
+                                    contentDescription = ""
+                                )
+
+                            } else {
+
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .clip(shape = RoundedCornerShape(100.dp)),
+                                    model = it.foto,
+                                    contentDescription = "Image Restaurant"
+                                )
+
+                            }
 
                             Spacer(modifier = Modifier.width(15.dp))
 

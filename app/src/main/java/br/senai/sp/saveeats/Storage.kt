@@ -19,9 +19,14 @@ class Storage {
         editor.apply()
     }
 
-    fun readData(context: Context, nome: String): Int {
+    fun readDataInt(context: Context, nome: String): Int {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences("NomeDoArquivo", Context.MODE_PRIVATE)
         return sharedPreferences.getInt(nome, 0)
+    }
+
+    fun readDataString(context: Context, nome: String): String? {
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences("NomeDoArquivo", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(nome, null)
     }
 
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.saveeats.categoryrestaurantcomponents.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.homecomponents.screen.HomeScreen
 import br.senai.sp.saveeats.logincomponents.screen.LoginScreen
 import br.senai.sp.saveeats.menubarcomponents.screen.MenuScreen
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "login_screen"
+                    startDestination = "home_screen"
                 ) {
 
                     composable("splash_screen") {

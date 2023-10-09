@@ -35,12 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.ProductsRestaurant
 import br.senai.sp.saveeats.model.ProductsRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
@@ -64,7 +66,8 @@ class ProductsRestaurantScreen : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     ProductsRestaurantScreen(
-                        getNameRestaurant.toString()
+                        getNameRestaurant.toString(),
+                        localStorage = Storage()
                     )
                 }
             }
@@ -73,7 +76,13 @@ class ProductsRestaurantScreen : ComponentActivity() {
 }
 
 @Composable
-fun ProductsRestaurantScreen(nameRestaurant: String) {
+fun ProductsRestaurantScreen(nameRestaurant: String, localStorage: Storage) {
+
+    var context = LocalContext.current
+
+    var imageRestaurante = localStorage.readDataString(context, "imageRestaurant")
+
+    var nameCategoryRestaurant = localStorage.readDataString(context, "nameCategoryRestaurant")
 
     var listProductsRestaurant by remember {
         mutableStateOf(listOf<ProductsRestaurant>())
@@ -116,11 +125,11 @@ fun ProductsRestaurantScreen(nameRestaurant: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(60.dp),
-                painter = painterResource(id = R.drawable.baker),
+                model = imageRestaurante,
                 contentDescription = "Image Background"
             )
 
@@ -131,14 +140,14 @@ fun ProductsRestaurantScreen(nameRestaurant: String) {
             ) {
 
                 Text(
-                    text = "Name Restaurant",
+                    text = nameRestaurant,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.W600,
                     color = Color(20, 34, 27)
                 )
 
                 Text(
-                    text = "Categorie - Times",
+                    text = nameCategoryRestaurant.toString(),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W300,
                     color = Color(85, 85, 85)

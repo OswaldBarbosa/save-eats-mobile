@@ -187,12 +187,25 @@ fun CategoryRestaurantScreen(nameCategory: String, navController: NavController)
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-                        AsyncImage(
-                            modifier = Modifier
-                                .clip(shape = RoundedCornerShape(100.dp)),
-                            model = it.foto,
-                            contentDescription = "Image Restaurant"
-                        )
+                        if (it.foto == "") {
+
+                            Image(
+                                modifier = Modifier
+                                    .clip(shape = RoundedCornerShape(100.dp)),
+                                painter = painterResource(id = R.drawable.logo),
+                                contentDescription = ""
+                            )
+
+                        } else {
+
+                            AsyncImage(
+                                modifier = Modifier
+                                    .clip(shape = RoundedCornerShape(100.dp)),
+                                model = it.foto,
+                                contentDescription = "Image Restaurant"
+                            )
+
+                        }
 
                         Spacer(modifier = Modifier.width(15.dp))
 
