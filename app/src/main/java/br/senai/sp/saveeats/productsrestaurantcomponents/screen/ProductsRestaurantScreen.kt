@@ -1,10 +1,12 @@
 package br.senai.sp.saveeats.productsrestaurantcomponents.screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,6 +48,7 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.ProductsRestaurant
 import br.senai.sp.saveeats.model.ProductsRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.productcomponents.screen.ProductScreen
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import coil.compose.AsyncImage
 import retrofit2.Call
@@ -215,7 +218,15 @@ fun ProductsRestaurantScreen(nameRestaurant: String, localStorage: Storage) {
 
                 Card(
                     modifier = Modifier
-                        .height(110.dp),
+                        .height(110.dp)
+                        .clickable {
+                            var openProduct = Intent(context, ProductScreen::class.java)
+                            openProduct.putExtra("imageProduct", it.imagem)
+                            openProduct.putExtra("nameProduct", it.nome)
+                            openProduct.putExtra("priceProduct", it.preco)
+                            openProduct.putExtra("descriptionProduct", it.descricao)
+                            context.startActivity(openProduct)
+                        },
                     colors = CardDefaults.cardColors(colorResource(id = R.color.white))
                 ) {
 

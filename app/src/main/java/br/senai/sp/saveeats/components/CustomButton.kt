@@ -9,18 +9,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun CustomButton(
-    onCLick: () -> Unit,
+    onClick: () -> Unit,
     text: String
 ) {
-    
+
     Button(
-        onCLick,
+        onClick,
         modifier = Modifier
             .width(215.dp)
             .height(55.dp),

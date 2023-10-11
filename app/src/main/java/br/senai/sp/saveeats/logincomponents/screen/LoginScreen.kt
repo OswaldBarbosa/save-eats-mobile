@@ -300,7 +300,7 @@ fun LoginScreen(
             ) {
 
                 CustomButton(
-                    onCLick = {
+                    onClick = {
                         login(email, password)
                     },
                     text = stringResource(id = R.string.login)

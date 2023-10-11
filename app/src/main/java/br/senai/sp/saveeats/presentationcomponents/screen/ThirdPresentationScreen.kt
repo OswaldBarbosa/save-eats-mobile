@@ -113,12 +113,12 @@ fun ThirdPresentationScreen(navController: NavController) {
                 }
 
                 CustomButton(
-                    onCLick = { navController.navigate("login_screen") },
+                    onClick = { navController.navigate("login_screen") },
                     text = stringResource(id = R.string.login)
                 )
 
                 CustomButton(
-                    onCLick = { navController.navigate("signup_screen") },
+                    onClick = { navController.navigate("signup_screen") },
                     text = stringResource(id = R.string.signup)
                 )
 

@@ -2,6 +2,7 @@ package br.senai.sp.saveeats.presentationcomponents.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,9 +34,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.components.CustomButton
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun SecondPresentationScreen(navController: NavController) {
+
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.recipes_animation))
 
     Surface (
         modifier = Modifier
@@ -47,16 +58,30 @@ fun SecondPresentationScreen(navController: NavController) {
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(.6f),
-                verticalArrangement = Arrangement.Bottom
+                    .fillMaxHeight(.5f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.recipe),
-                    contentDescription = "Recipe",
-                    modifier = Modifier
-                        .size(410.dp)
-                )
+                Box(modifier = Modifier) {
+
+                    Surface (
+                        modifier = Modifier
+                            .width(260.dp)
+                            .height(260.dp)
+                            .offset(x = 50.dp, y = 60.dp)
+                            .blur(100.dp),
+                        color = Color(237,220,192),
+                        shape = CircleShape
+                    ) {}
+
+                    LottieAnimation(
+                        composition = composition,
+                        modifier = Modifier.size(350.dp),
+                        iterations = LottieConstants.IterateForever
+                    )
+
+                }
 
             }
 
@@ -112,7 +137,7 @@ fun SecondPresentationScreen(navController: NavController) {
                 }
 
                 CustomButton(
-                    onCLick = { navController.navigate("third_presentation_screen") },
+                    onClick = { navController.navigate("third_presentation_screen") },
                     text = stringResource(id = R.string.next)
                 )
 

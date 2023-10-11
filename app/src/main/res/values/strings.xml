@@ -53,4 +53,7 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_category_restaurants_screen">CategoryRestaurantsScreen</string>
     <string name="title_activity_category_restaurant_screen">CategoryRestaurantScreen</string>
+    <string name="title_activity_product_screen">ProductScreen</string>
+    <string name="any_observations">Any observations?</string>
+    <string name="add_to_cart">add to cart</string>
 </resources>

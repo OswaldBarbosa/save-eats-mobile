@@ -493,7 +493,7 @@ fun SignupScreen(navController: NavHostController, lifecycleScope: LifecycleCoro
             ) {
 
                 CustomButton(
-                    onCLick = {
+                    onClick = {
                         signup(
                             name,
                             cpf,

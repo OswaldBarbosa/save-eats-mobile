@@ -411,7 +411,7 @@ fun HomeScreen(
                 Card(
                     modifier = Modifier
                         .width(360.dp)
-                        .height(180.dp)
+                        .height(160.dp)
                 ) {
 
                     HorizontalPager(
