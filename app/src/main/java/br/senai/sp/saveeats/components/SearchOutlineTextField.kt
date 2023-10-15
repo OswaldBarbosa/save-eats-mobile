@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -63,7 +64,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchOutlineTextField(lifecycleScope: LifecycleCoroutineScope, viewModel: RestaurantViewModel) {
+fun SearchOutlineTextField(
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModel: RestaurantViewModel
+) {
 
     val context = LocalContext.current
 
@@ -177,6 +181,12 @@ fun SearchOutlineTextField(lifecycleScope: LifecycleCoroutineScope, viewModel: R
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Done
                     ),
+
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.search)
+                        )
+                    },
 
                     singleLine = true,
 

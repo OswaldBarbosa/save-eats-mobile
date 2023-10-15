@@ -5,6 +5,7 @@ import br.senai.sp.saveeats.service.CategoryService
 import br.senai.sp.saveeats.service.ClientService
 import br.senai.sp.saveeats.service.LoginService
 import br.senai.sp.saveeats.service.ProductsRestaurantService
+import br.senai.sp.saveeats.service.RecipesService
 import br.senai.sp.saveeats.service.RestaurantService
 import br.senai.sp.saveeats.service.SignupService
 import retrofit2.Retrofit
@@ -44,6 +45,18 @@ object RetrofitFactory {
 
     fun getAddressClient(): ClientService {
         return retrofitFactory.create(ClientService::class.java)
+    }
+
+    fun getRecipes(): RecipesService {
+        return retrofitFactory.create(RecipesService::class.java)
+    }
+
+    fun getCategoryRecipes(): RecipesService {
+        return retrofitFactory.create(RecipesService::class.java)
+    }
+
+    fun getRecipeDetails(): RecipesService {
+        return retrofitFactory.create(RecipesService::class.java)
     }
 
 }

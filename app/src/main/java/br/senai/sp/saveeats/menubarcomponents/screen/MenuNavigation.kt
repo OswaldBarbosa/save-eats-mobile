@@ -12,7 +12,7 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.homecomponents.screen.HomeScreen
 import br.senai.sp.saveeats.ordercomponents.OrderScreen
 import br.senai.sp.saveeats.profilecomponents.screen.ProfileScreen
-import br.senai.sp.saveeats.recipescomponents.screen.RecipesScreen
+import br.senai.sp.saveeats.recipestipscomponents.screen.RecipesTipsScreen
 
 @Composable
 fun BottomNavGraph(
@@ -37,7 +37,7 @@ fun BottomNavGraph(
         }
 
         composable(route = MenuBar.Recipes.route) {
-            RecipesScreen()
+            RecipesTipsScreen(localStorage = Storage())
         }
 
         composable(route = MenuBar.Profile.route) {

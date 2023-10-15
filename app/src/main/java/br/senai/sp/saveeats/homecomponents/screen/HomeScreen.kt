@@ -351,12 +351,8 @@ fun HomeScreen(
                                 .height(45.dp)
                                 .padding(end = 15.dp)
                                 .clickable {
-                                    var openCategoryRestaurant =
-                                        Intent(context, CategoryRestaurantScreen()::class.java)
-                                    openCategoryRestaurant.putExtra(
-                                        "name_category",
-                                        it.nome_categoria
-                                    )
+                                    var openCategoryRestaurant = Intent(context, CategoryRestaurantScreen()::class.java)
+                                    openCategoryRestaurant.putExtra("name_category",it.nome_categoria)
                                     context.startActivity(openCategoryRestaurant)
                                 },
                             border = BorderStroke(0.8.dp, Color(212, 212, 212)),

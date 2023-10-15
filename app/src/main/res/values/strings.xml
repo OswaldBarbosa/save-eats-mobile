@@ -49,6 +49,7 @@
     <string name="search">Search</string>
     <string name="next">Next</string>
     <string name="recipes">Recipes</string>
+    <string name="tips">Tips</string>
     <string name="title_activity_teste">teste</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_category_restaurants_screen">CategoryRestaurantsScreen</string>
@@ -56,4 +57,6 @@
     <string name="title_activity_product_screen">ProductScreen</string>
     <string name="any_observations">Any observations?</string>
     <string name="add_to_cart">add to cart</string>
+    <string name="recipes_and_tips">Recipes and Tips</string>
+    <string name="title_activity_recipe_screen">RecipeScreen</string>
 </resources>

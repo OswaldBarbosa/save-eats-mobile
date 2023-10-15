@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -109,30 +110,33 @@ fun SecondPresentationScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.Center
                 ){
 
-                    Card (
+                    Card(
                         Modifier
-                            .width(22.dp)
-                            .height(12.dp),
-                        backgroundColor = Color(217,217,217)
-                    ){}
-
-                    Spacer(modifier = Modifier.width(35.dp))
-
-                    Card (
-                        Modifier
-                            .width(22.dp)
-                            .height(12.dp),
+                            .width(15.dp)
+                            .height(15.dp)
+                            .clip(shape = CircleShape),
                         backgroundColor = Color(76, 132, 62)
-                    ){}
+                    ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
 
-                    Card (
+                    Card(
                         Modifier
-                            .width(22.dp)
-                            .height(12.dp),
-                        backgroundColor = Color(217,217,217)
-                    ){}
+                            .width(15.dp)
+                            .height(15.dp)
+                            .clip(shape = CircleShape),
+                        backgroundColor = Color(217, 217, 217)
+                    ) {}
+
+                    Spacer(modifier = Modifier.width(35.dp))
+
+                    Card(
+                        Modifier
+                            .width(15.dp)
+                            .height(15.dp)
+                            .clip(shape = CircleShape),
+                        backgroundColor = Color(217, 217, 217)
+                    ) {}
 
                 }
 
