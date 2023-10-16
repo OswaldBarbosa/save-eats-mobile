@@ -18,6 +18,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".recipecomponents.screen.MainActivity2"
+            android:exported="false"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.SaveEats" />
+        <activity
             android:name=".recipecomponents.screen.ui.theme.MainActivity2"
             android:exported="false"
             android:label="@string/title_activity_main2"

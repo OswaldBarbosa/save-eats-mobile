@@ -2,7 +2,6 @@ package br.senai.sp.saveeats.menubarcomponents.screen
 
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
@@ -12,6 +11,7 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.homecomponents.screen.HomeScreen
 import br.senai.sp.saveeats.ordercomponents.OrderScreen
 import br.senai.sp.saveeats.profilecomponents.screen.ProfileScreen
+import br.senai.sp.saveeats.recipecomponents.screen.RecipeScreen
 import br.senai.sp.saveeats.recipestipscomponents.screen.RecipesTipsScreen
 
 @Composable
@@ -37,11 +37,15 @@ fun BottomNavGraph(
         }
 
         composable(route = MenuBar.Recipes.route) {
-            RecipesTipsScreen(localStorage = Storage())
+            RecipesTipsScreen()
         }
 
         composable(route = MenuBar.Profile.route) {
            ProfileScreen()
+        }
+
+        composable("recipe_screen") {
+            RecipeScreen("", "", "", "", 0, "", "")
         }
 
     }

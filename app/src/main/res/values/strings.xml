@@ -59,4 +59,7 @@
     <string name="add_to_cart">add to cart</string>
     <string name="recipes_and_tips">Recipes and Tips</string>
     <string name="title_activity_recipe_screen">RecipeScreen</string>
+    <string name="description">Description</string>
+    <string name="method_of_preparation">Method of preparation</string>
+    <string name="ingredients">Ingredients</string>
 </resources>

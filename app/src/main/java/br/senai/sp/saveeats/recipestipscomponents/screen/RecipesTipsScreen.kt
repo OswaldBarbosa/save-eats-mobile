@@ -24,8 +24,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,27 +36,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
+import br.senai.sp.saveeats.recipecomponents.screen.MainActivity2
 import br.senai.sp.saveeats.R
-import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.CategoryRecipes
 import br.senai.sp.saveeats.model.CategoryRecipesList
+import br.senai.sp.saveeats.model.CategoryTips
+import br.senai.sp.saveeats.model.CategoryTipsList
 import br.senai.sp.saveeats.model.Recipes
 import br.senai.sp.saveeats.model.RecipesList
 import br.senai.sp.saveeats.model.RetrofitFactory
-import br.senai.sp.saveeats.recipecomponents.screen.ui.theme.MainActivity2
+import br.senai.sp.saveeats.model.Tips
+import br.senai.sp.saveeats.model.TipsList
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun RecipesTipsScreen(localStorage: Storage) {
+fun RecipesTipsScreen() {
 
-    var context = LocalContext.current
+    val context = LocalContext.current
 
     var progressState by remember {
         mutableStateOf(true)
@@ -72,11 +72,19 @@ fun RecipesTipsScreen(localStorage: Storage) {
         mutableStateOf(listOf<Recipes>())
     }
 
+    var listTips by remember {
+        mutableStateOf(listOf<Tips>())
+    }
+
     var listCategoryRecipes by remember {
         mutableStateOf(listOf<CategoryRecipes>())
     }
 
-    var callRecipes = RetrofitFactory
+    var listCategoryTips by remember {
+        mutableStateOf(listOf<CategoryTips>())
+    }
+
+    val callRecipes = RetrofitFactory
         .getRecipes()
         .getRecipes()
 
@@ -100,7 +108,7 @@ fun RecipesTipsScreen(localStorage: Storage) {
 
     })
 
-    var callCategoryRecipes = RetrofitFactory
+    val callCategoryRecipes = RetrofitFactory
         .getCategoryRecipes()
         .getCategoryRecipes()
 
@@ -115,6 +123,54 @@ fun RecipesTipsScreen(localStorage: Storage) {
 
         override fun onFailure(
             call: Call<CategoryRecipesList>,
+            t: Throwable
+        ) {
+
+            Log.e("ds3t", "onFailure: ${t.message}")
+
+        }
+
+    })
+
+    val callTips = RetrofitFactory
+        .getTips()
+        .getTips()
+
+    callTips.enqueue(object : Callback<TipsList> {
+
+        override fun onResponse(
+            call: Call<TipsList>,
+            response: Response<TipsList>
+        ) {
+            listTips = response.body()!!.dica
+        }
+
+        override fun onFailure(
+            call: Call<TipsList>,
+            t: Throwable
+        ) {
+
+            Log.e("ds3t", "onFailure: ${t.message}")
+
+        }
+
+    })
+
+    val callCategoryTips = RetrofitFactory
+        .getCategoryTips()
+        .getCategoryTips()
+
+    callCategoryTips.enqueue(object : Callback<CategoryTipsList> {
+
+        override fun onResponse(
+            call: Call<CategoryTipsList>,
+            response: Response<CategoryTipsList>
+        ) {
+            listCategoryTips = response.body()!!.categorias
+        }
+
+        override fun onFailure(
+            call: Call<CategoryTipsList>,
             t: Throwable
         ) {
 
@@ -215,65 +271,69 @@ fun RecipesTipsScreen(localStorage: Storage) {
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            if (progressState == true) {
 
-                OutlinedTextField(
+                Column(
                     modifier = Modifier
-                        .width(360.dp)
-                        .height(45.dp),
-                    value = searchState,
-                    onValueChange = {
-                        searchState = it
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search",
-                            tint = Color.Gray
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = "Pesquisar",
-                        )
-                    },
-                    shape = RoundedCornerShape(100)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-                )
-
-            }
-
-            Spacer(modifier = Modifier.height(25.dp))
-
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-
-                items(listCategoryRecipes) {
-
-                    Surface(
+                    OutlinedTextField(
                         modifier = Modifier
-                            .width(120.dp)
-                            .height(40.dp)
-                            .padding(end = 20.dp),
-                        shape = RoundedCornerShape(30.dp),
-                        border = BorderStroke(0.8.dp, Color(212, 212, 212))
-                    ) {
+                            .width(360.dp)
+                            .height(45.dp),
+                        value = searchState,
+                        onValueChange = {
+                            searchState = it
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                tint = Color.Gray
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = "Pesquisar",
+                            )
+                        },
+                        shape = RoundedCornerShape(100)
 
-                        Column(
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.height(25.dp))
+
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+
+                    items(listCategoryRecipes) {
+
+                        Surface(
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
+                                .width(120.dp)
+                                .height(40.dp)
+                                .padding(end = 20.dp),
+                            shape = RoundedCornerShape(30.dp),
+                            border = BorderStroke(0.8.dp, Color(212, 212, 212))
                         ) {
 
-                            Text(text = it.categoria)
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+
+                                Text(text = it.categoria)
+
+                            }
 
                         }
 
@@ -281,62 +341,209 @@ fun RecipesTipsScreen(localStorage: Storage) {
 
                 }
 
-            }
+                Spacer(modifier = Modifier.height(25.dp))
 
-            Spacer(modifier = Modifier.height(25.dp))
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 40.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+                    items(listRecipes) {
 
-                items(listRecipes) {
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Surface(
+                        Row(
                             modifier = Modifier
-                                .width(160.dp)
-                                .height(160.dp)
-                                .padding(20.dp)
-                                .clickable {
-                                    var openRecipe = Intent(context, MainActivity2()::class.java)
-                                    localStorage.saveDataInt(context, it.id_receita, "idRecipe")
-                                    context.startActivity(openRecipe)
-                                },
-                            shape = RoundedCornerShape(20.dp),
-                            elevation = 10.dp
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            AsyncImage(
-                                model = it.foto_receita,
-                                contentDescription = "Image Recipes"
-                            )
+                            Surface(
+                                modifier = Modifier
+                                    .width(160.dp)
+                                    .height(160.dp)
+                                    .padding(20.dp)
+                                    .clickable {
+                                        val openRecipe =
+                                            Intent(context, MainActivity2()::class.java)
+                                        openRecipe.putExtra("imageRecipe", it.foto_receita)
+                                        openRecipe.putExtra("nameRecipe", it.nome_receita)
+                                        openRecipe.putExtra("timeRecipe", it.tempo_preparo)
+                                        openRecipe.putExtra("levelRecipe", it.nivel_dificuldade)
+                                        openRecipe.putExtra("portionRecipe", it.numero_porcoes)
+                                        openRecipe.putExtra("descriptionRecipe", it.descricao)
+                                        openRecipe.putExtra(
+                                            "methodOfPreparationRecipe",
+                                            it.modo_preparo
+                                        )
+                                        context.startActivity(openRecipe)
+                                    },
+                                shape = RoundedCornerShape(20.dp),
+                                elevation = 10.dp
+                            ) {
+
+                                AsyncImage(
+                                    model = it.foto_receita,
+                                    contentDescription = "Image Recipes"
+                                )
+
+                            }
+
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+
+                                Text(
+                                    text = it.nome_receita,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.W500
+                                )
+
+                                Text(
+                                    text = "Porções: ${it.numero_porcoes}",
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.W400
+                                )
+
+                                Text(
+                                    text = "Tempo de preparo: ${it.tempo_preparo}",
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.W400
+                                )
+
+                            }
 
                         }
 
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
+                    }
 
-                            Text(
-                                text = it.nome_receita,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.W500
-                            )
+                }
 
-                            Text(
-                                text = it.tempo_preparo,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.W400
+            } else {
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .width(360.dp)
+                            .height(45.dp),
+                        value = searchState,
+                        onValueChange = {
+                            searchState = it
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                tint = Color.Gray
                             )
+                        },
+                        label = { Text(text = stringResource(id = R.string.search))
+                        },
+                        shape = RoundedCornerShape(100)
+
+                    )
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 30.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+
+                        items(listCategoryTips) {
+
+                            Surface(
+                                modifier = Modifier
+                                    .width(160.dp)
+                                    .height(45.dp)
+                                    .padding(end = 20.dp),
+                                shape = RoundedCornerShape(30.dp),
+                                border = BorderStroke(0.8.dp, Color(212, 212, 212))
+                            ) {
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+
+                                    Text(
+                                        text = it.categoria,
+                                        color = Color(20,58,11),
+                                        textAlign = TextAlign.Center
+                                    )
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        items(listTips) {
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceAround,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+
+                                Surface(
+                                    modifier = Modifier
+                                        .width(160.dp)
+                                        .height(160.dp)
+                                        .padding(20.dp),
+                                    shape = RoundedCornerShape(20.dp),
+                                    elevation = 10.dp
+                                ) {
+
+                                    AsyncImage(
+                                        model = it.foto_da_receita,
+                                        contentDescription = "Image Tips"
+                                    )
+
+                                }
+
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                ) {
+
+                                    Text(
+                                        text = it.nome_da_receita,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.W500
+                                    )
+
+                                    Text(
+                                        text = it.categoria,
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.W400
+                                    )
+
+                                }
+
+                            }
 
                         }
 

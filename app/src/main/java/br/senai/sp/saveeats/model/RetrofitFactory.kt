@@ -8,6 +8,7 @@ import br.senai.sp.saveeats.service.ProductsRestaurantService
 import br.senai.sp.saveeats.service.RecipesService
 import br.senai.sp.saveeats.service.RestaurantService
 import br.senai.sp.saveeats.service.SignupService
+import br.senai.sp.saveeats.service.TipsService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -57,6 +58,14 @@ object RetrofitFactory {
 
     fun getRecipeDetails(): RecipesService {
         return retrofitFactory.create(RecipesService::class.java)
+    }
+
+    fun getTips(): TipsService {
+        return retrofitFactory.create(TipsService::class.java)
+    }
+
+    fun getCategoryTips(): TipsService {
+        return retrofitFactory.create(TipsService::class.java)
     }
 
 }
