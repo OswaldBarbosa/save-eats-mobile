@@ -1,9 +1,7 @@
 package br.senai.sp.saveeats.recipecomponents.screen
 
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,100 +32,70 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
+import br.senai.sp.saveeats.model.CategoryTipsList
 import br.senai.sp.saveeats.model.RecipeDetails
 import br.senai.sp.saveeats.model.RecipeDetailsList
 import br.senai.sp.saveeats.model.RetrofitFactory
-import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity2 : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        val getImageRecipe = intent.getStringExtra("imageRecipe")
-
-        val getNameRecipe = intent.getStringExtra("nameRecipe")
-
-        val getTimeRecipe = intent.getStringExtra("timeRecipe")
-
-        val getLevelRecipe = intent.getStringExtra("levelRecipe")
-
-        val getPortionRecipe = intent.getIntExtra("portionRecipe", 0)
-
-        val getDescriptionRecipe = intent.getStringExtra("descriptionRecipe")
-
-        val getMethodOfPreparationRecipe = intent.getStringExtra("methodOfPreparationRecipe")
-
-        super.onCreate(savedInstanceState)
-        setContent {
-            SaveEatsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.White
-                ) {
-                    RecipeScreen(
-                        getImageRecipe.toString(),
-                        getNameRecipe.toString(),
-                        getTimeRecipe.toString(),
-                        getLevelRecipe.toString(),
-                        getPortionRecipe,
-                        getDescriptionRecipe.toString(),
-                        getMethodOfPreparationRecipe.toString()
-                    )
-                }
-            }
-        }
-    }
-}
-
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun RecipeScreen(
-    imageRecipe: String,
-    nameRecipe: String,
-    timeRecipe: String,
-    levelRecipe: String,
-    portionRecipe: Int,
-    descriptionRecipe: String,
-    methodOfPreparation: String
+    localStorage: Storage,
+    lifecycleCoroutineScope: LifecycleCoroutineScope
 ) {
+
+    val context = LocalContext.current
+
+    val imageRecipe = localStorage.readDataString(context, "imageRecipe")
+    val nameRecipe = localStorage.readDataString(context, "nameRecipe")
+    val descriptionRecipe = localStorage.readDataString(context, "descriptionRecipe")
+    val portionRecipe = localStorage.readDataInt(context, "portionRecipe")
+    val timeRecipe = localStorage.readDataString(context, "timeRecipe")
+    val levelRecipe = localStorage.readDataString(context, "levelRecipe")
+    val methodOfPreparation = localStorage.readDataString(context, "methodOfPreparationRecipe")
 
     var progressState by remember {
         mutableStateOf(true)
     }
 
-    var listRecipeDetails = remember {
-        RecipeDetails(
-            "",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            emptyList()
+    var listRecipeDetails by remember {
+        mutableStateOf(
+            RecipeDetails()
         )
     }
 
-    val callRecipeDetails = RetrofitFactory
+    var status by remember {
+        mutableStateOf(false)
+    }
+
+    val callCategoryTips = RetrofitFactory
         .getRecipeDetails()
         .getRecipeDetails(1)
 
-    callRecipeDetails.enqueue(object : Callback<RecipeDetailsList> {
+    callCategoryTips.enqueue(object : Callback<RecipeDetailsList> {
+
         override fun onResponse(
             call: Call<RecipeDetailsList>,
             response: Response<RecipeDetailsList>
         ) {
             listRecipeDetails = response.body()!!.detalhes_receita
+            status = true
         }
 
         override fun onFailure(
@@ -163,16 +132,22 @@ fun RecipeScreen(
 
             }
 
-            Text(
-                modifier = Modifier
-                    .width(250.dp)
-                    .offset(y = 20.dp),
-                text = nameRecipe,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.W500,
-                color = Color(20, 58, 11),
-                textAlign = TextAlign.Center
-            )
+            if (status) {
+                Text(
+                    modifier = Modifier
+                        .width(250.dp)
+                        .offset(y = 20.dp),
+                    text = listRecipeDetails.nome_receita!!,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.W500,
+                    color = Color(20, 58, 11),
+                    textAlign = TextAlign.Center
+                )
+            } else {
+                CircularProgressIndicator()
+            }
+
+
 
         }
 
@@ -187,7 +162,7 @@ fun RecipeScreen(
 
             Column {
 
-                Row (
+                Row(
                     modifier = Modifier
                         .width(110.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -203,7 +178,7 @@ fun RecipeScreen(
                     Spacer(modifier = Modifier.width(15.dp))
 
                     Text(
-                        text = timeRecipe,
+                        text = timeRecipe!!,
                         fontWeight = FontWeight.W300
                     )
 
@@ -211,7 +186,7 @@ fun RecipeScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Row (
+                Row(
                     modifier = Modifier
                         .width(150.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -235,7 +210,7 @@ fun RecipeScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Row (
+                Row(
                     modifier = Modifier
                         .width(110.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -251,7 +226,7 @@ fun RecipeScreen(
                     Spacer(modifier = Modifier.width(15.dp))
 
                     Text(
-                        text = levelRecipe,
+                        text = levelRecipe!!,
                         fontWeight = FontWeight.W300
                     )
 
@@ -261,7 +236,7 @@ fun RecipeScreen(
 
             Column {
 
-                Surface (
+                Surface(
                     modifier = Modifier
                         .size(180.dp),
                     shape = CircleShape,
@@ -279,18 +254,18 @@ fun RecipeScreen(
             }
 
         }
-        
+
         Spacer(modifier = Modifier.height(25.dp))
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
 
-            Surface (
+            Surface(
                 modifier = Modifier
                     .fillMaxSize(),
-                color = Color(246,246,246),
+                color = Color(246, 246, 246),
                 shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
             ) {
 
@@ -324,8 +299,8 @@ fun RecipeScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 if (progressState) {
-                    
-                    Column (
+
+                    Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .offset(x = 20.dp, y = 80.dp)
@@ -335,15 +310,15 @@ fun RecipeScreen(
                             text = stringResource(id = R.string.description),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
-                            color = Color(20,58,11)
+                            color = Color(20, 58, 11)
                         )
-                        
+
                         Spacer(modifier = Modifier.height(20.dp))
 
                         Text(
                             modifier = Modifier
                                 .width(380.dp),
-                            text = descriptionRecipe,
+                            text = descriptionRecipe!!,
                             textAlign = TextAlign.Start
                         )
 
@@ -353,30 +328,34 @@ fun RecipeScreen(
                             text = stringResource(id = R.string.ingredients),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
-                            color = Color(20,58,11)
+                            color = Color(20, 58, 11)
                         )
 
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Text(text = listRecipeDetails.nome_receita!!)
+
                     }
-                    
+
                 } else {
 
-                    Column (
+                    Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .offset(x = 20.dp, y = 80.dp)
                     ) {
 
                         Text(
-                            text = methodOfPreparation,
+                            text = methodOfPreparation!!,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
-                            color = Color(20,58,11)
+                            color = Color(20, 58, 11)
                         )
 
                     }
-                    
+
                 }
-                
+
             }
 
         }

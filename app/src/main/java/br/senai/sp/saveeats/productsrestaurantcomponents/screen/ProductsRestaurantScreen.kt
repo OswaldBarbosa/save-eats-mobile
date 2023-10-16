@@ -101,7 +101,13 @@ fun ProductsRestaurantScreen(nameRestaurant: String, localStorage: Storage) {
             call: Call<ProductsRestaurantList>,
             response: Response<ProductsRestaurantList>
         ) {
-            listProductsRestaurant = response.body()!!.produtos_do_restaurante
+
+            if (response.body()!!.status == 404) {
+                listProductsRestaurant = emptyList()
+            } else {
+                listProductsRestaurant = response.body()!!.
+            }
+
         }
 
         override fun onFailure(

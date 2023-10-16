@@ -12,12 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,9 +33,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.components.CustomButton
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun ThirdPresentationScreen(navController: NavController) {
+
+    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.login_animation))
 
     Surface (
         modifier = Modifier
@@ -51,11 +60,10 @@ fun ThirdPresentationScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.chef_two),
-                    contentDescription = "Chef",
-                    modifier = Modifier
-                        .size(350.dp)
+                LottieAnimation(
+                    composition = composition,
+                    modifier = Modifier.size(350.dp),
+                    iterations = LottieConstants.IterateForever
                 )
 
             }
@@ -85,30 +93,33 @@ fun ThirdPresentationScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.Center
                 ){
 
-                    Card (
+                    Card(
                         Modifier
-                            .width(22.dp)
-                            .height(12.dp),
-                        backgroundColor = Color(217,217,217)
-                    ){}
+                            .width(15.dp)
+                            .height(15.dp)
+                            .clip(shape = CircleShape),
+                        backgroundColor = Color(217, 217, 217)
+                    ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
 
-                    Card (
+                    Card(
                         Modifier
-                            .width(22.dp)
-                            .height(12.dp),
-                        backgroundColor = Color(217,217,217)
-                    ){}
+                            .width(15.dp)
+                            .height(15.dp)
+                            .clip(shape = CircleShape),
+                        backgroundColor = Color(217, 217, 217)
+                    ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
 
-                    Card (
+                    Card(
                         Modifier
-                            .width(22.dp)
-                            .height(12.dp),
-                        backgroundColor = Color(76,132,62)
-                    ){}
+                            .width(15.dp)
+                            .height(15.dp)
+                            .clip(shape = CircleShape),
+                        backgroundColor = Color(76, 132, 62)
+                    ) {}
 
                 }
 

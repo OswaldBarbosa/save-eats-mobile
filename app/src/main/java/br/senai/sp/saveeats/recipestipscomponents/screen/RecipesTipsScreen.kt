@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -39,8 +39,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.senai.sp.saveeats.recipecomponents.screen.MainActivity2
+import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
+import br.senai.sp.saveeats.TipsScreen
 import br.senai.sp.saveeats.model.CategoryRecipes
 import br.senai.sp.saveeats.model.CategoryRecipesList
 import br.senai.sp.saveeats.model.CategoryTips
@@ -56,7 +58,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun RecipesTipsScreen() {
+fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
 
     val context = LocalContext.current
 
@@ -365,28 +367,24 @@ fun RecipesTipsScreen() {
                                     .height(160.dp)
                                     .padding(20.dp)
                                     .clickable {
-                                        val openRecipe =
-                                            Intent(context, MainActivity2()::class.java)
-                                        openRecipe.putExtra("imageRecipe", it.foto_receita)
-                                        openRecipe.putExtra("nameRecipe", it.nome_receita)
-                                        openRecipe.putExtra("timeRecipe", it.tempo_preparo)
-                                        openRecipe.putExtra("levelRecipe", it.nivel_dificuldade)
-                                        openRecipe.putExtra("portionRecipe", it.numero_porcoes)
-                                        openRecipe.putExtra("descriptionRecipe", it.descricao)
-                                        openRecipe.putExtra(
-                                            "methodOfPreparationRecipe",
-                                            it.modo_preparo
-                                        )
-                                        context.startActivity(openRecipe)
+                                        localStorage.saveDataInt(context, it.id_receita, "idRecipe")
+                                        localStorage.saveDataString(context, it.foto_receita, "imageRecipe")
+                                        localStorage.saveDataString(context, it.nome_receita, "nameRecipe")
+                                        localStorage.saveDataString(context, it.descricao, "descriptionRecipe")
+                                        localStorage.saveDataInt(context, it.numero_porcoes, "portionRecipe")
+                                        localStorage.saveDataString(context, it.tempo_preparo, "timeRecipe")
+                                        localStorage.saveDataString(context, it.nivel_dificuldade, "levelRecipe")
+                                        localStorage.saveDataString(context, it.modo_preparo, "methodOfPreparationRecipe")
+                                        navController.navigate("recipe_screen")
                                     },
                                 shape = RoundedCornerShape(20.dp),
                                 elevation = 10.dp
                             ) {
 
-                                AsyncImage(
-                                    model = it.foto_receita,
-                                    contentDescription = "Image Recipes"
-                                )
+                                    AsyncImage(
+                                        model = it.foto_receita,
+                                        contentDescription = "Image Recipes"
+                                    )
 
                             }
 
@@ -512,7 +510,16 @@ fun RecipesTipsScreen() {
                                     modifier = Modifier
                                         .width(160.dp)
                                         .height(160.dp)
-                                        .padding(20.dp),
+                                        .padding(20.dp)
+                                        .clickable {
+                                            var openTips = Intent(context, TipsScreen()::class.java)
+                                            openTips.putExtra("imageTips", it.foto_da_receita)
+                                            openTips.putExtra("nameTips", it.nome_da_receita)
+                                            openTips.putExtra("descriptionTips", it.descricao_da_receita)
+                                            openTips.putExtra("categoryTips", it.categoria)
+                                            context.startActivity(openTips)
+
+                                        },
                                     shape = RoundedCornerShape(20.dp),
                                     elevation = 10.dp
                                 ) {

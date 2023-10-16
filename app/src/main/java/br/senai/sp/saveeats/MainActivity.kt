@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("recipe_screen") {
-                        RecipeScreen("", "", "", "", 0, "", "")
+                        RecipeScreen(localStorage = Storage(), lifecycleScope)
                     }
 
                 }

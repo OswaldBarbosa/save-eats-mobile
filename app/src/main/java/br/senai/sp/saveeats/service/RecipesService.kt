@@ -6,6 +6,7 @@ import br.senai.sp.saveeats.model.ClientAddressList
 import br.senai.sp.saveeats.model.RecipeDetailsList
 import br.senai.sp.saveeats.model.RecipesList
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -19,5 +20,9 @@ interface RecipesService {
 
     @GET("/v1/saveeats/detalhes/receitas/id/{id}")
     fun getRecipeDetails(@Path("id") id: Int):Call<RecipeDetailsList>
+
+    @GET("/v1/saveeats/detalhes/receitas/id/{id}")
+    suspend fun getRecipeDetails2(@Path("id") id: Int):Response<RecipeDetailsList>
+
 
 }

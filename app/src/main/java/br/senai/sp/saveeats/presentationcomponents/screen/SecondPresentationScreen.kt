@@ -68,9 +68,9 @@ fun SecondPresentationScreen(navController: NavController) {
 
                     Surface (
                         modifier = Modifier
-                            .width(260.dp)
-                            .height(260.dp)
-                            .offset(x = 50.dp, y = 60.dp)
+                            .width(320.dp)
+                            .height(320.dp)
+                            .offset(x = 50.dp, y = 50.dp)
                             .blur(100.dp),
                         color = Color(237,220,192),
                         shape = CircleShape
@@ -78,7 +78,7 @@ fun SecondPresentationScreen(navController: NavController) {
 
                     LottieAnimation(
                         composition = composition,
-                        modifier = Modifier.size(350.dp),
+                        modifier = Modifier.size(550.dp),
                         iterations = LottieConstants.IterateForever
                     )
 
@@ -115,7 +115,7 @@ fun SecondPresentationScreen(navController: NavController) {
                             .width(15.dp)
                             .height(15.dp)
                             .clip(shape = CircleShape),
-                        backgroundColor = Color(76, 132, 62)
+                        backgroundColor = Color(217, 217, 217)
                     ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
@@ -125,7 +125,7 @@ fun SecondPresentationScreen(navController: NavController) {
                             .width(15.dp)
                             .height(15.dp)
                             .clip(shape = CircleShape),
-                        backgroundColor = Color(217, 217, 217)
+                        backgroundColor = Color(76, 132, 62)
                     ) {}
 
                     Spacer(modifier = Modifier.width(35.dp))
@@ -152,10 +152,4 @@ fun SecondPresentationScreen(navController: NavController) {
 
     }
 
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun teste2() {
-    SecondPresentationScreen(navController = rememberNavController())
 }

@@ -18,6 +18,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".TipsScreen"
+            android:exported="false"
+            android:label="@string/title_activity_tips_screen"
+            android:theme="@style/Theme.SaveEats" />
+        <activity
+            android:name=".tipscomponents.screen.TipsScreen"
+            android:exported="false"
+            android:label="@string/title_activity_tips_screen"
+            android:theme="@style/Theme.SaveEats" />
+        <activity
             android:name=".recipecomponents.screen.MainActivity2"
             android:exported="false"
             android:label="@string/title_activity_main2"
