@@ -102,11 +102,11 @@ fun ProductsRestaurantScreen(nameRestaurant: String, localStorage: Storage) {
             response: Response<ProductsRestaurantList>
         ) {
 
-            if (response.body()!!.status == 404) {
-                listProductsRestaurant = emptyList()
-            } else {
-                listProductsRestaurant = response.body()!!.
-            }
+//            if (response.body()!!. == 404) {
+//                listProductsRestaurant = emptyList()
+//            } else {
+//                listProductsRestaurant = response.body()!!.produtos_do_restaurante
+//            }
 
         }
 

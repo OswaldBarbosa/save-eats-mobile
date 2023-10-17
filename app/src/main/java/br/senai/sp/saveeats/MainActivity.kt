@@ -13,7 +13,9 @@ import br.senai.sp.saveeats.presentationcomponents.screen.FirstPresentationScree
 import br.senai.sp.saveeats.presentationcomponents.screen.SecondPresentationScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.ThirdPresentationScreen
 import br.senai.sp.saveeats.recipecomponents.screen.RecipeScreen
-import br.senai.sp.saveeats.singupcomponents.screen.SignupScreen
+import br.senai.sp.saveeats.singupcomponents.screen.FirstSignup
+import br.senai.sp.saveeats.singupcomponents.screen.SecondSignup
+import br.senai.sp.saveeats.singupcomponents.screen.ThirdSignupScreen
 import br.senai.sp.saveeats.splashcomponents.screen.SplashScreen
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home_screen"
+                    startDestination = "first_signup_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -47,12 +49,20 @@ class MainActivity : ComponentActivity() {
                         ThirdPresentationScreen(navController = navController)
                     }
 
-                    composable("login_screen") {
-                        LoginScreen(navController = navController, lifecycleScope = lifecycleScope, localStorage = Storage())
+                    composable("first_signup_screen") {
+                        FirstSignup(navController = navController, localStorage = Storage())
                     }
 
-                    composable("signup_screen") {
-                        SignupScreen(navController = navController, lifecycleScope = lifecycleScope)
+                    composable("second_signup_screen") {
+                        SecondSignup(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("third_signup_screen") {
+                        ThirdSignupScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope)
+                    }
+
+                    composable("login_screen") {
+                        LoginScreen(navController = navController, lifecycleScope = lifecycleScope, localStorage = Storage())
                     }
 
                     composable("home_screen") {
