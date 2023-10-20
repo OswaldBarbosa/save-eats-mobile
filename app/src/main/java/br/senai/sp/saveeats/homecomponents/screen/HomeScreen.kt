@@ -73,6 +73,7 @@ import br.senai.sp.saveeats.model.Category
 import br.senai.sp.saveeats.model.CategoryList
 import br.senai.sp.saveeats.model.ClientAddress
 import br.senai.sp.saveeats.model.ClientAddressList
+import br.senai.sp.saveeats.model.RecipeDetails
 import br.senai.sp.saveeats.model.RestaurantList
 import br.senai.sp.saveeats.model.Restaurant
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
@@ -132,15 +133,7 @@ fun HomeScreen(
     var listClientAddress by remember {
         mutableStateOf(
             listOf(
-                ClientAddress(
-                    0,
-                    "",
-                    "",
-                    "",
-                    0,
-                    "",
-                    ""
-                )
+                ClientAddress()
             )
         )
     }
@@ -213,6 +206,7 @@ fun HomeScreen(
             response: Response<ClientAddressList>
         ) {
             listClientAddress = response.body()!!.endereco_cliente
+            Log.e("TESTE3", "onResponse: $listClientAddress")
         }
 
         override fun onFailure(
@@ -269,7 +263,7 @@ fun HomeScreen(
                     Row {
 
                         Text(
-                            text = "${listClientAddress[0].rua}",
+                            text = "${listClientAddress[0].rua_cliente}",
                             fontSize = 17.sp
 
                         )
@@ -277,7 +271,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.width(5.dp))
 
                         Text(
-                            text = "${listClientAddress[0].numero},",
+                            text = "${listClientAddress[0].numero_endereco_cliente},",
                             fontSize = 17.sp
 
                         )
@@ -351,8 +345,12 @@ fun HomeScreen(
                                 .height(45.dp)
                                 .padding(end = 15.dp)
                                 .clickable {
-                                    var openCategoryRestaurant = Intent(context, CategoryRestaurantScreen()::class.java)
-                                    openCategoryRestaurant.putExtra("name_category",it.nome_categoria)
+                                    var openCategoryRestaurant =
+                                        Intent(context, CategoryRestaurantScreen()::class.java)
+                                    openCategoryRestaurant.putExtra(
+                                        "name_category",
+                                        it.nome_categoria
+                                    )
                                     context.startActivity(openCategoryRestaurant)
                                 },
                             border = BorderStroke(0.8.dp, Color(212, 212, 212)),
@@ -562,8 +560,16 @@ fun HomeScreen(
                             .clickable {
 
                                 localStorage.saveDataString(context, it.foto, "imageRestaurant")
-                                localStorage.saveDataString(context, it.nome_fantasia, "nameRestaurant")
-                                localStorage.saveDataString(context, it.nome_categoria_restaurante, "nameCategoryRestaurant")
+                                localStorage.saveDataString(
+                                    context,
+                                    it.nome_fantasia,
+                                    "nameRestaurant"
+                                )
+                                localStorage.saveDataString(
+                                    context,
+                                    it.nome_categoria_restaurante,
+                                    "nameCategoryRestaurant"
+                                )
 
                                 var openProductsRestaurant =
                                     Intent(context, ProductsRestaurantScreen::class.java)

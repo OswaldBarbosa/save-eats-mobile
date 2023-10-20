@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface ClientService {
-    @GET("/v1/saveeats/endereco/cliente/id/{id}")
+    @GET("/v1/saveeats/endereco/cliente/idcliente/{id}")
     fun getAddressClient(@Path("id") id: Int):Call<ClientAddressList>
 
 }

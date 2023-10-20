@@ -123,13 +123,19 @@ fun LoginScreen(
 
                 if (response.isSuccessful) {
 
+                    Log.e("TESTE", "login: ${response.body()}", )
+
                     val json = response.body().toString()
 
                     val jsonObject = JSONObject(json)
 
                     val clientObject = jsonObject.getJSONObject("clientes")
 
+                    Log.e("TESTE4", "login: $clientObject", )
+
                     val id = clientObject.getInt("id")
+
+                    Log.e("TESTE2", "login: $id", )
 
                     Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")

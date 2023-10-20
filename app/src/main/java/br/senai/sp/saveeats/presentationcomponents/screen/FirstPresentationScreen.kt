@@ -63,8 +63,8 @@ fun FirstPresentationScreen(navController: NavController) {
 
                     Surface (
                         modifier = Modifier
-                            .width(150.dp)
-                            .height(150.dp)
+                            .width(200.dp)
+                            .height(200.dp)
                             .offset(x = 10.dp, y = 120.dp),
                         color = Color(76,132,62),
                         shape = CircleShape
@@ -72,16 +72,16 @@ fun FirstPresentationScreen(navController: NavController) {
 
                     Surface (
                         modifier = Modifier
-                            .width(200.dp)
-                            .height(200.dp)
-                            .offset(x = 120.dp, y = 75.dp),
+                            .width(230.dp)
+                            .height(230.dp)
+                            .offset(x = 130.dp, y = 90.dp),
                         color = Color(76,132,62),
                         shape = CircleShape
                     ) {}
 
                     LottieAnimation(
                         composition = composition,
-                        modifier = Modifier.size(300.dp),
+                        modifier = Modifier.size(350.dp),
                         iterations = LottieConstants.IterateForever
                     )
 
