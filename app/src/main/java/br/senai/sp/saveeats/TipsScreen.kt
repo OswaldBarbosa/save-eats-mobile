@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,40 +33,15 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import coil.compose.AsyncImage
 
-class TipsScreen : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        val getImageTips = intent.getStringExtra("imageTips")
-
-        val getNameTips = intent.getStringExtra("nameTips")
-
-        val getDescriptionTips = intent.getStringExtra("descriptionTips")
-
-        val getCategoryTips = intent.getStringExtra("categoryTips")
-
-
-        super.onCreate(savedInstanceState)
-        setContent {
-            SaveEatsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    TipScreen(
-                        getImageTips.toString(),
-                        getNameTips.toString(),
-                        getDescriptionTips.toString(),
-                        getCategoryTips.toString()
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun TipScreen(imageTips: String, nameTips: String, descriptionTips: String, categoryTips: String) {
+fun TipScreen(localStorage: Storage) {
+
+    val context = LocalContext.current
+
+    val imageTip = localStorage.readDataString(context,"imageTip")
+    val nameTip = localStorage.readDataString(context,"nameTip")
+    val descriptionTip = localStorage.readDataString(context,"descriptionTip")
+    val categoryTip = localStorage.readDataString(context,"categoryTip")
 
     Column (
         modifier = Modifier
@@ -94,7 +70,7 @@ fun TipScreen(imageTips: String, nameTips: String, descriptionTips: String, cate
                 modifier = Modifier
                     .width(250.dp)
                     .offset(y = 20.dp),
-                text = nameTips,
+                text = nameTip!!,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.W500,
                 color = Color(20, 58, 11),
@@ -125,7 +101,7 @@ fun TipScreen(imageTips: String, nameTips: String, descriptionTips: String, cate
             ) {
 
                 AsyncImage(
-                    model = imageTips,
+                    model = imageTip!!,
                     contentDescription = "Image Tips"
                 )
 
@@ -134,7 +110,7 @@ fun TipScreen(imageTips: String, nameTips: String, descriptionTips: String, cate
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = descriptionTips
+                text = descriptionTip!!
             )
 
         }

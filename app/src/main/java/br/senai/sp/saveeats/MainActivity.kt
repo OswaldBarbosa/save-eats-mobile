@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.saveeats.categoryrestaurantcomponents.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.logincomponents.screen.LoginScreen
 import br.senai.sp.saveeats.menubarcomponents.screen.MenuScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.FirstPresentationScreen
@@ -67,6 +68,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("home_screen") {
                         MenuScreen(navController2 = navController, lifecycle = lifecycleScope, viewModel = RestaurantViewModel())
+                    }
+
+                    composable("category_restaurant_screen") {
+                        CategoryRestaurantScreen(localStorage = Storage(), navController = navController)
                     }
 
                     composable("recipe_screen") {

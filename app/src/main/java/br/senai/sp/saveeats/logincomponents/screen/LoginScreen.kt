@@ -58,24 +58,6 @@ import br.senai.sp.saveeats.model.LoginRepository
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-
-class LoginActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SaveEatsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = colorScheme.background
-                ) {
-
-                }
-            }
-        }
-    }
-}
-
 @Composable
 fun LoginScreen(
     navController: NavController,

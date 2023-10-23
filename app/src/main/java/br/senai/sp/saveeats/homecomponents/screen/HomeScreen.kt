@@ -345,13 +345,8 @@ fun HomeScreen(
                                 .height(45.dp)
                                 .padding(end = 15.dp)
                                 .clickable {
-                                    var openCategoryRestaurant =
-                                        Intent(context, CategoryRestaurantScreen()::class.java)
-                                    openCategoryRestaurant.putExtra(
-                                        "name_category",
-                                        it.nome_categoria
-                                    )
-                                    context.startActivity(openCategoryRestaurant)
+                                    localStorage.saveDataString(context, it.nome_categoria,"nameCategory")
+                                    navController.navigate("category_restaurant_screen")
                                 },
                             border = BorderStroke(0.8.dp, Color(212, 212, 212)),
                             colors = CardDefaults.cardColors(

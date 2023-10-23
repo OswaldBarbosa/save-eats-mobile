@@ -1,11 +1,7 @@
 package br.senai.sp.saveeats.categoryrestaurantcomponents.screen
 
-import android.os.Bundle
 import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,58 +36,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.CategoryRestaurant
 import br.senai.sp.saveeats.model.CategoryRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
-import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CategoryRestaurantScreen : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val getCategoryRestaurant = intent.getStringExtra("name_category")
-
-        setContent {
-            SaveEatsTheme {
-
-                val navController = rememberNavController()
-
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    CategoryRestaurantScreen(
-                        getCategoryRestaurant.toString(),
-                        navController
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun CategoryRestaurantScreen(nameCategory: String, navController: NavController) {
+fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController) {
+
+    val context = LocalContext.current
+
+    val nameCategory = localStorage.readDataString(context, "nameCategory")
 
     var listCategoryRestaurant by remember {
         mutableStateOf(listOf<CategoryRestaurant>())
     }
 
     //cria uma chamada para o endpoint
-    var callCategoryRestaurant = RetrofitFactory
+    val callCategoryRestaurant = RetrofitFactory
         .getCategoryRestaurant()
-        .getCategoryRestaurant(nameCategory)
+        .getCategoryRestaurant(nameCategory!!)
 
     callCategoryRestaurant.enqueue(object : Callback<CategoryRestaurantList> {
         override fun onResponse(

@@ -1,6 +1,5 @@
 package br.senai.sp.saveeats.recipestipscomponents.screen
 
-import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -42,7 +41,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
-import br.senai.sp.saveeats.TipsScreen
 import br.senai.sp.saveeats.model.CategoryRecipes
 import br.senai.sp.saveeats.model.CategoryRecipesList
 import br.senai.sp.saveeats.model.CategoryTips
@@ -512,13 +510,11 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                         .height(160.dp)
                                         .padding(20.dp)
                                         .clickable {
-                                            var openTips = Intent(context, TipsScreen()::class.java)
-                                            openTips.putExtra("imageTips", it.foto_da_receita)
-                                            openTips.putExtra("nameTips", it.nome_da_receita)
-                                            openTips.putExtra("descriptionTips", it.descricao_da_receita)
-                                            openTips.putExtra("categoryTips", it.categoria)
-                                            context.startActivity(openTips)
-
+                                            localStorage.saveDataString(context, it.foto_da_receita, "imageTip")
+                                            localStorage.saveDataString(context, it.nome_da_receita, "nameTip")
+                                            localStorage.saveDataString(context, it.descricao_da_receita, "descriptionTip")
+                                            localStorage.saveDataString(context, it.categoria, "categoryTip")
+                                            navController.navigate("")
                                         },
                                     shape = RoundedCornerShape(20.dp),
                                     elevation = 10.dp
