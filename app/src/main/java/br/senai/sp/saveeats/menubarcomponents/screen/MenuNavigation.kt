@@ -29,7 +29,7 @@ fun BottomNavGraph(
     ){
 
         composable(route = MenuBar.Home.route) {
-            HomeScreen(navController = navController, lifecycle = lifecycle, localStorage = Storage())
+            HomeScreen(navController = navController2, lifecycle = lifecycle, localStorage = Storage())
         }
 
         composable(route = MenuBar.Orders.route) {
@@ -37,7 +37,7 @@ fun BottomNavGraph(
         }
 
         composable(route = MenuBar.Recipes.route) {
-            RecipesTipsScreen(navController, localStorage = Storage())
+            RecipesTipsScreen(navController = navController2, localStorage = Storage())
         }
 
         composable(route = MenuBar.Profile.route) {
@@ -45,7 +45,7 @@ fun BottomNavGraph(
         }
 
         composable("recipe_screen") {
-            RecipeScreen(localStorage = Storage(), lifecycle)
+            RecipeScreen(localStorage = Storage())
         }
 
     }

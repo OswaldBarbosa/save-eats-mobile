@@ -16,9 +16,7 @@ object RetrofitFactory {
 
     private const val baseURL = "http://192.168.100.164:8080/"
 
-    private const val baseURL2 = "http://10.107.144.8:8080/"
-
-    private const val baseURL3 = "https://save-eats.cyclic.cloud/"
+    private const val baseURL2 = "http://10.107.144.7:8080/"
 
     private var retrofitFactory = Retrofit
         .Builder()

@@ -2,7 +2,6 @@ package br.senai.sp.saveeats.singupcomponents.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +16,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material.icons.filled.LocationOn
@@ -51,9 +49,9 @@ import br.senai.sp.saveeats.components.InputOutlineTextField
 @Composable
 fun SecondSignup(navController: NavController, localStorage: Storage) {
 
-    var context = LocalContext.current
-    var focusManager = LocalFocusManager.current
-    var scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+    val scrollState = rememberScrollState()
 
     var cep by rememberSaveable { mutableStateOf("") }
     var state by rememberSaveable { mutableStateOf("") }
@@ -119,7 +117,7 @@ fun SecondSignup(navController: NavController, localStorage: Storage) {
                             .size(200.dp)
                             .offset(x = -(185).dp, y = -(155).dp),
                         painter = painterResource(id = R.drawable.prato),
-                        contentDescription = "Prato de comida"
+                        contentDescription = "Plate of Food"
                     )
 
                     Image(
@@ -166,7 +164,7 @@ fun SecondSignup(navController: NavController, localStorage: Storage) {
                             .size(250.dp)
                             .offset(x = -(200).dp, y = 40.dp),
                         painter = painterResource(id = R.drawable.hamburguer),
-                        contentDescription = "Hamburguer"
+                        contentDescription = "Hamburger"
                     )
 
                     Image(
@@ -174,7 +172,7 @@ fun SecondSignup(navController: NavController, localStorage: Storage) {
                             .size(280.dp)
                             .offset(x = 160.dp, y = -(180).dp),
                         painter = painterResource(id = R.drawable.pao),
-                        contentDescription = "Pão"
+                        contentDescription = "Bread"
                     )
 
                     Spacer(modifier = Modifier.height(25.dp))

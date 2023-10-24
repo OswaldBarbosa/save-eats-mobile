@@ -1,6 +1,5 @@
 package br.senai.sp.saveeats.homecomponents.screen
 
-import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -23,57 +22,41 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import br.senai.sp.saveeats.productsrestaurantcomponents.screen.ProductsRestaurantScreen
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
-import br.senai.sp.saveeats.categoryrestaurantcomponents.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.model.RetrofitFactory
 import br.senai.sp.saveeats.components.SearchOutlineTextField
 import br.senai.sp.saveeats.model.Category
 import br.senai.sp.saveeats.model.CategoryList
 import br.senai.sp.saveeats.model.ClientAddress
 import br.senai.sp.saveeats.model.ClientAddressList
-import br.senai.sp.saveeats.model.RecipeDetails
 import br.senai.sp.saveeats.model.RestaurantList
 import br.senai.sp.saveeats.model.Restaurant
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
@@ -90,7 +73,7 @@ fun HomeScreen(
     localStorage: Storage
 ) {
 
-    var context = LocalContext.current
+    val context = LocalContext.current
 
     val imageSlide = remember {
         mutableStateListOf(
@@ -140,7 +123,7 @@ fun HomeScreen(
 
     //API CATEGORY - START
 
-    var callCategory = RetrofitFactory
+    val callCategory = RetrofitFactory
         .getCategory()
         .getCategory()
 
@@ -167,7 +150,7 @@ fun HomeScreen(
 
     //API RESTAURANT - START
 
-    var callRestaurant = RetrofitFactory
+    val callRestaurant = RetrofitFactory
         .getRestaurant()
         .getRestaurantCall()
 
@@ -196,7 +179,7 @@ fun HomeScreen(
 
     val idClient = localStorage.readDataInt(context, "idClient")
 
-    var callClientAddress = RetrofitFactory
+    val callClientAddress = RetrofitFactory
         .getAddressClient()
         .getAddressClient(idClient)
 
@@ -206,7 +189,6 @@ fun HomeScreen(
             response: Response<ClientAddressList>
         ) {
             listClientAddress = response.body()!!.endereco_cliente
-            Log.e("TESTE3", "onResponse: $listClientAddress")
         }
 
         override fun onFailure(
@@ -298,7 +280,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .size(25.dp),
                         painter = painterResource(id = R.drawable.carrinho),
-                        contentDescription = "Carrinho de Compras",
+                        contentDescription = "Shopping Cart",
                         tint = Color(76, 132, 62)
                     )
 
@@ -345,7 +327,11 @@ fun HomeScreen(
                                 .height(45.dp)
                                 .padding(end = 15.dp)
                                 .clickable {
-                                    localStorage.saveDataString(context, it.nome_categoria,"nameCategory")
+                                    localStorage.saveDataString(
+                                        context,
+                                        it.nome_categoria,
+                                        "nameCategory"
+                                    )
                                     navController.navigate("category_restaurant_screen")
                                 },
                             border = BorderStroke(0.8.dp, Color(212, 212, 212)),
@@ -554,22 +540,25 @@ fun HomeScreen(
                             .padding(bottom = 10.dp)
                             .clickable {
 
-                                localStorage.saveDataString(context, it.foto, "imageRestaurant")
+                                localStorage.saveDataString(
+                                    context,
+                                    it.foto,
+                                    "imageRestaurant"
+                                )
+
                                 localStorage.saveDataString(
                                     context,
                                     it.nome_fantasia,
                                     "nameRestaurant"
                                 )
+
                                 localStorage.saveDataString(
                                     context,
                                     it.nome_categoria_restaurante,
                                     "nameCategoryRestaurant"
                                 )
 
-                                var openProductsRestaurant =
-                                    Intent(context, ProductsRestaurantScreen::class.java)
-                                openProductsRestaurant.putExtra("name_restaurant", it.nome_fantasia)
-                                context.startActivity(openProductsRestaurant)
+                                navController.navigate("products_restaurant_screen")
 
                             },
                         shape = RoundedCornerShape(10.dp)

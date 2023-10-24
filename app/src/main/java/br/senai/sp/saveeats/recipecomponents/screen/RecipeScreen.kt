@@ -39,16 +39,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
-import br.senai.sp.saveeats.model.CategoryTipsList
 import br.senai.sp.saveeats.model.RecipeDetails
 import br.senai.sp.saveeats.model.RecipeDetailsList
 import br.senai.sp.saveeats.model.RetrofitFactory
 import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,14 +52,12 @@ import retrofit2.Response
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun RecipeScreen(
-    localStorage: Storage,
-    lifecycleCoroutineScope: LifecycleCoroutineScope
+    localStorage: Storage
 ) {
 
     val context = LocalContext.current
 
     val imageRecipe = localStorage.readDataString(context, "imageRecipe")
-    val nameRecipe = localStorage.readDataString(context, "nameRecipe")
     val descriptionRecipe = localStorage.readDataString(context, "descriptionRecipe")
     val portionRecipe = localStorage.readDataInt(context, "portionRecipe")
     val timeRecipe = localStorage.readDataString(context, "timeRecipe")
@@ -202,7 +196,7 @@ fun RecipeScreen(
                     Spacer(modifier = Modifier.width(15.dp))
 
                     Text(
-                        text = "${portionRecipe} portions",
+                        text = "$portionRecipe portions",
                         fontWeight = FontWeight.W300
                     )
 

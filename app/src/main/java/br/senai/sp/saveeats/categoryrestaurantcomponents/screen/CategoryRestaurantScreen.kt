@@ -2,6 +2,7 @@ package br.senai.sp.saveeats.categoryrestaurantcomponents.screen
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,6 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
         mutableStateOf(listOf<CategoryRestaurant>())
     }
 
-    //cria uma chamada para o endpoint
     val callCategoryRestaurant = RetrofitFactory
         .getCategoryRestaurant()
         .getCategoryRestaurant(nameCategory!!)
@@ -103,7 +103,7 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
                     modifier = Modifier
                         .size(20.dp),
                     onClick = {
-                        navController.navigate("home_screen")
+                        navController.popBackStack()
                     }
                 ) {
 
@@ -148,7 +148,11 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
                     modifier = Modifier
                         .width(350.dp)
                         .height(60.dp)
-                        .padding(bottom = 10.dp),
+                        .padding(bottom = 10.dp)
+                        .clickable {
+
+                        },
+                    color = Color.White,
                     shape = RoundedCornerShape(10.dp)
                 ) {
 

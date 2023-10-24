@@ -1,6 +1,5 @@
 package br.senai.sp.saveeats.singupcomponents.screen
 
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Password
@@ -42,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
-import br.senai.sp.saveeats.MainActivity
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
@@ -57,18 +54,18 @@ fun ThirdSignupScreen(
     lifecycleScope: LifecycleCoroutineScope
 ) {
 
-    var context = LocalContext.current
-    var focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
-    var name = localStorage.readDataString(context, "name")
-    var cpf = localStorage.readDataString(context, "cpf")
-    var phone = localStorage.readDataString(context, "phone")
-    var cep = localStorage.readDataString(context, "cep")
-    var state = localStorage.readDataString(context, "state")
-    var city = localStorage.readDataString(context, "city")
-    var neighborhood = localStorage.readDataString(context, "neighborhood")
-    var street = localStorage.readDataString(context, "street")
-    var number = localStorage.readDataString(context, "number")
+    val name = localStorage.readDataString(context, "name")
+    val cpf = localStorage.readDataString(context, "cpf")
+    val phone = localStorage.readDataString(context, "phone")
+    val cep = localStorage.readDataString(context, "cep")
+    val state = localStorage.readDataString(context, "state")
+    val city = localStorage.readDataString(context, "city")
+    val neighborhood = localStorage.readDataString(context, "neighborhood")
+    val street = localStorage.readDataString(context, "street")
+    val number = localStorage.readDataString(context, "number")
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
@@ -76,8 +73,8 @@ fun ThirdSignupScreen(
     var validateEmail by rememberSaveable { mutableStateOf(true) }
     var validatePassword by rememberSaveable { mutableStateOf(true) }
     var validateConfirmPassword by rememberSaveable { mutableStateOf(true) }
-    var validatearePasswordsEqual by rememberSaveable { mutableStateOf(true) }
-    var isPasswordVisibible by rememberSaveable { mutableStateOf(false) }
+    var validatePasswordsEqual by rememberSaveable { mutableStateOf(true) }
+    var isPasswordVisibility by rememberSaveable { mutableStateOf(false) }
     var isConfirmPasswordVisible by rememberSaveable { mutableStateOf(false) }
 
     val validateEmailError = stringResource(id = R.string.email_error)
@@ -95,9 +92,9 @@ fun ThirdSignupScreen(
         validateEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         validatePassword = passwordRegex.matches(password)
         validateConfirmPassword = passwordRegex.matches(confirmPassword)
-        validatearePasswordsEqual = password == confirmPassword
+        validatePasswordsEqual = password == confirmPassword
 
-        return validateEmail && validatePassword && validateConfirmPassword && validatearePasswordsEqual
+        return validateEmail && validatePassword && validateConfirmPassword && validatePasswordsEqual
 
     }
 
@@ -143,16 +140,13 @@ fun ThirdSignupScreen(
 
                 if (response.isSuccessful) {
 
-                    Toast.makeText(context, "Faça login", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     navController.navigate("login_screen")
 
                 } else {
 
-                    val errorBody = response.errorBody()?.string()
-
-                    Log.e(MainActivity::class.java.simpleName, "Erro durante o login: $errorBody")
                     Toast.makeText(
-                        context, "Esse e-mail já está vinculado a uma conta", Toast.LENGTH_SHORT
+                        context, "This email is already linked to an account", Toast.LENGTH_SHORT
                     ).show()
 
                 }
@@ -188,7 +182,7 @@ fun ThirdSignupScreen(
                             .size(200.dp)
                             .offset(x = -(185).dp, y = -(155).dp),
                         painter = painterResource(id = R.drawable.prato),
-                        contentDescription = "Prato de comida"
+                        contentDescription = "Plate of Food"
                     )
 
                     Image(
@@ -235,7 +229,7 @@ fun ThirdSignupScreen(
                             .size(250.dp)
                             .offset(x = -(200).dp, y = 40.dp),
                         painter = painterResource(id = R.drawable.hamburguer),
-                        contentDescription = "Hamburguer"
+                        contentDescription = "Hamburger"
                     )
 
                     Image(
@@ -243,7 +237,7 @@ fun ThirdSignupScreen(
                             .size(280.dp)
                             .offset(x = 160.dp, y = -(180).dp),
                         painter = painterResource(id = R.drawable.pao),
-                        contentDescription = "Pão"
+                        contentDescription = "Bread"
                     )
 
                     Spacer(modifier = Modifier.height(25.dp))
@@ -278,8 +272,8 @@ fun ThirdSignupScreen(
                             showError = !validatePassword,
                             errorMessage = validatePasswordError,
                             isPasswordField = true,
-                            isPasswordVisible = isPasswordVisibible,
-                            onVisibilityChange = { isPasswordVisibible = it },
+                            isPasswordVisible = isPasswordVisibility,
+                            onVisibilityChange = { isPasswordVisibility = it },
                             leadingIconImageVector = Icons.Default.Password,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
@@ -295,7 +289,7 @@ fun ThirdSignupScreen(
                             value = confirmPassword,
                             onValueChange = { confirmPassword = it },
                             label = stringResource(id = R.string.confirm_password),
-                            showError = !validateConfirmPassword || !validatearePasswordsEqual,
+                            showError = !validateConfirmPassword || !validatePasswordsEqual,
                             errorMessage = if (!validateConfirmPassword) validatePasswordError else validateEqualPasswordError,
                             isPasswordField = true,
                             isPasswordVisible = isConfirmPasswordVisible,

@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
- import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -243,7 +243,7 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                     .fillMaxWidth()
                     .height(2.dp)
                     .background(
-                        if (progressState == false) {
+                        if (!progressState) {
                             Color(41, 95, 27)
                         } else {
                             Color(191, 193, 198, 255)
@@ -258,7 +258,7 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                         .width(190.dp)
                         .height(2.dp)
                         .background(
-                            color = if (progressState == true) {
+                            color = if (progressState) {
                                 Color(41, 95, 27)
                             } else {
                                 Color(191, 193, 198, 255)
@@ -271,7 +271,7 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            if (progressState == true) {
+            if (progressState) {
 
                 Column(
                     modifier = Modifier
@@ -296,7 +296,7 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                         },
                         label = {
                             Text(
-                                text = "Pesquisar",
+                                text = "Search",
                             )
                         },
                         shape = RoundedCornerShape(100)
@@ -366,23 +366,51 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                     .padding(20.dp)
                                     .clickable {
                                         localStorage.saveDataInt(context, it.id_receita, "idRecipe")
-                                        localStorage.saveDataString(context, it.foto_receita, "imageRecipe")
-                                        localStorage.saveDataString(context, it.nome_receita, "nameRecipe")
-                                        localStorage.saveDataString(context, it.descricao, "descriptionRecipe")
-                                        localStorage.saveDataInt(context, it.numero_porcoes, "portionRecipe")
-                                        localStorage.saveDataString(context, it.tempo_preparo, "timeRecipe")
-                                        localStorage.saveDataString(context, it.nivel_dificuldade, "levelRecipe")
-                                        localStorage.saveDataString(context, it.modo_preparo, "methodOfPreparationRecipe")
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.foto_receita,
+                                            "imageRecipe"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.nome_receita,
+                                            "nameRecipe"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.descricao,
+                                            "descriptionRecipe"
+                                        )
+                                        localStorage.saveDataInt(
+                                            context,
+                                            it.numero_porcoes,
+                                            "portionRecipe"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.tempo_preparo,
+                                            "timeRecipe"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.nivel_dificuldade,
+                                            "levelRecipe"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.modo_preparo,
+                                            "methodOfPreparationRecipe"
+                                        )
                                         navController.navigate("recipe_screen")
                                     },
                                 shape = RoundedCornerShape(20.dp),
                                 elevation = 10.dp
                             ) {
 
-                                    AsyncImage(
-                                        model = it.foto_receita,
-                                        contentDescription = "Image Recipes"
-                                    )
+                                AsyncImage(
+                                    model = it.foto_receita,
+                                    contentDescription = "Image Recipes"
+                                )
 
                             }
 
@@ -398,13 +426,13 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                 )
 
                                 Text(
-                                    text = "Porções: ${it.numero_porcoes}",
+                                    text = "Portion: ${it.numero_porcoes}",
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.W400
                                 )
 
                                 Text(
-                                    text = "Tempo de preparo: ${it.tempo_preparo}",
+                                    text = "Preparation Time: ${it.tempo_preparo}",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.W400
                                 )
@@ -440,7 +468,8 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                 tint = Color.Gray
                             )
                         },
-                        label = { Text(text = stringResource(id = R.string.search))
+                        label = {
+                            Text(text = stringResource(id = R.string.search))
                         },
                         shape = RoundedCornerShape(100)
 
@@ -475,7 +504,7 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
 
                                     Text(
                                         text = it.categoria,
-                                        color = Color(20,58,11),
+                                        color = Color(20, 58, 11),
                                         textAlign = TextAlign.Center
                                     )
 
@@ -510,11 +539,27 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                         .height(160.dp)
                                         .padding(20.dp)
                                         .clickable {
-                                            localStorage.saveDataString(context, it.foto_da_receita, "imageTip")
-                                            localStorage.saveDataString(context, it.nome_da_receita, "nameTip")
-                                            localStorage.saveDataString(context, it.descricao_da_receita, "descriptionTip")
-                                            localStorage.saveDataString(context, it.categoria, "categoryTip")
-                                            navController.navigate("")
+                                            localStorage.saveDataString(
+                                                context,
+                                                it.foto_da_receita,
+                                                "imageTip"
+                                            )
+                                            localStorage.saveDataString(
+                                                context,
+                                                it.nome_da_receita,
+                                                "nameTip"
+                                            )
+                                            localStorage.saveDataString(
+                                                context,
+                                                it.descricao_da_receita,
+                                                "descriptionTip"
+                                            )
+                                            localStorage.saveDataString(
+                                                context,
+                                                it.categoria,
+                                                "categoryTip"
+                                            )
+                                            navController.navigate("tip_screen")
                                         },
                                     shape = RoundedCornerShape(20.dp),
                                     elevation = 10.dp

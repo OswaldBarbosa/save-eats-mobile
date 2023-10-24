@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Person
@@ -49,8 +48,8 @@ import br.senai.sp.saveeats.components.InputOutlineTextField
 @Composable
 fun FirstSignup(navController: NavController, localStorage: Storage) {
 
-    var context = LocalContext.current
-    var focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     var name by rememberSaveable { mutableStateOf("") }
     var cpf by rememberSaveable { mutableStateOf("") }
@@ -99,7 +98,7 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                             .size(200.dp)
                             .offset(x = -(185).dp, y = -(155).dp),
                         painter = painterResource(id = R.drawable.prato),
-                        contentDescription = "Prato de comida"
+                        contentDescription = "Plate of Food"
                     )
 
                     Image(
@@ -146,7 +145,7 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                             .size(250.dp)
                             .offset(x = -(200).dp, y = 40.dp),
                         painter = painterResource(id = R.drawable.hamburguer),
-                        contentDescription = "Hamburguer"
+                        contentDescription = "Hamburger"
                     )
 
                     Image(
@@ -154,7 +153,7 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                             .size(280.dp)
                             .offset(x = 160.dp, y = -(180).dp),
                         painter = painterResource(id = R.drawable.pao),
-                        contentDescription = "Pão"
+                        contentDescription = "Bread"
                     )
                     
                     Spacer(modifier = Modifier.height(25.dp))

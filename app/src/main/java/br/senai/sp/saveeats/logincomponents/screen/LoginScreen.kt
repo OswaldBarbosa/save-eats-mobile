@@ -1,12 +1,7 @@
 package br.senai.sp.saveeats.logincomponents.screen
 
-import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AlternateEmail
 import androidx.compose.material.icons.filled.Password
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,7 +49,6 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.model.LoginRepository
-import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 @Composable
@@ -65,19 +58,19 @@ fun LoginScreen(
     localStorage: Storage
 ) {
 
-    var context = LocalContext.current
-    var focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
     var validateEmail by rememberSaveable { mutableStateOf(true) }
     var validatePassword by rememberSaveable { mutableStateOf(true) }
-    var isPasswordVisibible by rememberSaveable { mutableStateOf(false) }
+    var isPasswordVisibility by rememberSaveable { mutableStateOf(false) }
 
     val validateEmailError = "The format of the email doesn't seem right"
     val validatePasswordError =
-        "Must mix capital and non-capital letters, a number, special character and a minium legth of 8"
+        "Must mix capital and non-capital letters, a number, special character and a minimum length of 8"
 
     fun validateData(email: String, password: String): Boolean {
 
@@ -105,27 +98,21 @@ fun LoginScreen(
 
                 if (response.isSuccessful) {
 
-                    Log.e("TESTE", "login: ${response.body()}", )
-
                     val json = response.body().toString()
 
                     val jsonObject = JSONObject(json)
 
                     val clientObject = jsonObject.getJSONObject("clientes")
 
-                    Log.e("TESTE4", "login: $clientObject", )
-
                     val id = clientObject.getInt("id")
 
-                    Log.e("TESTE2", "login: $id", )
-
-                    Toast.makeText(context, "Seja bem-vindo", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")
                     navController.navigate("home_screen")
 
                 } else {
 
-                    Toast.makeText(context, "E-mail ou senha inválido", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "E-mail or password invalid", Toast.LENGTH_SHORT).show()
 
                 }
 
@@ -160,7 +147,7 @@ fun LoginScreen(
                             .size(200.dp)
                             .offset(x = -(185).dp, y = -(155).dp),
                         painter = painterResource(id = R.drawable.prato),
-                        contentDescription = "Prato de comida"
+                        contentDescription = "Food Plate"
                     )
 
                     Image(
@@ -206,7 +193,7 @@ fun LoginScreen(
                             .size(250.dp)
                             .offset(x = -(200).dp, y = 40.dp),
                         painter = painterResource(id = R.drawable.hamburguer),
-                        contentDescription = "Hamburguer"
+                        contentDescription = "Hamburger"
                     )
 
                     Image(
@@ -246,8 +233,8 @@ fun LoginScreen(
                             showError = !validatePassword,
                             errorMessage = validatePasswordError,
                             isPasswordField = true,
-                            isPasswordVisible = isPasswordVisibible,
-                            onVisibilityChange = { isPasswordVisibible = it },
+                            isPasswordVisible = isPasswordVisibility,
+                            onVisibilityChange = { isPasswordVisibility = it },
                             leadingIconImageVector = Icons.Default.Password,
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
@@ -313,7 +300,7 @@ fun LoginScreen(
                 Text(
                     modifier = Modifier
                         .clickable {
-                            navController.navigate("signup_screen")
+                            navController.navigate("first_signup_screen")
                         },
                     text = stringResource(id = R.string.create_your_account),
                     fontSize = 14.sp,

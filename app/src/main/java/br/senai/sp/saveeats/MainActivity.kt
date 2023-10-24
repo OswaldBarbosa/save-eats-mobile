@@ -13,11 +13,15 @@ import br.senai.sp.saveeats.menubarcomponents.screen.MenuScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.FirstPresentationScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.SecondPresentationScreen
 import br.senai.sp.saveeats.presentationcomponents.screen.ThirdPresentationScreen
+import br.senai.sp.saveeats.productcomponents.screen.ProductScreen
+import br.senai.sp.saveeats.productsrestaurantcomponents.screen.ProductsRestaurantScreen
 import br.senai.sp.saveeats.recipecomponents.screen.RecipeScreen
+import br.senai.sp.saveeats.shoppingcartcomponents.screen.ShoppingCartScreen
 import br.senai.sp.saveeats.singupcomponents.screen.FirstSignup
 import br.senai.sp.saveeats.singupcomponents.screen.SecondSignup
 import br.senai.sp.saveeats.singupcomponents.screen.ThirdSignupScreen
 import br.senai.sp.saveeats.splashcomponents.screen.SplashScreen
+import br.senai.sp.saveeats.tipscomponents.screen.TipScreen
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
 
@@ -31,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "first_presentation_screen"
+                    startDestination = "login_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -75,7 +79,24 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("recipe_screen") {
-                        RecipeScreen(localStorage = Storage(), lifecycleScope)
+                        RecipeScreen(localStorage = Storage())
+                    }
+
+                    composable("tip_screen") {
+                        TipScreen(localStorage = Storage())
+                    }
+
+                    composable("products_restaurant_screen") {
+                        ProductsRestaurantScreen(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("products_screen") {
+                        ProductScreen(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("shopping_cart_screen") {
+                        ShoppingCartScreen(localStorage = Storage())
+
                     }
 
                 }
