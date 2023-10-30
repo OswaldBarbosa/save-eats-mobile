@@ -558,9 +558,22 @@ fun HomeScreen(
                                     "nameCategoryRestaurant"
                                 )
 
-                                localStorage.saveDataString(context, listClientAddress[0].rua_cliente!!, "streetClient")
-                                localStorage.saveDataInt(context, listClientAddress[0].numero_endereco_cliente!!, "numberAddressClient")
-                                localStorage.saveDataString(context, listClientAddress[0].nome_cidade!!, "cityClient")
+                                localStorage.saveDataInt(context, it.id, "idRestaurant")
+                                localStorage.saveDataString(
+                                    context,
+                                    listClientAddress[0].rua_cliente!!,
+                                    "streetClient"
+                                )
+                                localStorage.saveDataInt(
+                                    context,
+                                    listClientAddress[0].numero_endereco_cliente!!,
+                                    "numberAddressClient"
+                                )
+                                localStorage.saveDataString(
+                                    context,
+                                    listClientAddress[0].nome_cidade!!,
+                                    "cityClient"
+                                )
 
                                 navController.navigate("products_restaurant_screen")
 

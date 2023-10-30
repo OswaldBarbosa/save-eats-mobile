@@ -63,4 +63,5 @@
     <string name="today">Today</string>
     <string name="payment_methods">Payment methods</string>
     <string name="make_a_wish">Make a wish</string>
+    <string name="to_replace">To replace</string>
 </resources>

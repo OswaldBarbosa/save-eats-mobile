@@ -2,6 +2,7 @@ package br.senai.sp.saveeats.ordercomponents.screen
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,15 +15,20 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,12 +59,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun OrderScreen(
-    navController: NavController, localStorage: Storage, lifecycleScope: LifecycleCoroutineScope
+    navController: NavController,
+    localStorage: Storage,
+    lifecycleScope: LifecycleCoroutineScope,
+    teste: String,
+    onValueChange: (String) -> Unit
 ) {
 
     val context = LocalContext.current
+
+    var isExpanded by remember {
+        mutableStateOf(false)
+    }
 
     val streetClient = localStorage.readDataString(context, "streetClient")
     val numberAddressClient = localStorage.readDataInt(context, "numberAddressClient")
@@ -68,15 +84,16 @@ fun OrderScreen(
     val priceProduct = localStorage.readDataFloat(context, "priceProduct")
 
     val idClient = localStorage.readDataInt(context, "idClient")
-    val cpfClient = localStorage.readDataInt(context, "cpfClient")
+    val idRestaurant = localStorage.readDataInt(context, "idRestaurant")
+    val cpfClient = localStorage.readDataString(context, "cpfClient")
 
     val sumDeliveryProduct = deliveryValue + priceProduct
 
     var listFormPayment by remember {
-        mutableStateOf(listOf<FormPayment>())
+        mutableStateOf<List<FormPayment>>(emptyList())
     }
 
-    val callFormPayment = RetrofitFactory.getFormPayment().getFormPayment(5)
+    val callFormPayment = RetrofitFactory.getFormPayment().getFormPayment(1)
 
     callFormPayment.enqueue(object : Callback<FormPaymentList> {
         override fun onResponse(
@@ -94,6 +111,8 @@ fun OrderScreen(
         }
 
     })
+
+    var teste = teste
 
     fun order(
         idStatus: Int,
@@ -313,13 +332,22 @@ fun OrderScreen(
 
                 }
 
-                LazyColumn(
+                Spacer(
+                    modifier = Modifier.height(35.dp)
+                )
+
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .offset(x = 45.dp)
                 ) {
 
-                    items(listFormPayment) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 85.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
 
                         Text(
                             text = stringResource(id = R.string.payment_methods),
@@ -327,28 +355,68 @@ fun OrderScreen(
                             color = colorResource(id = R.color.green_save_eats_light)
                         )
 
-                        Spacer(modifier = Modifier.height(2.dp))
-
-                        Row(
+                        Row (
                             modifier = Modifier.fillMaxWidth()
-                        ) {
+                        ){
 
-                            AsyncImage(
-                                modifier = Modifier.size(60.dp),
-                                model = it.foto_bandeira,
-                                contentDescription = "Image Form Payment"
-                            )
-
-                            Spacer(modifier = Modifier.width(10.dp))
-
-                            Column(
-                                modifier = Modifier.padding(top = 8.dp)
+                            androidx.compose.material3.ExposedDropdownMenuBox(
+                                expanded = isExpanded,
+                                onExpandedChange = { isExpanded = it },
                             ) {
 
-                                Text(text = it.nome_forma_pagamento)
+                                OutlinedTextField(
+                                    modifier = Modifier
+                                        .menuAnchor()
+                                        .width(50.dp),
+                                    value = teste,
+                                    onValueChange = {},
+                                    readOnly = true,
+                                    trailingIcon = {
+                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
+                                    }
+                                )
 
-                                Text(text = it.tipo_forma_pagamento)
+                                ExposedDropdownMenu(
+                                    expanded = isExpanded,
+                                    onDismissRequest = { isExpanded = false }
+                                ) {
+                                    listFormPayment.forEach {
+                                        androidx.compose.material3.DropdownMenuItem(
+                                            text = {
+                                                Text(
+                                                    text = it.nome_forma_pagamento,
+                                                    color = Color.Black
+                                                )
+                                            },
+                                            onClick = {
+                                                var test3 = it.nome_forma_pagamento
+                                                teste = test3 // Atualiza a variável com a seleção do usuário
+                                                onValueChange(it.nome_forma_pagamento) // Chama a função de retorno com o valor selecionado
+                                                isExpanded = false
+                                            }
+                                        )
+                                    }
 
+                                }
+
+                        }
+
+                    }
+
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                            LazyRow(){
+                                items(listFormPayment){
+                                    if (teste == it.nome_forma_pagamento) {
+                                        AsyncImage(
+                                            modifier = Modifier
+                                                .size(50.dp),
+                                            model = it.foto_bandeira,
+                                            contentDescription = ""
+                                        )
+                                    }
+                                }
                             }
 
                         }
@@ -356,6 +424,10 @@ fun OrderScreen(
                     }
 
                 }
+
+                Spacer(
+                    modifier = Modifier.height(35.dp)
+                )
 
                 Column(
                     modifier = Modifier
@@ -379,7 +451,17 @@ fun OrderScreen(
                 ) {
 
                     CustomButton(
-                        onClick = { order(6, 5, 5, idClient, 1, 19, null) },
+                        onClick = {
+                            order(
+                                6,
+                                6,
+                                idRestaurant,
+                                idClient,
+                                idRestaurant,
+                                48,
+                                50
+                            )
+                        },
                         text = stringResource(id = R.string.make_a_wish)
                     )
 

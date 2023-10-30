@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "login_screen"
+                    startDestination = "products_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("order_screen") {
-                        OrderScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope)
+                        OrderScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope, "", {})
                     }
 
                     composable("recipe_screen") {

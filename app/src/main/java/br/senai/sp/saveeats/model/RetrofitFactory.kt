@@ -24,7 +24,7 @@ object RetrofitFactory {
 
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL)
+        .baseUrl(baseURL2)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     fun getSignup(): SignupService {
