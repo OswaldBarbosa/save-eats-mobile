@@ -1,4 +1,4 @@
-package br.senai.sp.saveeats.ordercomponents
+package br.senai.sp.saveeats.historiccomponents
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -181,7 +181,7 @@ fun SearchOutlineTextField(
                         Icon(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Search",
-                            tint = colorResource(id = R.color.green)
+                            tint = colorResource(id = R.color.green_save_eats_light)
                         )
                     },
 

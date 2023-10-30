@@ -3,7 +3,10 @@ package br.senai.sp.saveeats.model
 import br.senai.sp.saveeats.service.CategoryRestaurantService
 import br.senai.sp.saveeats.service.CategoryService
 import br.senai.sp.saveeats.service.ClientService
+import br.senai.sp.saveeats.service.DeliveryAreaService
+import br.senai.sp.saveeats.service.FormPaymentService
 import br.senai.sp.saveeats.service.LoginService
+import br.senai.sp.saveeats.service.OrderService
 import br.senai.sp.saveeats.service.ProductsRestaurantService
 import br.senai.sp.saveeats.service.RecipesService
 import br.senai.sp.saveeats.service.RestaurantService
@@ -11,6 +14,7 @@ import br.senai.sp.saveeats.service.SignupService
 import br.senai.sp.saveeats.service.TipsService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 object RetrofitFactory {
 
@@ -20,7 +24,7 @@ object RetrofitFactory {
 
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL2)
+        .baseUrl(baseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     fun getSignup(): SignupService {
@@ -28,6 +32,9 @@ object RetrofitFactory {
     }
     fun getLogin(): LoginService {
         return retrofitFactory.create(LoginService::class.java)
+    }
+    fun getOrder(): OrderService {
+        return retrofitFactory.create(OrderService::class.java)
     }
     fun getCategory(): CategoryService {
         return retrofitFactory.create(CategoryService::class.java)
@@ -64,6 +71,14 @@ object RetrofitFactory {
 
     fun getCategoryTips(): TipsService {
         return retrofitFactory.create(TipsService::class.java)
+    }
+
+    fun getDeliveryArea(): DeliveryAreaService {
+        return retrofitFactory.create(DeliveryAreaService::class.java)
+    }
+
+    fun getFormPayment(): FormPaymentService {
+        return retrofitFactory.create(FormPaymentService::class.java)
     }
 
 }

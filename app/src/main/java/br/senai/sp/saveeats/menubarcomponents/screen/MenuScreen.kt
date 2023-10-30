@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
@@ -93,7 +92,7 @@ fun RowScope.AddItem(
                     .size(30.dp),
                 imageVector = screen.icon,
                 contentDescription = "",
-                tint = if(selected) colorResource(id = R.color.green)else colorResource(id = R.color.gray)
+                tint = if(selected) colorResource(id = R.color.green_save_eats_light)else colorResource(id = R.color.gray)
             )
 
         },
