@@ -16,6 +16,7 @@ import br.senai.sp.saveeats.presentationcomponents.screen.SecondPresentationScre
 import br.senai.sp.saveeats.presentationcomponents.screen.ThirdPresentationScreen
 import br.senai.sp.saveeats.productcomponents.screen.ProductScreen
 import br.senai.sp.saveeats.productsrestaurantcomponents.screen.ProductsRestaurantScreen
+import br.senai.sp.saveeats.profilecomponents.screen.ProfileScreen
 import br.senai.sp.saveeats.recipecomponents.screen.RecipeScreen
 import br.senai.sp.saveeats.shoppingcartcomponents.screen.ShoppingCartScreen
 import br.senai.sp.saveeats.singupcomponents.screen.FirstSignup
@@ -83,7 +84,12 @@ class MainActivity : ComponentActivity() {
                         ShoppingCartScreen(navController = navController ,localStorage = Storage())
                     }
 
-                    composable("order_screen") { OrderScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope, "", {})
+                    composable("order_screen") {
+                        OrderScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope, "", {})
+                    }
+
+                    composable("profile_screen") {
+                        ProfileScreen()
                     }
 
                     composable("recipe_screen") {

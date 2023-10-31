@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -204,9 +205,12 @@ fun HomeScreen(
 
     //API CLIENT ADDRESS - END
 
+    val nameClient = localStorage.readDataString(context, "nameClient")
+
     Surface(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        color = colorResource(id = R.color.white)
     ) {
 
         Column(
@@ -216,69 +220,41 @@ fun HomeScreen(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .padding(start = 35.dp, end = 30.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom
             ) {
 
-                Image(
-                    modifier = Modifier
-                        .size(60.dp),
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Logo"
-                )
+                Column {
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Icon(
-                        modifier = Modifier
-                            .size(25.dp),
-                        painter = painterResource(id = R.drawable.location),
-                        contentDescription = "Location",
-                        tint = Color(76, 132, 62)
+                    Text(
+                        text = "Welcome,",
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.W300,
+                        letterSpacing = 2.sp
                     )
 
-                    Spacer(modifier = Modifier.width(5.dp))
-
-                    Row {
-
-                        Text(
-                            text = "${listClientAddress[0].rua_cliente}",
-                            fontSize = 17.sp
-
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Text(
-                            text = "${listClientAddress[0].numero_endereco_cliente},",
-                            fontSize = 17.sp
-
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Text(
-                            text = "${listClientAddress[0].nome_cidade}",
-                            fontSize = 17.sp
-
-                        )
-
-                    }
+                    Text(
+                        text = nameClient!!,
+                        fontSize = 21.sp,
+                        fontWeight = FontWeight.W300,
+                        letterSpacing = 2.sp
+                    )
 
                 }
 
                 IconButton(onClick = {
-                    navController.navigate("")
+                    navController.navigate("shopping_cart_screen")
                 }
 
                 ) {
 
                     Icon(
                         modifier = Modifier
-                            .size(25.dp),
+                            .size(30.dp)
+                            .offset(y = -(5).dp),
                         painter = painterResource(id = R.drawable.carrinho),
                         contentDescription = "Shopping Cart",
                         tint = Color(76, 132, 62)

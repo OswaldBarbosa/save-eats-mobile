@@ -1,5 +1,6 @@
 package br.senai.sp.saveeats.logincomponents.screen
 
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -35,6 +36,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -108,9 +110,12 @@ fun LoginScreen(
 
                     val cpf = clientObject.getString("cpf")
 
+                    val name = clientObject.getString("nome")
+
                     Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")
                     localStorage.saveDataString(context, cpf, "cpfClient")
+                    localStorage.saveDataString(context, name, "nameClient")
                     navController.navigate("home_screen")
 
                 } else {
@@ -128,7 +133,9 @@ fun LoginScreen(
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize(),
+        color = colorResource(id = R.color.white)
     ) {
 
         Column(

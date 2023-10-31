@@ -100,7 +100,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
     Surface(
         modifier = Modifier
             .fillMaxSize(),
-        color = Color.White
+        color = colorResource(id = R.color.white)
     ) {
 
         Column(
@@ -186,7 +186,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
                                 .clip(shape = CircleShape),
                             model = imageProduct,
                             contentDescription = "Image Product",
-                            contentScale = ContentScale.FillBounds
+                            contentScale = ContentScale.FillHeight
                         )
                         Spacer(modifier = Modifier.width(20.dp))
 

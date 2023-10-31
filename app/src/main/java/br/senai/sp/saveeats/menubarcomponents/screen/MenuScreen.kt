@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -57,6 +60,7 @@ fun BottomBar(navController: NavHostController) {
         backgroundColor = colorResource(id = R.color.white),
         modifier = Modifier
             .height(50.dp)
+            .clip(shape = RoundedCornerShape(10.dp))
     ) {
 
         screens.forEach { screen ->

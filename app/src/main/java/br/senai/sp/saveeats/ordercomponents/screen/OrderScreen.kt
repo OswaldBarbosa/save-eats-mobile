@@ -149,7 +149,9 @@ fun OrderScreen(
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize(), color = Color.White
+        modifier = Modifier
+            .fillMaxSize(),
+        color = colorResource(id = R.color.white)
     ) {
 
         Column(

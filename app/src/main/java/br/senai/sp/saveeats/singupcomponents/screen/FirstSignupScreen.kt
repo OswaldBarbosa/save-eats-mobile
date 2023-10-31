@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.ShapeDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +33,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,8 +77,10 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
 
     }
 
-    androidx.compose.material3.Surface(
-        modifier = Modifier.fillMaxSize()
+    Surface (
+        modifier = Modifier
+            .fillMaxSize(),
+        color = colorResource(id = R.color.white)
     ) {
 
         Column(
@@ -155,7 +159,7 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                         painter = painterResource(id = R.drawable.pao),
                         contentDescription = "Bread"
                     )
-                    
+
                     Spacer(modifier = Modifier.height(25.dp))
 
                     Column(

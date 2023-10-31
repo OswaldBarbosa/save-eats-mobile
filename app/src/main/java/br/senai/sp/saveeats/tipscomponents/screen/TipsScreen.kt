@@ -19,10 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
 import coil.compose.AsyncImage
 
@@ -35,6 +37,14 @@ fun TipScreen(localStorage: Storage) {
     val nameTip = localStorage.readDataString(context,"nameTip")
     val descriptionTip = localStorage.readDataString(context,"descriptionTip")
     val categoryTip = localStorage.readDataString(context,"categoryTip")
+
+    Surface (
+        modifier = Modifier
+            .fillMaxSize(),
+        color = colorResource(id = R.color.white)
+    ) {
+
+    }
 
     Column (
         modifier = Modifier

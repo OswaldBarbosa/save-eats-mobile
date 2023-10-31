@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,14 @@ fun ProductScreen(
     val nameProduct = localStorage.readDataString(context, "nameProduct")
     val priceProduct = localStorage.readDataFloat(context, "priceProduct")
     val descriptionProduct = localStorage.readDataString(context, "descriptionProduct")
+
+    Surface (
+        modifier = Modifier
+            .fillMaxSize(),
+        color = colorResource(id = R.color.white)
+    ) {
+
+    }
 
     Column(
         modifier = Modifier
