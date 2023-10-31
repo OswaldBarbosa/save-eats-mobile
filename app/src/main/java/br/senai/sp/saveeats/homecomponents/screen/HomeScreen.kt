@@ -559,6 +559,7 @@ fun HomeScreen(
                                 )
 
                                 localStorage.saveDataInt(context, it.id, "idRestaurant")
+
                                 localStorage.saveDataString(
                                     context,
                                     listClientAddress[0].rua_cliente!!,

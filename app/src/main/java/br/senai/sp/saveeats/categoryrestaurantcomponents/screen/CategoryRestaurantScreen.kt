@@ -61,21 +61,24 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
         mutableStateOf(listOf<CategoryRestaurant>())
     }
 
-    val callCategoryRestaurant = RetrofitFactory
-        .getCategoryRestaurant()
-        .getCategoryRestaurant(nameCategory!!)
+    val callCategoryRestaurant =
+        RetrofitFactory.getCategoryRestaurant().getCategoryRestaurant(nameCategory!!)
 
     callCategoryRestaurant.enqueue(object : Callback<CategoryRestaurantList> {
         override fun onResponse(
-            call: Call<CategoryRestaurantList>,
-            response: Response<CategoryRestaurantList>
+            call: Call<CategoryRestaurantList>, response: Response<CategoryRestaurantList>
         ) {
-            listCategoryRestaurant = response.body()!!.restaurantes_da_categoria_escolhida
+
+            if (response.body()!!.restaurantes_da_categoria_escolhida == null) {
+                listCategoryRestaurant = emptyList()
+            } else {
+                listCategoryRestaurant = response.body()!!.restaurantes_da_categoria_escolhida
+            }
+
         }
 
         override fun onFailure(
-            call: Call<CategoryRestaurantList>,
-            t: Throwable
+            call: Call<CategoryRestaurantList>, t: Throwable
         ) {
 
             Log.i("ds3t", "onFailure: ${t.message}")
@@ -84,151 +87,152 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
 
     })
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    if (listCategoryRestaurant.isEmpty()) {
+        Text(text = "teste")
+    } else {
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
         ) {
 
-            Box(
-                modifier = Modifier
-                    .offset(x = 30.dp, y = 58.dp)
+            Column(
+                modifier = Modifier.fillMaxWidth()
             ) {
 
-                IconButton(
-                    modifier = Modifier
-                        .size(20.dp),
-                    onClick = {
-                        navController.popBackStack()
-                    }
+                Box(
+                    modifier = Modifier.offset(x = 30.dp, y = 58.dp)
                 ) {
 
-                    Icon(
-                        imageVector = Icons.Default.ArrowBackIosNew,
-                        contentDescription = "Arrow",
-                        tint = Color(76,132,62)
+                    IconButton(modifier = Modifier.size(20.dp), onClick = {
+                        navController.popBackStack()
+                    }) {
+
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIosNew,
+                            contentDescription = "Arrow",
+                            tint = Color(76, 132, 62)
+                        )
+
+                    }
+
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+
+                    Text(
+                        text = nameCategory.uppercase(),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.W400
                     )
 
                 }
 
             }
 
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                    .fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Text(
-                    text = nameCategory.uppercase(),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.W400
-                )
+                items(listCategoryRestaurant) {
 
-            }
-
-        }
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            items(listCategoryRestaurant) {
-
-                Surface(
-                    modifier = Modifier
-                        .width(350.dp)
-                        .height(60.dp)
-                        .padding(bottom = 10.dp)
-                        .clickable {
-
-                        },
-                    color = Color.White,
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-
-                    Row(
+                    Surface(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
+                            .width(350.dp)
+                            .height(60.dp)
+                            .padding(bottom = 10.dp)
+                            .clickable {
+                                localStorage.saveDataString(
+                                    context, it.foto, "imageRestaurant"
+                                )
+
+                                localStorage.saveDataString(
+                                    context, it.nome_fantasia, "nameRestaurant"
+                                )
+
+                                localStorage.saveDataInt(context, it.id, "idRestaurant")
+
+                                localStorage.saveDataString(
+                                    context, nameCategory, "nameCategoryRestaurant"
+                                )
+
+                                navController.navigate("products_restaurant_screen")
+                            }, color = Color.White, shape = RoundedCornerShape(10.dp)
                     ) {
 
-                        if (it.foto == "") {
-
-                            Image(
-                                modifier = Modifier
-                                    .clip(shape = RoundedCornerShape(100.dp)),
-                                painter = painterResource(id = R.drawable.logo),
-                                contentDescription = ""
-                            )
-
-                        } else {
-
-                            AsyncImage(
-                                modifier = Modifier
-                                    .clip(shape = RoundedCornerShape(100.dp)),
-                                model = it.foto,
-                                contentDescription = "Image Restaurant"
-                            )
-
-                        }
-
-                        Spacer(modifier = Modifier.width(15.dp))
-
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth(),
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
 
-                            Text(
-                                text = it.nome_fantasia,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.W500
-                            )
+                            if (it.foto == "") {
 
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
+                                Image(
+                                    modifier = Modifier.clip(shape = RoundedCornerShape(100.dp)),
+                                    painter = painterResource(id = R.drawable.logo),
+                                    contentDescription = ""
+                                )
+
+                            } else {
+
+                                AsyncImage(
+                                    modifier = Modifier.clip(shape = RoundedCornerShape(100.dp)),
+                                    model = it.foto,
+                                    contentDescription = "Image Restaurant"
+                                )
+
+                            }
+
+                            Spacer(modifier = Modifier.width(15.dp))
+
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
                             ) {
 
-                                Image(
-                                    modifier = Modifier
-                                        .size(15.dp),
-                                    painter = painterResource(id = R.drawable.star),
-                                    contentDescription = "Star"
-                                )
-
-                                Spacer(modifier = Modifier.width(5.dp))
-
                                 Text(
-                                    text = "4,8",
-                                    fontSize = 13.sp,
-                                    color = Color(252, 187, 0)
+                                    text = it.nome_fantasia,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.W500
                                 )
 
-                                Spacer(modifier = Modifier.width(5.dp))
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
 
-                                Image(
-                                    modifier = Modifier
-                                        .size(20.dp),
-                                    painter = painterResource(id = R.drawable.pointer),
-                                    contentDescription = "Pointer"
-                                )
+                                    Image(
+                                        modifier = Modifier.size(15.dp),
+                                        painter = painterResource(id = R.drawable.star),
+                                        contentDescription = "Star"
+                                    )
 
-                                Text(
-                                    text = "Hortifruti",
-                                    fontSize = 13.sp
-                                )
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+                                        text = "4,8", fontSize = 13.sp, color = Color(252, 187, 0)
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Image(
+                                        modifier = Modifier.size(20.dp),
+                                        painter = painterResource(id = R.drawable.pointer),
+                                        contentDescription = "Pointer"
+                                    )
+
+                                    Text(
+                                        text = "Hortifruti", fontSize = 13.sp
+                                    )
+
+                                }
 
                             }
 
