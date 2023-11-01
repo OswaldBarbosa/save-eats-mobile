@@ -1,5 +1,6 @@
 package br.senai.sp.saveeats.singupcomponents.screen
 
+import android.util.Log
 import android.util.Patterns
 import android.view.SurfaceView
 import android.widget.Toast
@@ -49,6 +50,7 @@ import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.model.SignupRepository
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 @Composable
 fun ThirdSignupScreen(
@@ -143,7 +145,22 @@ fun ThirdSignupScreen(
 
                 if (response.isSuccessful) {
 
+                    val json = response.body().toString()
+
+                    val jsonObject = JSONObject(json)
+
+                    val clientObject = jsonObject.getJSONObject("cliente")
+
+                    val id = clientObject.getInt("id")
+
+                    val cpf = clientObject.getString("cpf")
+
+                    val name = clientObject.getString("nome")
+
                     Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
+                    localStorage.saveDataInt(context, id, "idClient")
+                    localStorage.saveDataString(context, cpf, "cpfClient")
+                    localStorage.saveDataString(context, name, "nameClient")
                     navController.navigate("home_screen")
 
                 } else {

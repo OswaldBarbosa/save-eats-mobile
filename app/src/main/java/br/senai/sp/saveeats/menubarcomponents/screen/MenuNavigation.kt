@@ -41,7 +41,7 @@ fun BottomNavGraph(
         }
 
         composable(route = MenuBar.Profile.route) {
-           ProfileScreen()
+           ProfileScreen(localStorage = Storage())
         }
 
         composable("recipe_screen") {

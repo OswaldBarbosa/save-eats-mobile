@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home_screen"
+                    startDestination = "profile_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("profile_screen") {
-                        ProfileScreen()
+                        ProfileScreen(localStorage = Storage())
                     }
 
                     composable("recipe_screen") {
