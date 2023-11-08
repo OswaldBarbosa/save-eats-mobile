@@ -64,4 +64,9 @@
     <string name="payment_methods">Payment methods</string>
     <string name="make_a_wish">Make a wish</string>
     <string name="to_replace">To replace</string>
+    <string name="my_data">My data</string>
+    <string name="my_account_information">My account information</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
+    <string name="edit_photo">Edit photo</string>
 </resources>

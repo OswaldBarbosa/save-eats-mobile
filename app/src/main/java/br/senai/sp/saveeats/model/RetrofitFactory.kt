@@ -20,7 +20,7 @@ object RetrofitFactory {
 
     private const val baseURL = "http://192.168.100.164:8080/"
 
-    private const val baseURL2 = "http://10.107.144.7:8080/"
+    private const val baseURL2 = "http://10.107.144.13:8080/"
 
     private var retrofitFactory = Retrofit
         .Builder()

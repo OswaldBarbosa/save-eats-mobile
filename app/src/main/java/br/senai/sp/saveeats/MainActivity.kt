@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.categoryrestaurantcomponents.screen.CategoryRestaurantScreen
+import br.senai.sp.saveeats.editprofile.screen.EditProfileScreen
 import br.senai.sp.saveeats.logincomponents.screen.LoginScreen
 import br.senai.sp.saveeats.menubarcomponents.screen.MenuScreen
 import br.senai.sp.saveeats.ordercomponents.screen.OrderScreen
@@ -89,7 +90,11 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("profile_screen") {
-                        ProfileScreen(localStorage = Storage())
+                        ProfileScreen(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("edit_profile_screen") {
+                        EditProfileScreen()
                     }
 
                     composable("recipe_screen") {
