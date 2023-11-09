@@ -42,7 +42,7 @@ fun ProductScreen(
     val idProduct = localStorage.readDataInt(context, "idProduct")
     val imageProduct = localStorage.readDataString(context, "imageProduct")
     val nameProduct = localStorage.readDataString(context, "nameProduct")
-    val priceProduct = localStorage.readDataFloat(context, "priceProduct")
+    val priceProduct = localStorage.readDataString(context, "priceProduct")
     val descriptionProduct = localStorage.readDataString(context, "descriptionProduct")
 
     Surface (
@@ -157,7 +157,7 @@ fun ProductScreen(
                     onClick = {
                         localStorage.readDataString(context, "imageProduct")
                         localStorage.readDataString(context, "nameProduct")
-                        localStorage.readDataFloat(context, "priceProduct")
+                        localStorage.readDataString(context, "priceProduct")
                         localStorage.readDataString(context, "descriptionProduct")
                         navController.navigate("shopping_cart_screen")
                     },

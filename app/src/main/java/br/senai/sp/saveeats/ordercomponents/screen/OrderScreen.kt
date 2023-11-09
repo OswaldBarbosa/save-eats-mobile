@@ -81,13 +81,13 @@ fun OrderScreen(
 
     val deliveryTime = localStorage.readDataString(context, "deliveryTime")
     val deliveryValue = localStorage.readDataFloat(context, "deliveryValue")
-    val priceProduct = localStorage.readDataFloat(context, "priceProduct")
+    val priceProduct = localStorage.readDataString(context, "priceProduct")
 
     val idClient = localStorage.readDataInt(context, "idClient")
     val idRestaurant = localStorage.readDataInt(context, "idRestaurant")
     val cpfClient = localStorage.readDataString(context, "cpfClient")
 
-    val sumDeliveryProduct = deliveryValue + priceProduct
+//    val sumDeliveryProduct = deliveryValue + priceProduct!!.toFloat()
 
     var listFormPayment by remember {
         mutableStateOf<List<FormPayment>>(emptyList())
@@ -324,11 +324,11 @@ fun OrderScreen(
                             fontWeight = FontWeight.W300
                         )
 
-                        Text(
-                            text = "R$$sumDeliveryProduct",
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.W500
-                        )
+//                        Text(
+//                            text = "R$$sumDeliveryProduct",
+//                            fontSize = 15.sp,
+//                            fontWeight = FontWeight.W500
+//                        )
 
                     }
 

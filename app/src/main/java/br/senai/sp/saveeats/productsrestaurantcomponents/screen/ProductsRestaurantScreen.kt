@@ -201,7 +201,7 @@ fun ProductsRestaurantScreen(navController: NavController, localStorage: Storage
                             localStorage.saveDataInt(context, it.id, "idProduct")
                             localStorage.saveDataString(context, it.imagem, "imageProduct")
                             localStorage.saveDataString(context, it.nome, "nameProduct")
-                            localStorage.saveDataFloat(context, it.preco, "priceProduct")
+                            localStorage.saveDataString(context, it.preco, "priceProduct")
                             localStorage.saveDataString(context, it.descricao, "descriptionProduct")
                             navController.navigate("products_screen")
                         },

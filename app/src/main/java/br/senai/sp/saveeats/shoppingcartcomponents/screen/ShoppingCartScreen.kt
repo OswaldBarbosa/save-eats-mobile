@@ -66,7 +66,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
 
     val imageProduct = localStorage.readDataString(context, "imageProduct")
     val nameProduct = localStorage.readDataString(context, "nameProduct")
-    val priceProduct = localStorage.readDataFloat(context, "priceProduct")
+    val priceProduct = localStorage.readDataString(context, "priceProduct")
 
     var listDeliveryArea by remember {
         mutableStateOf(DeliveryAreaRestaurant())
@@ -95,7 +95,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
 
     })
 
-    val sumDeliveryProduct = listDeliveryArea.valor_entrega?.plus(priceProduct)
+//    val sumDeliveryProduct = priceProduct?.let { listDeliveryArea.valor_entrega?.plus(it.toFloat()) }
 
     Surface(
         modifier = Modifier
@@ -282,7 +282,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
                             )
 
                             Text(
-                                text = listDeliveryArea.valor_entrega.toString(),
+                                text = listDeliveryArea.valor_entrega,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.W500
                             )
@@ -302,18 +302,18 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
                                 fontWeight = FontWeight.W300
                             )
 
-                            Text(
-                                text = "R$$sumDeliveryProduct",
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.W500
-                            )
+//                            Text(
+//                                text = "R$$sumDeliveryProduct",
+//                                fontSize = 15.sp,
+//                                fontWeight = FontWeight.W500
+//                            )
 
                         }
 
                         CustomButton(
                             onClick = {
-                                localStorage.saveDataFloat(context, priceProduct, "priceProduct")
-                                localStorage.saveDataFloat(context, listDeliveryArea.valor_entrega!!, "deliveryValue")
+                                localStorage.saveDataString(context, priceProduct!!, "priceProduct")
+                                localStorage.saveDataString(context, listDeliveryArea.valor_entrega!!, "deliveryValue")
                                 localStorage.saveDataString(context, listDeliveryArea.tempo_entrega!!, "deliveryTime")
                                 navController.navigate("order_screen")
                             },
