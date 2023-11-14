@@ -45,6 +45,7 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.CategoryRestaurant
 import br.senai.sp.saveeats.model.CategoryRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,10 +70,13 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
             call: Call<CategoryRestaurantList>, response: Response<CategoryRestaurantList>
         ) {
 
-            if (response.body()!!.restaurantes_da_categoria_escolhida == null) {
-                listCategoryRestaurant = emptyList()
+            Log.e("TESTE", "onResponse: ${response.body()!!.status}", )
+
+            listCategoryRestaurant = if (response.body()!!.status == 404) {
+                Log.e("TESTE", "onResponse: ${response.body()!!.status}", )
+                emptyList()
             } else {
-                listCategoryRestaurant = response.body()!!.restaurantes_da_categoria_escolhida
+                response.body()!!.restaurantes_da_categoria_escolhida
             }
 
         }
@@ -128,6 +132,7 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
                     Text(
                         text = nameCategory.uppercase(),
                         fontSize = 18.sp,
+                        fontFamily = fontFamily,
                         fontWeight = FontWeight.W400
                     )
 
@@ -142,105 +147,111 @@ fun CategoryRestaurantScreen(localStorage: Storage, navController: NavController
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                items(listCategoryRestaurant) {
-
-                    Surface(
-                        modifier = Modifier
-                            .width(350.dp)
-                            .height(60.dp)
-                            .padding(bottom = 10.dp)
-                            .clickable {
-                                localStorage.saveDataString(
-                                    context, it.foto, "imageRestaurant"
-                                )
-
-                                localStorage.saveDataString(
-                                    context, it.nome_fantasia, "nameRestaurant"
-                                )
-
-                                localStorage.saveDataInt(context, it.id, "idRestaurant")
-
-                                localStorage.saveDataString(
-                                    context, nameCategory, "nameCategoryRestaurant"
-                                )
-
-                                navController.navigate("products_restaurant_screen")
-                            }, color = Color.White, shape = RoundedCornerShape(10.dp)
-                    ) {
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-
-                            if (it.foto == "") {
-
-                                Image(
-                                    modifier = Modifier.clip(shape = RoundedCornerShape(100.dp)),
-                                    painter = painterResource(id = R.drawable.logo),
-                                    contentDescription = ""
-                                )
-
-                            } else {
-
-                                AsyncImage(
-                                    modifier = Modifier.clip(shape = RoundedCornerShape(100.dp)),
-                                    model = it.foto,
-                                    contentDescription = "Image Restaurant"
-                                )
-
-                            }
-
-                            Spacer(modifier = Modifier.width(15.dp))
-
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                            ) {
-
-                                Text(
-                                    text = it.nome_fantasia,
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.W500
-                                )
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-
-                                    Image(
-                                        modifier = Modifier.size(15.dp),
-                                        painter = painterResource(id = R.drawable.star),
-                                        contentDescription = "Star"
-                                    )
-
-                                    Spacer(modifier = Modifier.width(5.dp))
-
-                                    Text(
-                                        text = "4,8", fontSize = 13.sp, color = Color(252, 187, 0)
-                                    )
-
-                                    Spacer(modifier = Modifier.width(5.dp))
-
-                                    Image(
-                                        modifier = Modifier.size(20.dp),
-                                        painter = painterResource(id = R.drawable.pointer),
-                                        contentDescription = "Pointer"
-                                    )
-
-                                    Text(
-                                        text = "Hortifruti", fontSize = 13.sp
-                                    )
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
+//                items(listCategoryRestaurant) {
+//
+//                    Surface(
+//                        modifier = Modifier
+//                            .width(350.dp)
+//                            .height(60.dp)
+//                            .padding(bottom = 10.dp)
+//                            .clickable {
+//                                localStorage.saveDataString(
+//                                    context, it.foto, "imageRestaurant"
+//                                )
+//
+//                                localStorage.saveDataString(
+//                                    context, it.nome_fantasia, "nameRestaurant"
+//                                )
+//
+//                                localStorage.saveDataInt(context, it.id, "idRestaurant")
+//
+//                                localStorage.saveDataString(
+//                                    context, nameCategory, "nameCategoryRestaurant"
+//                                )
+//
+//                                navController.navigate("products_restaurant_screen")
+//                            }, color = Color.White, shape = RoundedCornerShape(10.dp)
+//                    ) {
+//
+//                        Row(
+//                            modifier = Modifier.fillMaxWidth(),
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//
+//                            if (it.foto == "") {
+//
+//                                Image(
+//                                    modifier = Modifier.clip(shape = RoundedCornerShape(100.dp)),
+//                                    painter = painterResource(id = R.drawable.logo),
+//                                    contentDescription = ""
+//                                )
+//
+//                            } else {
+//
+//                                AsyncImage(
+//                                    modifier = Modifier.clip(shape = RoundedCornerShape(100.dp)),
+//                                    model = it.foto,
+//                                    contentDescription = "Image Restaurant"
+//                                )
+//
+//                            }
+//
+//                            Spacer(modifier = Modifier.width(15.dp))
+//
+//                            Column(
+//                                modifier = Modifier.fillMaxWidth(),
+//                            ) {
+//
+//                                Text(
+//                                    text = it.nome_fantasia,
+//                                    fontSize = 16.sp,
+//                                    fontFamily = fontFamily,
+//                                    fontWeight = FontWeight.W500
+//                                )
+//
+//                                Row(
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    verticalAlignment = Alignment.CenterVertically
+//                                ) {
+//
+//                                    Image(
+//                                        modifier = Modifier.size(15.dp),
+//                                        painter = painterResource(id = R.drawable.star),
+//                                        contentDescription = "Star"
+//                                    )
+//
+//                                    Spacer(modifier = Modifier.width(5.dp))
+//
+//                                    Text(
+//                                        text = "4,8",
+//                                        fontSize = 13.sp,
+//                                        fontFamily = fontFamily,
+//                                        color = Color(252, 187, 0)
+//                                    )
+//
+//                                    Spacer(modifier = Modifier.width(5.dp))
+//
+//                                    Image(
+//                                        modifier = Modifier.size(20.dp),
+//                                        painter = painterResource(id = R.drawable.pointer),
+//                                        contentDescription = "Pointer"
+//                                    )
+//
+//                                    Text(
+//                                        text = nameCategory,
+//                                        fontSize = 13.sp,
+//                                        fontFamily = fontFamily
+//                                    )
+//
+//                                }
+//
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//                }
 
             }
 

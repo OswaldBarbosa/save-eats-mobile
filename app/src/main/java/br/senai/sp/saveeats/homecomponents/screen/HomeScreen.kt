@@ -56,10 +56,9 @@ import br.senai.sp.saveeats.model.RetrofitFactory
 import br.senai.sp.saveeats.components.SearchOutlineTextField
 import br.senai.sp.saveeats.model.Category
 import br.senai.sp.saveeats.model.CategoryList
-import br.senai.sp.saveeats.model.ClientAddress
-import br.senai.sp.saveeats.model.ClientAddressList
 import br.senai.sp.saveeats.model.RestaurantList
 import br.senai.sp.saveeats.model.Restaurant
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
 import coil.compose.AsyncImage
 import retrofit2.Call
@@ -114,16 +113,6 @@ fun HomeScreen(
         mutableStateOf(listOf<Restaurant>())
     }
 
-    var listClientAddress by remember {
-        mutableStateOf(
-            listOf(
-                ClientAddress()
-            )
-        )
-    }
-
-    //API CATEGORY - START
-
     val callCategory = RetrofitFactory
         .getCategory()
         .getCategory()
@@ -147,10 +136,6 @@ fun HomeScreen(
 
     })
 
-    //API CATEGORY - END
-
-    //API RESTAURANT - START
-
     val callRestaurant = RetrofitFactory
         .getRestaurant()
         .getRestaurantCall()
@@ -173,37 +158,6 @@ fun HomeScreen(
         }
 
     })
-
-    //API RESTAURANT - END
-
-    //API CLIENT ADDRESS - START
-
-    val idClient = localStorage.readDataInt(context, "idClient")
-
-    val callClientAddress = RetrofitFactory
-        .getAddressClient()
-        .getAddressClient(idClient)
-
-    callClientAddress.enqueue(object : Callback<ClientAddressList> {
-        override fun onResponse(
-            call: Call<ClientAddressList>,
-            response: Response<ClientAddressList>
-        ) {
-            listClientAddress = response.body()!!.endereco_cliente
-        }
-
-        override fun onFailure(
-            call: Call<ClientAddressList>,
-            t: Throwable
-        ) {
-
-            Log.e("ds3t", "onFailure: ${t.message}")
-
-        }
-
-    })
-
-    //API CLIENT ADDRESS - END
 
     val nameClient = localStorage.readDataString(context, "nameClient")
 
@@ -233,6 +187,7 @@ fun HomeScreen(
                         text = "Welcome,",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.W300,
+                        fontFamily = fontFamily,
                         letterSpacing = 2.sp
                     )
 
@@ -240,6 +195,7 @@ fun HomeScreen(
                         text = nameClient!!,
                         fontSize = 21.sp,
                         fontWeight = FontWeight.W300,
+                        fontFamily = fontFamily,
                         letterSpacing = 2.sp
                     )
 
@@ -285,6 +241,7 @@ fun HomeScreen(
                         .padding(start = 25.dp, bottom = 10.dp),
                     text = stringResource(id = R.string.categories),
                     fontSize = 22.sp,
+                    fontFamily = fontFamily,
                     fontWeight = FontWeight.Medium,
                     color = Color(20, 58, 11),
                     letterSpacing = 2.sp
@@ -338,6 +295,7 @@ fun HomeScreen(
                                         .width(85.dp),
                                     text = it.nome_categoria,
                                     textAlign = TextAlign.Center,
+                                    fontFamily = fontFamily,
                                     color = Color.Black
                                 )
 
@@ -383,6 +341,7 @@ fun HomeScreen(
                                         .width(160.dp),
                                     text = stringResource(id = textSlide[it]),
                                     fontSize = 18.sp,
+                                    fontFamily = fontFamily,
                                     textAlign = TextAlign.Center
                                 )
 
@@ -492,6 +451,7 @@ fun HomeScreen(
                         .padding(start = 25.dp, bottom = 10.dp, top = 20.dp),
                     text = stringResource(id = R.string.restaurant),
                     fontSize = 22.sp,
+                    fontFamily = fontFamily,
                     fontWeight = FontWeight.Medium,
                     color = Color(20, 58, 11),
                     letterSpacing = 2.sp
@@ -536,22 +496,6 @@ fun HomeScreen(
 
                                 localStorage.saveDataInt(context, it.id, "idRestaurant")
 
-                                localStorage.saveDataString(
-                                    context,
-                                    listClientAddress[0].rua_cliente!!,
-                                    "streetClient"
-                                )
-                                localStorage.saveDataInt(
-                                    context,
-                                    listClientAddress[0].numero_endereco_cliente!!,
-                                    "numberAddressClient"
-                                )
-                                localStorage.saveDataString(
-                                    context,
-                                    listClientAddress[0].nome_cidade!!,
-                                    "cityClient"
-                                )
-
                                 navController.navigate("products_restaurant_screen")
 
                             },
@@ -595,7 +539,8 @@ fun HomeScreen(
                                 Text(
                                     text = it.nome_fantasia,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.W500
+                                    fontFamily = fontFamily,
+                                    fontWeight = FontWeight.Black
                                 )
 
                                 Row(
@@ -616,6 +561,7 @@ fun HomeScreen(
                                     Text(
                                         text = "4,8",
                                         fontSize = 13.sp,
+                                        fontFamily = fontFamily,
                                         color = Color(252, 187, 0)
                                     )
 
@@ -630,7 +576,8 @@ fun HomeScreen(
 
                                     Text(
                                         text = it.nome_categoria_restaurante,
-                                        fontSize = 13.sp
+                                        fontSize = 13.sp,
+                                        fontFamily = fontFamily
                                     )
 
                                 }

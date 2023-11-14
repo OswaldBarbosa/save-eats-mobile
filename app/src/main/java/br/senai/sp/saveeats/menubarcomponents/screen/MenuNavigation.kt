@@ -45,7 +45,7 @@ fun BottomNavGraph(
         }
 
         composable("recipe_screen") {
-            RecipeScreen(localStorage = Storage())
+            RecipeScreen(navController = navController2, localStorage = Storage())
         }
 
     }

@@ -21,45 +21,53 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
+import br.senai.sp.saveeats.ui.theme.fontFamily
+import coil.compose.AsyncImage
 
 @Composable
-fun EditProfileScreen() {
+fun EditProfileScreen(localStorage: Storage) {
 
-    Surface (
+    val context = LocalContext.current
+
+    val photo = localStorage.readDataString(context, "photoClient")
+
+    Surface(
         modifier = Modifier
             .fillMaxSize(),
         color = colorResource(id = R.color.white)
     ) {
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
 
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceAround
             ) {
-                
-                Image(
+
+                AsyncImage(
                     modifier = Modifier
                         .size(120.dp)
                         .clip(shape = CircleShape),
-                    painter = painterResource(id = R.drawable.foto),
+                    model = photo,
                     contentScale = ContentScale.FillHeight,
                     contentDescription = "Image Profile"
                 )
-                
-                Surface (
+
+                Surface(
                     modifier = Modifier
                         .width(140.dp)
                         .height(40.dp),
@@ -67,7 +75,7 @@ fun EditProfileScreen() {
                     color = colorResource(id = R.color.green_save_eats_light)
                 ) {
 
-                    Row (
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
@@ -77,6 +85,7 @@ fun EditProfileScreen() {
                         Text(
                             text = stringResource(id = R.string.edit_photo),
                             fontSize = 18.sp,
+                            fontFamily = fontFamily,
                             color = colorResource(id = R.color.white)
                         )
 
@@ -89,7 +98,7 @@ fun EditProfileScreen() {
                     }
 
                 }
-                
+
             }
 
         }

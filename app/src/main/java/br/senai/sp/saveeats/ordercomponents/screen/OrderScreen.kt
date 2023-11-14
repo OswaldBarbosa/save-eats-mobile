@@ -53,6 +53,7 @@ import br.senai.sp.saveeats.model.FormPayment
 import br.senai.sp.saveeats.model.FormPaymentList
 import br.senai.sp.saveeats.model.OrderRepository
 import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -185,6 +186,7 @@ fun OrderScreen(
                 Text(
                     text = stringResource(id = R.string.shopping_cart),
                     fontSize = 20.sp,
+                    fontFamily = fontFamily,
                     color = colorResource(id = R.color.green_save_eats_dark)
                 )
 
@@ -214,6 +216,7 @@ fun OrderScreen(
                     Text(
                         text = stringResource(id = R.string.delivery_address),
                         fontSize = 20.sp,
+                        fontFamily = fontFamily,
                         color = colorResource(id = R.color.green_save_eats_light)
                     )
 
@@ -222,7 +225,9 @@ fun OrderScreen(
                     Row {
 
                         Text(
-                            text = streetClient!!, fontSize = 19.sp, fontWeight = FontWeight.W500
+                            text = streetClient!!,
+                            fontSize = 19.sp,
+                            fontWeight = FontWeight.W500
                         )
 
                         Spacer(modifier = Modifier.width(5.dp))

@@ -21,8 +21,4 @@ interface RecipesService {
     @GET("/v1/saveeats/detalhes/receitas/id/{id}")
     fun getRecipeDetails(@Path("id") id: Int):Call<RecipeDetailsList>
 
-    @GET("/v1/saveeats/detalhes/receitas/id/{id}")
-    suspend fun getRecipeDetails2(@Path("id") id: Int):Response<RecipeDetailsList>
-
-
 }

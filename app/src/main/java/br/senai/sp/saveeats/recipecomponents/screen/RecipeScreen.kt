@@ -15,12 +15,15 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,10 +43,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.RecipeDetails
 import br.senai.sp.saveeats.model.RecipeDetailsList
+import br.senai.sp.saveeats.model.RecipeIngredients
 import br.senai.sp.saveeats.model.RetrofitFactory
 import coil.compose.AsyncImage
 import retrofit2.Call
@@ -53,10 +58,13 @@ import retrofit2.Response
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun RecipeScreen(
+    navController: NavController,
     localStorage: Storage
 ) {
 
     val context = LocalContext.current
+
+    val idRecipe = localStorage.readDataInt(context, "idRecipe")
 
     val imageRecipe = localStorage.readDataString(context, "imageRecipe")
     val descriptionRecipe = localStorage.readDataString(context, "descriptionRecipe")
@@ -75,13 +83,26 @@ fun RecipeScreen(
         )
     }
 
+    var listRecipeIngredients by remember {
+        mutableStateOf(
+            listOf(
+                RecipeIngredients(
+                    0,
+                    "",
+                    "",
+                    ""
+                )
+            )
+        )
+    }
+
     var status by remember {
         mutableStateOf(false)
     }
 
     val callCategoryTips = RetrofitFactory
         .getRecipeDetails()
-        .getRecipeDetails(1)
+        .getRecipeDetails(idRecipe)
 
     callCategoryTips.enqueue(object : Callback<RecipeDetailsList> {
 
@@ -90,6 +111,7 @@ fun RecipeScreen(
             response: Response<RecipeDetailsList>
         ) {
             listRecipeDetails = response.body()!!.detalhes_receita
+            listRecipeIngredients = response.body()!!.detalhes_receita.ingredientes!!
             status = true
         }
 
@@ -104,7 +126,7 @@ fun RecipeScreen(
 
     })
 
-    Surface (
+    Surface(
         modifier = Modifier
             .fillMaxSize(),
         color = colorResource(id = R.color.white)
@@ -123,15 +145,24 @@ fun RecipeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Box {
+            Box (
+                modifier = Modifier
+                    .offset(x = -(170.dp), y = 50.dp)
+            ) {
 
-                Icon(
-                    modifier = Modifier
-                        .offset(x = -(170.dp), y = 50.dp),
-                    imageVector = Icons.Default.ArrowBackIosNew,
-                    contentDescription = "Arrow Back",
-                    tint = Color(20, 58, 11)
-                )
+                IconButton(
+                    modifier = Modifier.size(20.dp),
+                    onClick = {
+                    navController.popBackStack()
+                }) {
+
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = "Arrow Back",
+                        tint = Color(20, 58, 11)
+                    )
+
+                }
 
             }
 
@@ -149,7 +180,6 @@ fun RecipeScreen(
             } else {
                 CircularProgressIndicator()
             }
-
 
 
         }
@@ -336,7 +366,21 @@ fun RecipeScreen(
 
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        Text(text = listRecipeDetails.nome_receita!!)
+                        LazyColumn() {
+
+                            items(listRecipeIngredients) {
+
+                                Row {
+
+                                    AsyncImage(model = it.foto_ingrediente, contentDescription = "")
+
+                                    Text(text = it.nome_ingrediente)
+
+                                }
+
+                            }
+
+                        }
 
                     }
 

@@ -39,11 +39,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
+import coil.compose.AsyncImage
 
 @Composable
 fun ProfileScreen(navController: NavController, localStorage: Storage) {
 
     val context = LocalContext.current
+
+    val photo = localStorage.readDataString(context, "photoClient")
 
     val websiteUrl = "https://lion-school-frontend.vercel.app/"
 
@@ -67,13 +70,13 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .size(55.dp)
                         .clip(shape = CircleShape),
-                    painter = painterResource(id = R.drawable.foto),
-                    contentDescription = "",
-                    contentScale = ContentScale.FillHeight
+                    model = photo,
+                    contentScale = ContentScale.FillHeight,
+                    contentDescription = "Image Client"
                 )
 
                 Text(

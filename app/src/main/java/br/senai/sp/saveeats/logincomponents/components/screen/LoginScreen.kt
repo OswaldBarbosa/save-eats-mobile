@@ -51,8 +51,10 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.model.LoginRepository
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -100,6 +102,8 @@ fun LoginScreen(
 
                 if (response.isSuccessful) {
 
+                    Log.e("TESTE", "login: ${response.body()}", )
+
                     val json = response.body().toString()
 
                     val jsonObject = JSONObject(json)
@@ -112,10 +116,13 @@ fun LoginScreen(
 
                     val name = clientObject.getString("nome")
 
+                    val photo = clientObject.getString("foto")
+
                     Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")
                     localStorage.saveDataString(context, cpf, "cpfClient")
                     localStorage.saveDataString(context, name, "nameClient")
+                    localStorage.saveDataString(context, photo, "photoClient")
                     navController.navigate("home_screen")
 
                 } else {
@@ -178,14 +185,16 @@ fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.welcome),
                     color = Color(41, 95, 27),
-                    fontWeight = FontWeight(700),
-                    fontSize = 36.sp
-                )
+                    fontSize = 36.sp,
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.W700
+                    )
 
                 Text(
                     text = stringResource(id = R.string.enter_account),
                     fontSize = 16.sp,
-                    fontWeight = FontWeight(400)
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.W400
                 )
 
             }
@@ -265,6 +274,7 @@ fun LoginScreen(
                         ) {
                             Text(
                                 text = stringResource(id = R.string.forget_password),
+                                fontFamily = fontFamily,
                                 fontWeight = FontWeight.Medium,
                                 color = Color(20, 58, 11)
                             )
@@ -302,6 +312,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(id = R.string.dont_have_an_account),
                     fontSize = 14.sp,
+                    fontFamily = fontFamily,
                     color = Color(20, 58, 11)
                 )
 
@@ -314,6 +325,7 @@ fun LoginScreen(
                         },
                     text = stringResource(id = R.string.create_your_account),
                     fontSize = 14.sp,
+                    fontFamily = fontFamily,
                     fontWeight = FontWeight.Bold,
                     color = Color(20, 58, 11)
                 )

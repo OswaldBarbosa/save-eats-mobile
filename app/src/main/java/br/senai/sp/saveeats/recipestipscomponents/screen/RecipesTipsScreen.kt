@@ -579,6 +579,8 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                         .fillMaxWidth()
                                 ) {
 
+                                    localStorage.saveDataInt(context, it.id_categoria, "idRecipe")
+
                                     Text(
                                         text = it.nome_da_receita,
                                         fontSize = 16.sp,

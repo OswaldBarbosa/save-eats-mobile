@@ -94,11 +94,11 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("edit_profile_screen") {
-                        EditProfileScreen()
+                        EditProfileScreen(localStorage = Storage())
                     }
 
                     composable("recipe_screen") {
-                        RecipeScreen(localStorage = Storage())
+                        RecipeScreen(navController = navController, localStorage = Storage())
                     }
 
                     composable("tip_screen") {

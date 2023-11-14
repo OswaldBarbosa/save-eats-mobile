@@ -281,11 +281,13 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
                                 fontWeight = FontWeight.W300
                             )
 
-                            Text(
-                                text = listDeliveryArea.valor_entrega,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.W500
-                            )
+                            listDeliveryArea.valor_entrega?.let {
+                                Text(
+                                    text = it,
+                                    fontSize = 15.sp,
+                                    fontWeight = FontWeight.W500
+                                )
+                            }
 
                         }
 

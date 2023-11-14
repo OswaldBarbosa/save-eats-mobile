@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.model.RestaurantRepository
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
 import kotlinx.coroutines.launch
 
@@ -161,7 +162,8 @@ fun SearchOutlineTextField(
 
                     textStyle = TextStyle(
                         color = Color.Black,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        fontFamily = fontFamily,
                     ),
 
                     keyboardOptions = KeyboardOptions(
@@ -171,7 +173,9 @@ fun SearchOutlineTextField(
 
                     label = {
                         Text(
-                            text = stringResource(id = R.string.search)
+                            text = stringResource(id = R.string.search),
+                            fontSize = 20.sp,
+                            fontFamily = fontFamily
                         )
                     },
 
@@ -279,7 +283,8 @@ fun CategoryItemsRestaurant(
     ) {
         Text(
             text = title,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            fontFamily = fontFamily
         )
     }
 
