@@ -272,12 +272,14 @@ fun LoginScreen(
                                 .padding(end = 35.dp),
                             horizontalArrangement = Arrangement.End
                         ) {
+
                             Text(
                                 text = stringResource(id = R.string.forget_password),
                                 fontFamily = fontFamily,
                                 fontWeight = FontWeight.Medium,
                                 color = Color(20, 58, 11)
                             )
+
                         }
 
                     }

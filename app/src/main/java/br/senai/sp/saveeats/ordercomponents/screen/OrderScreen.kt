@@ -76,12 +76,12 @@ fun OrderScreen(
         mutableStateOf(false)
     }
 
-    val streetClient = localStorage.readDataString(context, "streetClient")
-    val numberAddressClient = localStorage.readDataInt(context, "numberAddressClient")
-    val cityClient = localStorage.readDataString(context, "cityClient")
+//    val streetClient = localStorage.readDataString(context, "streetClient")
+//    val numberAddressClient = localStorage.readDataInt(context, "numberAddressClient")
+//    val cityClient = localStorage.readDataString(context, "cityClient")
 
     val deliveryTime = localStorage.readDataString(context, "deliveryTime")
-    val deliveryValue = localStorage.readDataFloat(context, "deliveryValue")
+//    val deliveryValue = localStorage.readDataFloat(context, "deliveryValue")
     val priceProduct = localStorage.readDataString(context, "priceProduct")
 
     val idClient = localStorage.readDataInt(context, "idClient")
@@ -140,7 +140,9 @@ fun OrderScreen(
             )
 
             if (response.isSuccessful) {
-                Toast.makeText(context, "Teste", Toast.LENGTH_SHORT).show()
+
+                navController.navigate("waiting_for_order_screen")
+
             } else {
                 Toast.makeText(context, "Deu Erro", Toast.LENGTH_SHORT).show()
             }
@@ -222,29 +224,29 @@ fun OrderScreen(
 
                     Spacer(modifier = Modifier.height(2.dp))
 
-                    Row {
-
-                        Text(
-                            text = streetClient!!,
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.W500
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Text(
-                            text = numberAddressClient.toString(),
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.W500
-                        )
-
-                        Spacer(modifier = Modifier.width(5.dp))
-
-                        Text(
-                            text = cityClient!!, fontSize = 19.sp, fontWeight = FontWeight.W500
-                        )
-
-                    }
+//                    Row {
+//
+//                        Text(
+//                            text = streetClient!!,
+//                            fontSize = 19.sp,
+//                            fontWeight = FontWeight.W500
+//                        )
+//
+//                        Spacer(modifier = Modifier.width(5.dp))
+//
+//                        Text(
+//                            text = numberAddressClient.toString(),
+//                            fontSize = 19.sp,
+//                            fontWeight = FontWeight.W500
+//                        )
+//
+//                        Spacer(modifier = Modifier.width(5.dp))
+//
+//                        Text(
+//                            text = cityClient!!, fontSize = 19.sp, fontWeight = FontWeight.W500
+//                        )
+//
+//                    }
 
                     Spacer(modifier = Modifier.height(2.dp))
 
@@ -308,11 +310,11 @@ fun OrderScreen(
                             fontWeight = FontWeight.W300
                         )
 
-                        Text(
-                            text = deliveryValue!!.toString(),
-                            fontSize = 15.sp,
-                            fontWeight = FontWeight.W500
-                        )
+//                        Text(
+//                            text = deliveryValue!!.toString(),
+//                            fontSize = 15.sp,
+//                            fontWeight = FontWeight.W500
+//                        )
 
                     }
 
@@ -374,7 +376,8 @@ fun OrderScreen(
                                 OutlinedTextField(
                                     modifier = Modifier
                                         .menuAnchor()
-                                        .width(50.dp),
+                                        .padding(start = 15.dp)
+                                        .width(120.dp),
                                     value = teste,
                                     onValueChange = {},
                                     readOnly = true,
@@ -465,11 +468,11 @@ fun OrderScreen(
                                 idRestaurant,
                                 idClient,
                                 idRestaurant,
-                                48,
-                                50
+                                19,
+                                21
                             )
                         },
-                        text = stringResource(id = R.string.make_a_wish)
+                        text = stringResource(id = R.string.make_a_order)
                     )
 
                 }

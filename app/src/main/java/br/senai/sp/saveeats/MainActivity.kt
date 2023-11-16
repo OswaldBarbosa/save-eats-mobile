@@ -27,6 +27,7 @@ import br.senai.sp.saveeats.splashcomponents.screen.SplashScreen
 import br.senai.sp.saveeats.tipscomponents.screen.TipScreen
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
+import br.senai.sp.saveeats.waitingfororder.screen.waitingForOrderScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home_screen"
+                    startDestination = "waiting_for_order_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -115,7 +116,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("shopping_cart_screen") {
                         ShoppingCartScreen(navController = navController , localStorage = Storage())
+                    }
 
+                    composable("waiting_for_order_screen") {
+                        waitingForOrderScreen()
                     }
 
                 }

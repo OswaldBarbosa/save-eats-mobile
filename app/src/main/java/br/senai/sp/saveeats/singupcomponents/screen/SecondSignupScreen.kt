@@ -140,7 +140,7 @@ fun SecondSignup(navController: NavController, localStorage: Storage) {
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.signup).uppercase(),
+                    text = stringResource(id = R.string.singup).uppercase(),
                     color = Color(41, 95, 27),
                     fontWeight = FontWeight(700),
                     fontSize = 36.sp

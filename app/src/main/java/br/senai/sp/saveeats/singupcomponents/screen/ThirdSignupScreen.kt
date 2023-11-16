@@ -223,7 +223,7 @@ fun ThirdSignupScreen(
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.signup).uppercase(),
+                    text = stringResource(id = R.string.singup).uppercase(),
                     color = Color(41, 95, 27),
                     fontWeight = FontWeight(700),
                     fontSize = 36.sp
@@ -353,7 +353,7 @@ fun ThirdSignupScreen(
                                         confirmPassword
                                     )
 
-                                }, text = stringResource(id = R.string.signup)
+                                }, text = stringResource(id = R.string.singup)
                             )
 
                         }

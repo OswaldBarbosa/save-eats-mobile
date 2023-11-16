@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -188,6 +189,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
                             contentDescription = "Image Product",
                             contentScale = ContentScale.FillHeight
                         )
+
                         Spacer(modifier = Modifier.width(20.dp))
 
                         Column {
@@ -200,6 +202,64 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
 
                             Text(
                                 text = "Unit: R$$priceProduct",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.W300
+                            )
+
+                        }
+
+                        Spacer(modifier = Modifier.width(50.dp))
+
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            tint = colorResource(id = R.color.green_save_eats_dark)
+                        )
+
+                    }
+
+                }
+                
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Surface(
+                    modifier = Modifier
+                        .width(320.dp)
+                        .height(90.dp),
+                    shape = RoundedCornerShape(15.dp),
+                    elevation = 3.dp
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Image(
+                            modifier = Modifier
+                                .width(68.dp)
+                                .height(65.dp)
+                                .clip(shape = CircleShape),
+                            painter = painterResource(id = R.drawable.bolo),
+                            contentDescription = "",
+                            contentScale = ContentScale.FillHeight
+                        )
+
+                        Spacer(modifier = Modifier.width(20.dp))
+
+                        Column {
+
+                            Text(
+                                text = "Bolo de leite ninho",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.W400
+                            )
+
+                            Text(
+                                text = "Unit: R$20,00",
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.W300
                             )

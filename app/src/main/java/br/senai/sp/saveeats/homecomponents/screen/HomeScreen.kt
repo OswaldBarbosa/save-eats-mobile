@@ -184,7 +184,7 @@ fun HomeScreen(
                 Column {
 
                     Text(
-                        text = "Welcome,",
+                        text = stringResource(id = R.string.welcome),
                         fontSize = 22.sp,
                         fontWeight = FontWeight.W300,
                         fontFamily = fontFamily,
