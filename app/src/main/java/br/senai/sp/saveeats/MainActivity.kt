@@ -25,9 +25,10 @@ import br.senai.sp.saveeats.singupcomponents.screen.SecondSignup
 import br.senai.sp.saveeats.singupcomponents.screen.ThirdSignupScreen
 import br.senai.sp.saveeats.splashcomponents.screen.SplashScreen
 import br.senai.sp.saveeats.tipscomponents.screen.TipScreen
+import br.senai.sp.saveeats.trackorder.screen.TrackOrder
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
-import br.senai.sp.saveeats.waitingfororder.screen.waitingForOrderScreen
+import br.senai.sp.saveeats.waitingfororder.screen.WaitingForOrderScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "waiting_for_order_screen"
+                    startDestination = "track_order_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -119,7 +120,11 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("waiting_for_order_screen") {
-                        waitingForOrderScreen()
+                        WaitingForOrderScreen(navController = navController)
+                    }
+
+                    composable("track_order_screen") {
+                        TrackOrder(navController = navController, localStore = Storage())
                     }
 
                 }

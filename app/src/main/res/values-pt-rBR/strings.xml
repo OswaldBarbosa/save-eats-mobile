@@ -65,4 +65,6 @@
     <string name="help">Ajuda</string>
     <string name="logout">Sair</string>
     <string name="edit_photo">Editar photo</string>
+    <string name="waiting_for_order">Aguardando pedido ser aceito pelo restaurante</string>
+    <string name="please_wait">Por favor, aguarde</string>
 </resources>
