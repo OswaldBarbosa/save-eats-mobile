@@ -138,7 +138,9 @@ fun ThirdSignupScreen(
                     number,
                     email,
                     phone,
-                    password
+                    password,
+                    photo = "",
+                    complement = ""
                 )
 
                 if (response.isSuccessful) {

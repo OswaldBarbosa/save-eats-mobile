@@ -40,7 +40,8 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home_screen"
+                    startDestination = "home" +
+                            "_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("second_signup_screen") {
-                        SecondSignup(navController = navController, localStorage = Storage())
+                        SecondSignup(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope)
                     }
 
                     composable("third_signup_screen") {

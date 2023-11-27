@@ -1,5 +1,7 @@
 package br.senai.sp.saveeats.singup.screen
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Numbers
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,14 +45,27 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
+import br.senai.sp.saveeats.model.AddressClientViaCep
+import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.service.ViaCepService
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun SecondSignup(navController: NavController, localStorage: Storage) {
+fun SecondSignup(
+    navController: NavController,
+    localStorage: Storage,
+    lifecycleScope: LifecycleCoroutineScope
+) {
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -94,6 +110,23 @@ fun SecondSignup(navController: NavController, localStorage: Storage) {
 
         return validateCep && validateState && validateCity && validateNeighborhood && validateStreet && validateNumber
 
+    }
+
+    val viaCepService: ViaCepService = RetrofitFactory.getInstance().create(ViaCepService::class.java)
+
+    lifecycleScope.launch {
+
+        val result = viaCepService.getAddressClientByViaCep(cep)
+
+        if (result.isSuccessful) {
+            street = result.body()!!.logradouro
+            neighborhood = result.body()!!.bairro
+            city = result.body()!!.localidade
+            state = result.body()!!.uf
+
+        } else {
+            Log.e("catchError", "SecondSignup: ${result.body()}")
+        }
     }
 
     Surface(

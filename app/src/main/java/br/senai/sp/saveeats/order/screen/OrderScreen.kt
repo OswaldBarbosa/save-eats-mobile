@@ -432,7 +432,6 @@ fun OrderScreen(
                                             )
                                         },
                                         onClick = {
-                                            localStorage.saveDataInt(context, it.id)
                                             var test3 = it.nome_forma_pagamento
                                             teste = test3
                                             onValueChange(it.nome_forma_pagamento)

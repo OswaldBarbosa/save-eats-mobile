@@ -12,6 +12,7 @@ import br.senai.sp.saveeats.service.RecipesService
 import br.senai.sp.saveeats.service.RestaurantService
 import br.senai.sp.saveeats.service.SignupService
 import br.senai.sp.saveeats.service.TipsService
+import br.senai.sp.saveeats.service.ViaCepService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -20,31 +21,53 @@ object RetrofitFactory {
 
     private const val baseURL = "http://192.168.100.164:8080/"
 
+    private const val baseViaCepURL = "https://viacep.com.br/"
+
     private const val baseURL2 = "http://10.107.144.19:8080/"
 
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL)
+        .baseUrl(baseURL2)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    fun getInstance(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseViaCepURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    private var viaCep = Retrofit
+        .Builder()
+        .baseUrl(baseViaCepURL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
     fun getSignup(): SignupService {
         return retrofitFactory.create(SignupService::class.java)
     }
+
     fun getLogin(): LoginService {
         return retrofitFactory.create(LoginService::class.java)
     }
+
     fun getOrder(): OrderService {
         return retrofitFactory.create(OrderService::class.java)
     }
+
     fun getCategory(): CategoryService {
         return retrofitFactory.create(CategoryService::class.java)
     }
+
     fun getRestaurant(): RestaurantService {
         return retrofitFactory.create(RestaurantService::class.java)
     }
+
     fun getProductsRestaurant(): ProductsRestaurantService {
         return retrofitFactory.create(ProductsRestaurantService::class.java)
     }
+
     fun getCategoryRestaurant(): CategoryRestaurantService {
         return retrofitFactory.create(CategoryRestaurantService::class.java)
     }
@@ -79,6 +102,10 @@ object RetrofitFactory {
 
     fun getFormPayment(): FormPaymentService {
         return retrofitFactory.create(FormPaymentService::class.java)
+    }
+
+    fun getAddressByViaCep(): ViaCepService {
+        return viaCep.create(ViaCepService::class.java)
     }
 
 }
