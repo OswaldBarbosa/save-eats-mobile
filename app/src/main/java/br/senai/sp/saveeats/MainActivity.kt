@@ -7,24 +7,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.saveeats.categoryrestaurantcomponents.screen.CategoryRestaurantScreen
+import br.senai.sp.saveeats.categoryrestaurant.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.editprofile.screen.EditProfileScreen
-import br.senai.sp.saveeats.logincomponents.screen.LoginScreen
-import br.senai.sp.saveeats.menubarcomponents.screen.MenuScreen
-import br.senai.sp.saveeats.ordercomponents.screen.OrderScreen
-import br.senai.sp.saveeats.presentationcomponents.screen.FirstPresentationScreen
-import br.senai.sp.saveeats.presentationcomponents.screen.SecondPresentationScreen
-import br.senai.sp.saveeats.presentationcomponents.screen.ThirdPresentationScreen
-import br.senai.sp.saveeats.productcomponents.screen.ProductScreen
-import br.senai.sp.saveeats.productsrestaurantcomponents.screen.ProductsRestaurantScreen
-import br.senai.sp.saveeats.profilecomponents.screen.ProfileScreen
-import br.senai.sp.saveeats.recipecomponents.screen.RecipeScreen
-import br.senai.sp.saveeats.shoppingcartcomponents.screen.ShoppingCartScreen
-import br.senai.sp.saveeats.singupcomponents.screen.FirstSignup
-import br.senai.sp.saveeats.singupcomponents.screen.SecondSignup
-import br.senai.sp.saveeats.singupcomponents.screen.ThirdSignupScreen
-import br.senai.sp.saveeats.splashcomponents.screen.SplashScreen
-import br.senai.sp.saveeats.tipscomponents.screen.TipScreen
+import br.senai.sp.saveeats.login.screen.LoginScreen
+import br.senai.sp.saveeats.menubar.screen.MenuScreen
+import br.senai.sp.saveeats.order.screen.OrderScreen
+import br.senai.sp.saveeats.presentation.screen.FirstPresentationScreen
+import br.senai.sp.saveeats.presentation.screen.SecondPresentationScreen
+import br.senai.sp.saveeats.presentation.screen.ThirdPresentationScreen
+import br.senai.sp.saveeats.product.screen.ProductScreen
+import br.senai.sp.saveeats.productsrestaurant.screen.ProductsRestaurantScreen
+import br.senai.sp.saveeats.profile.screen.ProfileScreen
+import br.senai.sp.saveeats.recipe.screen.RecipeScreen
+import br.senai.sp.saveeats.shoppingcart.screen.ShoppingCartScreen
+import br.senai.sp.saveeats.singup.screen.FirstSignup
+import br.senai.sp.saveeats.singup.screen.SecondSignup
+import br.senai.sp.saveeats.singup.screen.ThirdSignupScreen
+import br.senai.sp.saveeats.splash.screen.SplashScreen
+import br.senai.sp.saveeats.tips.screen.TipScreen
 import br.senai.sp.saveeats.trackorder.screen.TrackOrder
 import br.senai.sp.saveeats.ui.theme.SaveEatsTheme
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "track_order_screen"
+                    startDestination = "home_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -88,7 +88,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("order_screen") {
-                        OrderScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope, "", {})
+                        OrderScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope, "",  {})
                     }
 
                     composable("profile_screen") {
