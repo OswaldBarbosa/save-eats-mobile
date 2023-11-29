@@ -1,11 +1,11 @@
 package br.senai.sp.saveeats.trackorder.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material3.Divider
@@ -31,7 +30,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,20 +39,44 @@ import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
-import com.google.firebase.firestore.local.LocalStore
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun TrackOrder(navController: NavController, localStore: Storage) {
+fun TrackOrder(navController: NavController, localStorage: Storage) {
 
     val context = LocalContext.current
 
-    val imageRestaurant = localStore.readDataString(context, "imageRestaurant")
-    val nameRestaurant = localStore.readDataString(context, "nameRestaurant")
+    val formatTime = DateTimeFormatter.ofPattern("HH:mm")
 
-    val streetClient = localStore.readDataString(context, "streetClient")
-    val numberAddressClient = localStore.readDataInt(context, "numberAddressClient")
-    val cityClient = localStore.readDataString(context, "cityClient")
-    val stateClient = localStore.readDataString(context, "stateClient")
+    val currentTime = LocalDateTime.now()
+    val formattedTime = currentTime.format(formatTime)
+
+    val timeDelivery = localStorage.readDataString(context, "timeDelivery")
+    val timeDeliveryFormatted = timeDelivery.toString().replace("00:", "")
+    val updatedTime = currentTime.plusMinutes(timeDeliveryFormatted.toLong())
+    val formattedTimeUpdated = updatedTime.format(formatTime)
+
+    val imageRestaurant = localStorage.readDataString(context, "imageRestaurant")
+    val nameRestaurant = localStorage.readDataString(context, "nameRestaurant")
+
+    val streetClient = localStorage.readDataString(context, "streetClient")
+    val numberAddressClient = localStorage.readDataInt(context, "numberAddressClient")
+    val cityClient = localStorage.readDataString(context, "cityClient")
+    val stateClient = localStorage.readDataString(context, "stateClient")
+
+    var priceProduct = localStorage.readDataString(context, "priceProduct")
+
+    priceProduct = priceProduct!!.replace(",", ".")
+    priceProduct.toFloat()
+
+    val deliveryValue = localStorage.readDataFloat(context, "deliveryValue")
+
+    val sumDeliveryProduct = deliveryValue + priceProduct.toFloat()
+
+    val formattedSum = sumDeliveryProduct.let {
+        String.format("%.2f", it)
+    }
 
     Surface(
         modifier = Modifier
@@ -143,7 +165,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido realizado",
+                                        text = "Pedido Confirmado",
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
@@ -172,7 +194,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 Icon(
                                     imageVector = Icons.Default.CheckCircleOutline,
                                     contentDescription = "Icon Check",
-                                    tint = colorResource(id = R.color.green_save_eats_light)
+                                    tint = Color.Black
                                 )
 
                                 Column(
@@ -181,7 +203,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido realizado",
+                                        text = "Pedido sendo preparado",
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
@@ -210,7 +232,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 Icon(
                                     imageVector = Icons.Default.CheckCircleOutline,
                                     contentDescription = "Icon Check",
-                                    tint = colorResource(id = R.color.green_save_eats_light)
+                                    tint = Color.Black
                                 )
 
                                 Column(
@@ -219,7 +241,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido realizado",
+                                        text = "Pedido a caminho",
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
@@ -248,7 +270,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 Icon(
                                     imageVector = Icons.Default.CheckCircleOutline,
                                     contentDescription = "Icon Check",
-                                    tint = colorResource(id = R.color.green_save_eats_light)
+                                    tint = Color.Black
                                 )
 
                                 Column(
@@ -257,7 +279,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido realizado",
+                                        text = "Pedido entregue",
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
@@ -310,32 +332,32 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                                     fontFamily = fontFamily
                                 )
 
-                                Row(
+                                Column(
                                     modifier = Modifier
                                         .padding(bottom = 15.dp)
-                                        .offset(x = 30.dp)
+                                        .offset(x = 10.dp)
                                 ) {
 
-                                    Icon(
-                                        imageVector = Icons.Default.AccessTime,
-                                        contentDescription = "Icon Time",
-                                        tint = colorResource(id = R.color.green_save_eats_light)
-                                    )
+//                                    Icon(
+//                                        imageVector = Icons.Default.AccessTime,
+//                                        contentDescription = "Icon Time",
+//                                        tint = colorResource(id = R.color.green_save_eats_light)
+//                                    )
 
                                     Text(
-                                        text = "18:30",
+                                        text = formattedTime.toString(),
                                         fontFamily = fontFamily,
                                         fontWeight = FontWeight.Black
                                     )
 
-                                    Divider(
-                                        modifier = Modifier
-                                            .width(5.dp)
-                                            .height(1.5.dp)
-                                    )
+//                                    Divider(
+//                                        modifier = Modifier
+//                                            .width(5.dp)
+//                                            .height(1.5.dp)
+//                                    )
 
                                     Text(
-                                        text = "19:00",
+                                        text = formattedTimeUpdated.toString(),
                                         fontFamily = fontFamily,
                                         fontWeight = FontWeight.Black
                                     )
@@ -351,6 +373,8 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                 }
 
             }
+            
+            Spacer(modifier = Modifier.height(10.dp))
 
             Column(
                 modifier = Modifier
@@ -359,7 +383,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
             ) {
 
                 Text(
-                    text = "Detalhes do pedido",
+                    text = stringResource(id = R.string.order_details),
                     fontSize = 22.sp,
                     fontFamily = fontFamily,
                     color = colorResource(id = R.color.green_save_eats_light)
@@ -384,7 +408,9 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                         )
 
                         Text(
-                            text = "Ver cardápio",
+                            modifier = Modifier
+                                .clickable { navController.navigate("products_restaurant_screen") },
+                            text = stringResource(id = R.string.see_menu),
                             fontFamily = fontFamily,
                             color = colorResource(id = R.color.green_save_eats_light)
                         )
@@ -461,7 +487,7 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                     )
 
                     Text(
-                        text = "R$: 65,50",
+                        text = ": R$ $formattedSum",
                         fontWeight = FontWeight.Black,
                         fontFamily = fontFamily
                     )
@@ -472,16 +498,17 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Text(
-                        text = "Pagamento",
+                        text = "Pagamento:",
                         fontFamily = fontFamily
                     )
 
                     Text(
-                        text = "Débito Mastercard",
+                        text = "Pagamento feito pelo aplicativo",
                         fontWeight = FontWeight.Black,
                         fontFamily = fontFamily
                     )

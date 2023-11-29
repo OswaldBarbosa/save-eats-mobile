@@ -140,7 +140,7 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                         Icon(
                             modifier = Modifier
                                 .size(18.dp)
-                                .offset(x = 150.dp),
+                                .offset(x = 130.dp),
                             imageVector = Icons.Default.KeyboardArrowRight,
                             tint = Color(123, 125, 123),
                             contentDescription = "Arrow Right"
@@ -251,7 +251,7 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                             color = Color(123, 125, 123)
                         )
 
-                        Spacer(modifier = Modifier.width(265.dp))
+                        Spacer(modifier = Modifier.width(292.dp))
 
                         Icon(
                             modifier = Modifier

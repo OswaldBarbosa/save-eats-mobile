@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "track_order_screen"
+                    startDestination = "home_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("track_order_screen") {
-                        TrackOrder(navController = navController, localStore = Storage())
+                        TrackOrder(navController = navController, localStorage = Storage())
                     }
 
                 }

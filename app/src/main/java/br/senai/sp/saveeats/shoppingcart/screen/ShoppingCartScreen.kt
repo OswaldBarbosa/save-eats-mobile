@@ -89,6 +89,8 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
 
     })
 
+    Log.e("TESTE", "ShoppingCartScreen: ${listDeliveryArea.valor_entrega}", )
+
     val sumDeliveryProduct = listDeliveryArea.valor_entrega!! + priceProduct.toFloat()
 
     val formattedSum = sumDeliveryProduct?.let {

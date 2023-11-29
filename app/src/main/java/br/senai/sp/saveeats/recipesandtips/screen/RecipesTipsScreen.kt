@@ -428,13 +428,13 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                 )
 
                                 Text(
-                                    text = "Portion: ${it.numero_porcoes}",
+                                    text = "Porção: ${it.numero_porcoes}",
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.W400
                                 )
 
                                 Text(
-                                    text = "Preparation Time: ${it.tempo_preparo}",
+                                    text = "Tempo de preparo: ${it.tempo_preparo}",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.W400
                                 )

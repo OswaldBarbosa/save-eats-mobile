@@ -87,7 +87,6 @@ fun OrderScreen(
 
     var priceProduct = localStorage.readDataString(context, "priceProduct")
     priceProduct = priceProduct!!.replace(",", ".")
-
     priceProduct.toFloat()
 
     val deliveryValue = localStorage.readDataFloat(context, "deliveryValue")
@@ -467,7 +466,7 @@ fun OrderScreen(
                                         onValueChange(it.nome_forma_pagamento)
                                         isExpanded = false
 
-                                        localStorage.saveDataInt(context, it.id, "idPaymentForm")
+                                        localStorage.saveDataInt(context, it.id_restaurante_forma_pagamento, "idPaymentForm")
 
                                     }
 
@@ -529,12 +528,14 @@ fun OrderScreen(
                 CustomButton(
                     onClick = {
 
-                        order(6, 6, idRestaurant, idClient, idRestaurant, idProduct.toString())
+                        order(6, idPaymentForm, idRestaurant, idClient, idRestaurant, idProduct.toString())
 
                         localStorage.saveDataString(context, addressClient[0].logradouro_cliente!!, "streetClient")
                         localStorage.saveDataInt(context, addressClient[0].numero_endereco_cliente!!, "numberAddressClient")
                         localStorage.saveDataString(context, addressClient[0].localidade_cliente!!, "cityClient")
                         localStorage.saveDataString(context, addressClient[0].uf_cliente!!, "stateClient")
+
+                        localStorage.saveDataString(context, timeDelivery.tempo_entrega!!, "timeDelivery")
 
                     }, text = stringResource(id = R.string.make_a_order)
                 )
