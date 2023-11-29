@@ -31,6 +31,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.fontResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,6 +50,11 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
 
     val imageRestaurant = localStore.readDataString(context, "imageRestaurant")
     val nameRestaurant = localStore.readDataString(context, "nameRestaurant")
+
+    val streetClient = localStore.readDataString(context, "streetClient")
+    val numberAddressClient = localStore.readDataInt(context, "numberAddressClient")
+    val cityClient = localStore.readDataString(context, "cityClient")
+    val stateClient = localStore.readDataString(context, "stateClient")
 
     Surface(
         modifier = Modifier
@@ -391,20 +398,52 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Text(
-                        text = "Entregar em:",
+                        text = stringResource(id = R.string.deliver_to),
+                        fontSize = 18.sp,
                         fontFamily = fontFamily
                     )
 
-                    Text(
-                        text = "Rua Nova Aurora, 69 - Jardim Mutinga",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Black,
-                        fontFamily = fontFamily
-                    )
+                    Row {
+
+                        Text(
+                            text = "$streetClient,",
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily,
+                            fontWeight = FontWeight.Black
+                        )
+
+                        Spacer(modifier = Modifier.width(1.dp))
+
+                        Text(
+                            text = "$numberAddressClient -",
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily,
+                            fontWeight = FontWeight.Black
+                        )
+
+                        Spacer(modifier = Modifier.width(2.dp))
+
+                       Text(
+                            text = "$cityClient -",
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily,
+                            fontWeight = FontWeight.Black
+                        )
+
+                        Spacer(modifier = Modifier.width(2.dp))
+
+                        Text(
+                            text = stateClient!!,
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily,
+                            fontWeight = FontWeight.Black
+                        )
+
+                    }
 
                 }
 
@@ -416,7 +455,8 @@ fun TrackOrder(navController: NavController, localStore: Storage) {
                 ) {
 
                     Text(
-                        text = "Total",
+                        text = stringResource(id = R.string.total),
+                        fontSize = 18.sp,
                         fontFamily = fontFamily
                     )
 

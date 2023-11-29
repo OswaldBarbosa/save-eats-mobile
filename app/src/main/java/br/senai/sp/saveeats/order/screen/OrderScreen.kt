@@ -1,15 +1,14 @@
 package br.senai.sp.saveeats.order.screen
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -18,6 +17,7 @@ import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +38,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
+import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.Header
 import br.senai.sp.saveeats.model.ClientAddress
 import br.senai.sp.saveeats.model.ClientAddressList
@@ -62,13 +63,17 @@ fun OrderScreen(
     navController: NavController,
     localStorage: Storage,
     lifecycleScope: LifecycleCoroutineScope,
-    teste: String,
+    input: String,
     onValueChange: (String) -> Unit
 ) {
 
     val context = LocalContext.current
 
-    var teste = teste
+    val idClient = localStorage.readDataInt(context, "idClient")
+    val idRestaurant = localStorage.readDataInt(context, "idRestaurant")
+    val cpfClient = localStorage.readDataString(context, "cpfClient")
+
+    var inputMethodPayment = input
 
     var isExpanded by remember {
         mutableStateOf(false)
@@ -77,10 +82,10 @@ fun OrderScreen(
     val imageRestaurant = localStorage.readDataString(context, "imageRestaurant")
     val nameRestaurant = localStorage.readDataString(context, "nameRestaurant")
 
-    val idProduct = localStorage.readDataInt(context, "idProductOne")
+    val idProduct = localStorage.readDataInt(context, "idProduct")
     idProduct.toString()
-    var priceProduct = localStorage.readDataString(context, "priceProduct")
 
+    var priceProduct = localStorage.readDataString(context, "priceProduct")
     priceProduct = priceProduct!!.replace(",", ".")
 
     priceProduct.toFloat()
@@ -97,21 +102,17 @@ fun OrderScreen(
         mutableStateOf(listOf(ClientAddress()))
     }
 
-    val callAddressClient = RetrofitFactory
-        .getAddressClient()
-        .getAddressClient(58)
+    val callAddressClient = RetrofitFactory.getAddressClient().getAddressClient(idClient)
 
     callAddressClient.enqueue(object : Callback<ClientAddressList> {
         override fun onResponse(
-            call: Call<ClientAddressList>,
-            response: Response<ClientAddressList>
+            call: Call<ClientAddressList>, response: Response<ClientAddressList>
         ) {
             addressClient = response.body()!!.endereco_cliente
         }
 
         override fun onFailure(
-            call: Call<ClientAddressList>,
-            t: Throwable
+            call: Call<ClientAddressList>, t: Throwable
         ) {
 
             Log.e("ERROR", "onFailure: ${t.message}")
@@ -124,21 +125,17 @@ fun OrderScreen(
         mutableStateOf(DeliveryAreaRestaurant())
     }
 
-    val callTimeDelivery = RetrofitFactory
-        .getDeliveryArea()
-        .getDeliveryArea(1)
+    val callTimeDelivery = RetrofitFactory.getDeliveryArea().getDeliveryArea(idRestaurant)
 
     callTimeDelivery.enqueue(object : Callback<DeliveryAreaRestaurantList> {
         override fun onResponse(
-            call: Call<DeliveryAreaRestaurantList>,
-            response: Response<DeliveryAreaRestaurantList>
+            call: Call<DeliveryAreaRestaurantList>, response: Response<DeliveryAreaRestaurantList>
         ) {
             timeDelivery = response.body()!!.frete_area_entrega_do_restaurante
         }
 
         override fun onFailure(
-            call: Call<DeliveryAreaRestaurantList>,
-            t: Throwable
+            call: Call<DeliveryAreaRestaurantList>, t: Throwable
         ) {
 
             Log.e("ERROR", "onFailure: ${t.message}")
@@ -147,17 +144,11 @@ fun OrderScreen(
 
     })
 
-    val deliveryTime = localStorage.readDataString(context, "deliveryTime")
-
-    val idClient = localStorage.readDataInt(context, "idClient")
-    val idRestaurant = localStorage.readDataInt(context, "idRestaurant")
-    val cpfClient = localStorage.readDataString(context, "cpfClient")
-
     var listFormPayment by remember {
         mutableStateOf<List<FormPayment>>(emptyList())
     }
 
-    val callFormPayment = RetrofitFactory.getFormPayment().getFormPayment(1)
+    val callFormPayment = RetrofitFactory.getFormPayment().getFormPayment(idRestaurant)
 
     callFormPayment.enqueue(object : Callback<FormPaymentList> {
         override fun onResponse(
@@ -203,7 +194,9 @@ fun OrderScreen(
                 navController.navigate("waiting_for_order_screen")
 
             } else {
-                Toast.makeText(context, "Deu Erro", Toast.LENGTH_SHORT).show()
+
+                Log.e("ds3t", "order: ${response.body()}")
+
             }
 
         }
@@ -211,9 +204,7 @@ fun OrderScreen(
     }
 
     Surface(
-        modifier = Modifier
-            .fillMaxSize(),
-        color = colorResource(id = R.color.white)
+        modifier = Modifier.fillMaxSize(), color = colorResource(id = R.color.white)
     ) {
 
         Column(
@@ -221,8 +212,7 @@ fun OrderScreen(
         ) {
 
             Header(
-                text = stringResource(id = R.string.shopping_cart),
-                navController = navController
+                text = stringResource(id = R.string.shopping_cart), navController = navController
             )
 
             Column(
@@ -238,10 +228,7 @@ fun OrderScreen(
                 ) {
 
                     Surface(
-                        modifier = Modifier
-                            .size(50.dp),
-                        shape = CircleShape,
-                        elevation = 5.dp
+                        modifier = Modifier.size(50.dp), shape = CircleShape, elevation = 5.dp
                     ) {
 
                         AsyncImage(
@@ -255,19 +242,28 @@ fun OrderScreen(
                     Spacer(modifier = Modifier.width(15.dp))
 
                     Text(
-                        text = nameRestaurant!!,
-                        fontSize = 16.sp,
-                        fontFamily = fontFamily
+                        text = nameRestaurant!!, fontSize = 16.sp, fontFamily = fontFamily
                     )
 
                 }
 
-                Column(
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(350.dp)
+                        .height(.8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
 
                     Title(text = stringResource(id = R.string.delivery_address))
+
+                    Spacer(modifier = Modifier.height(5.dp))
 
                     Row {
 
@@ -278,25 +274,25 @@ fun OrderScreen(
                             fontWeight = FontWeight.Black
                         )
 
-                        Spacer(modifier = Modifier.width(5.dp))
+                        Spacer(modifier = Modifier.width(1.dp))
 
                         Text(
-                            text = "${addressClient[0].numero_endereco_cliente} - ",
+                            text = "${addressClient[0].numero_endereco_cliente} -",
                             fontSize = 15.sp,
                             fontFamily = fontFamily,
                             fontWeight = FontWeight.Black
                         )
 
-                        Spacer(modifier = Modifier.width(5.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
 
                         Text(
-                            text = "${addressClient[0].localidade_cliente} - ",
+                            text = "${addressClient[0].localidade_cliente} -",
                             fontSize = 15.sp,
                             fontFamily = fontFamily,
                             fontWeight = FontWeight.Black
                         )
 
-                        Spacer(modifier = Modifier.width(5.dp))
+                        Spacer(modifier = Modifier.width(2.dp))
 
                         Text(
                             text = addressClient[0].uf_cliente.toString(),
@@ -307,11 +303,15 @@ fun OrderScreen(
 
                     }
 
+                    Spacer(modifier = Modifier.height(5.dp))
+
                     Text(
                         text = stringResource(id = R.string.standard_delivery),
                         fontSize = 14.5.sp,
                         fontFamily = fontFamily
                     )
+
+                    Spacer(modifier = Modifier.height(5.dp))
 
                     Row {
 
@@ -332,35 +332,46 @@ fun OrderScreen(
                         Spacer(modifier = Modifier.width(5.dp))
 
                         Text(
-                            text = "min",
-                            fontSize = 14.sp,
-                            fontFamily = fontFamily
+                            text = "min", fontSize = 14.sp, fontFamily = fontFamily
                         )
 
                     }
 
                 }
 
-                Column(
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(350.dp)
+                        .height(.8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
 
                     Title(text = stringResource(id = R.string.summary_of_values))
 
+                    Spacer(modifier = Modifier.height(5.dp))
+
                     SummaryOfValues(
-                        textOne = stringResource(id = R.string.subtotal),
-                        textTwo = priceProduct!!
+                        textOne = stringResource(id = R.string.subtotal), textTwo = priceProduct
                     )
+
+                    Spacer(modifier = Modifier.height(5.dp))
 
                     SummaryOfValues(
                         textOne = stringResource(id = R.string.delivery_fee),
                         textTwo = deliveryValue.toString()
                     )
 
+                    Spacer(modifier = Modifier.height(5.dp))
+
                     Row(
-                        modifier = Modifier
-                            .width(350.dp),
+                        modifier = Modifier.width(350.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
 
@@ -382,9 +393,18 @@ fun OrderScreen(
 
                 }
 
-                Column(
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(350.dp)
+                        .height(.8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column(
+                    modifier = Modifier.fillMaxWidth()
                 ) {
 
                     Title(text = stringResource(id = R.string.payment_methods))
@@ -398,45 +418,58 @@ fun OrderScreen(
                             onExpandedChange = { isExpanded = it },
                         ) {
 
-                            OutlinedTextField(
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .padding(start = 15.dp)
-                                    .width(120.dp),
-                                value = teste,
+                            OutlinedTextField(modifier = Modifier
+                                .menuAnchor()
+                                .width(350.dp),
+                                value = inputMethodPayment,
                                 onValueChange = {},
+                                label = {
+
+                                    Text(
+                                        text = stringResource(id = R.string.select_payment_method),
+                                        fontSize = 14.sp,
+                                        fontFamily = fontFamily
+                                    )
+
+                                },
                                 readOnly = true,
                                 trailingIcon = {
                                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
-                                }
-                            )
+                                })
 
                             ExposedDropdownMenu(
                                 expanded = isExpanded,
-                                onDismissRequest = { isExpanded = false }
-                            ) {
+                                onDismissRequest = { isExpanded = false }) {
 
                                 listFormPayment.forEach {
 
-                                    androidx.compose.material3.DropdownMenuItem(
-                                        text = {
+                                    androidx.compose.material3.DropdownMenuItem(text = {
+
+                                        Row {
+
                                             AsyncImage(
-                                                modifier = Modifier
-                                                    .size(20.dp),
+                                                modifier = Modifier.size(30.dp),
                                                 model = it.foto_bandeira,
                                                 contentDescription = ""
                                             )
+
+                                            Spacer(modifier = Modifier.width(10.dp))
+
                                             Text(
-                                                text = it.nome_forma_pagamento,
-                                                color = Color.Black
+                                                text = it.nome_forma_pagamento, color = Color.Black
                                             )
-                                        },
-                                        onClick = {
-                                            var test3 = it.nome_forma_pagamento
-                                            teste = test3
-                                            onValueChange(it.nome_forma_pagamento)
-                                            isExpanded = false
+
                                         }
+
+                                    }, onClick = {
+                                        val test3 = it.nome_forma_pagamento
+                                        inputMethodPayment = test3
+                                        onValueChange(it.nome_forma_pagamento)
+                                        isExpanded = false
+
+                                        localStorage.saveDataInt(context, it.id, "idPaymentForm")
+
+                                    }
 
                                     )
 
@@ -449,6 +482,62 @@ fun OrderScreen(
                     }
 
                 }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
+                    modifier = Modifier
+                        .width(350.dp)
+                        .height(.8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+
+                    Title(text = "CPF na nota")
+
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Text(
+                        text = cpfClient!!, fontSize = 16.sp, fontWeight = FontWeight.Medium
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider(
+                    modifier = Modifier
+                        .width(350.dp)
+                        .height(.8.dp)
+                )
+
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                val idPaymentForm = localStorage.readDataInt(context, "idPaymentForm")
+
+                CustomButton(
+                    onClick = {
+
+                        order(6, 6, idRestaurant, idClient, idRestaurant, idProduct.toString())
+
+                        localStorage.saveDataString(context, addressClient[0].logradouro_cliente!!, "streetClient")
+                        localStorage.saveDataInt(context, addressClient[0].numero_endereco_cliente!!, "numberAddressClient")
+                        localStorage.saveDataString(context, addressClient[0].localidade_cliente!!, "cityClient")
+                        localStorage.saveDataString(context, addressClient[0].uf_cliente!!, "stateClient")
+
+                    }, text = stringResource(id = R.string.make_a_order)
+                )
 
             }
 

@@ -67,4 +67,6 @@
     <string name="edit_photo">Edit photo</string>
     <string name="waiting_for_order">Waiting for order to be accepted by the restaurant</string>
     <string name="please_wait">Please wait</string>
+    <string name="select_payment_method">Select payment method</string>
+    <string name="deliver_to">Deliver to:</string>
 </resources>
