@@ -5,6 +5,7 @@ import br.senai.sp.saveeats.service.CategoryService
 import br.senai.sp.saveeats.service.ClientService
 import br.senai.sp.saveeats.service.DeliveryAreaService
 import br.senai.sp.saveeats.service.FormPaymentService
+import br.senai.sp.saveeats.service.HistoricService
 import br.senai.sp.saveeats.service.LoginService
 import br.senai.sp.saveeats.service.OrderService
 import br.senai.sp.saveeats.service.ProductsRestaurantService
@@ -104,8 +105,12 @@ object RetrofitFactory {
         return retrofitFactory.create(FormPaymentService::class.java)
     }
 
-    fun getAddressByViaCep(): ViaCepService {
-        return viaCep.create(ViaCepService::class.java)
+    fun getHistoricById(): HistoricService{
+        return  retrofitFactory.create(HistoricService::class.java)
+    }
+
+    fun getOrderById(): OrderService{
+        return  retrofitFactory.create(OrderService::class.java)
     }
 
 }

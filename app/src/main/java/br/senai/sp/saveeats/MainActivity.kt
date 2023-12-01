@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.categoryrestaurant.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.editprofile.screen.EditProfileScreen
+import br.senai.sp.saveeats.historic.screen.DetalhesPedidoHistoricoScreen
 import br.senai.sp.saveeats.login.screen.LoginScreen
 import br.senai.sp.saveeats.menubar.screen.MenuScreen
 import br.senai.sp.saveeats.order.screen.OrderScreen
@@ -125,6 +126,10 @@ class MainActivity : ComponentActivity() {
 
                     composable("track_order_screen") {
                         TrackOrder(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("detalhes_pedido_historico_screen") {
+                        DetalhesPedidoHistoricoScreen(navController = navController , localStorage = Storage())
                     }
 
                 }

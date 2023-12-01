@@ -71,4 +71,5 @@
     <string name="deliver_to">Entregar em:</string>
     <string name="order_details">Detalhes do pedido</string>
     <string name="see_menu">Ver menu</string>
+    <string name="details_orders">Detalhes do Pedido</string>
 </resources>
