@@ -271,7 +271,7 @@ fun SearchOutlineTextField(
 @Composable
 fun CategoryItemsRestaurant(
     title: String,
-    onSelect: (String) -> Unit,
+    onSelect: (String) -> Unit
 ) {
 
     Row(

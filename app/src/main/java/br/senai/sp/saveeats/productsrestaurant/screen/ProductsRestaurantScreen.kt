@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -42,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +53,7 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.ProductsRestaurant
 import br.senai.sp.saveeats.model.ProductsRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -115,7 +118,7 @@ fun ProductsRestaurantScreen(navController: NavController, localStorage: Storage
                     Image(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        painter = painterResource(id = R.drawable.baker),
+                        painter = painterResource(id = R.drawable.background_bakery),
                         contentDescription = "Image Background",
                         contentScale = ContentScale.FillWidth
                     )
@@ -161,6 +164,214 @@ fun ProductsRestaurantScreen(navController: NavController, localStorage: Storage
                     color = colorResource(id = R.color.white),
                     shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                 ) {
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .offset(x = 20.dp)
+                    ) {
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 10.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Column {
+
+                                Text(
+                                    text = nameRestaurant,
+                                    fontSize = 22.sp,
+                                    fontFamily = fontFamily,
+                                    fontWeight = FontWeight.Black,
+                                    letterSpacing = 2.sp
+                                )
+
+                                Text(
+                                    text = nameCategoryRestaurant!!,
+                                    fontSize = 14.sp,
+                                    fontFamily = fontFamily,
+                                    fontWeight = FontWeight.Light,
+                                    letterSpacing = 2.sp,
+                                    color = colorResource(id = R.color.gray)
+                                )
+
+                            }
+
+                            Column(
+                                modifier = Modifier
+                                    .offset(-(40).dp)
+                                    .padding(top = 15.dp),
+                                horizontalAlignment = Alignment.End
+                            ) {
+
+                                Surface(
+                                    modifier = Modifier
+                                        .size(50.dp),
+                                    shape = CircleShape
+                                ) {
+
+                                    AsyncImage(
+                                        model = imageRestaurant,
+                                        contentDescription = "Image Restaurant"
+                                    )
+
+                                }
+
+                                Spacer(modifier = Modifier.height(10.dp))
+
+                                Text(
+                                    text = stringResource(id = R.string.store_profile),
+                                    fontSize = 14.sp,
+                                    fontFamily = fontFamily,
+                                    fontWeight = FontWeight.Black,
+                                    color = colorResource(id = R.color.green_save_eats_light)
+                                )
+
+                            }
+
+                        }
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+
+                            Text(
+                                text = stringResource(id = R.string.menu),
+                                fontSize = 20.sp,
+                                fontFamily = fontFamily,
+                                fontWeight = FontWeight.Black,
+                                letterSpacing = 2.sp,
+                                color = colorResource(id = R.color.green_save_eats_light)
+                            )
+
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                items(listProductsRestaurant) {
+
+                                    Surface(
+                                        modifier = Modifier
+                                            .height(110.dp)
+                                            .clickable {
+
+                                                localStorage.saveDataInt(
+                                                    context,
+                                                    it.id,
+                                                    "idProduct"
+                                                )
+
+                                                localStorage.saveDataString(
+                                                    context,
+                                                    it.imagem,
+                                                    "imageProduct"
+                                                )
+
+                                                localStorage.saveDataString(
+                                                    context,
+                                                    it.nome,
+                                                    "nameProduct"
+                                                )
+
+                                                localStorage.saveDataString(
+                                                    context,
+                                                    it.preco,
+                                                    "priceProduct"
+                                                )
+
+                                                localStorage.saveDataString(
+                                                    context,
+                                                    it.descricao,
+                                                    "descriptionProduct"
+                                                )
+
+                                                navController.navigate("products_screen")
+
+                                            },
+
+                                        color = colorResource(id = R.color.white)
+
+                                    ) {
+
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+
+                                            Surface(
+                                                modifier = Modifier
+                                                    .size(80.dp),
+                                                shape = CircleShape
+                                            ) {
+
+                                                AsyncImage(
+                                                    model = it.imagem,
+                                                    contentDescription = "Image Product",
+                                                    contentScale = ContentScale.FillHeight
+                                                )
+
+                                            }
+                                            
+                                            Spacer(modifier = Modifier.width(10.dp))
+
+                                            Column (
+                                                modifier = Modifier
+                                                    .fillMaxSize(),
+                                                verticalArrangement = Arrangement.Center
+                                            ) {
+
+                                                Text(
+                                                    text = it.nome,
+                                                    fontSize = 16.sp,
+                                                    fontFamily = fontFamily,
+                                                    fontWeight = FontWeight.Black
+                                                )
+
+                                                Text(
+                                                    text = it.descricao,
+                                                    fontSize = 15.sp,
+                                                    fontFamily = fontFamily,
+                                                    fontWeight = FontWeight.Black,
+                                                    color = colorResource(id = R.color.gray)
+                                                )
+
+                                                Text(
+                                                    text = "R$ ${it.preco}",
+                                                    fontSize = 14.sp,
+                                                    fontFamily = fontFamily,
+                                                    fontWeight = FontWeight.Black,
+                                                    color = colorResource(id = R.color.green_save_eats_light)
+                                                )
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                    Divider(
+                                        modifier = Modifier
+                                            .width(370.dp)
+                                            .height(.5.dp)
+                                            .offset(x = -(20).dp)
+                                    )
+
+                                }
+
+                            }
+
+                        }
+
+                    }
 
                 }
 

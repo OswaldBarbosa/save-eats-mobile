@@ -72,4 +72,6 @@
     <string name="order_details">Detalhes do pedido</string>
     <string name="see_menu">Ver menu</string>
     <string name="details_orders">Detalhes do Pedido</string>
+    <string name="store_profile">Perfil da loja</string>
+    <string name="menu">Cardápio</string>
 </resources>
