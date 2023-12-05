@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "home_screen"
+                    startDestination = "products_restaurant_screen"
                 ) {
 
                     composable("splash_screen") {
