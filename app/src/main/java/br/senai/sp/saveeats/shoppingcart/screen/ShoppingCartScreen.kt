@@ -54,6 +54,8 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
 
     val context = LocalContext.current
 
+    val idRestaurant = localStorage.readDataInt(context, "idRestaurant")
+
     val imageProduct = localStorage.readDataString(context, "imageProduct")
     val nameProduct = localStorage.readDataString(context, "nameProduct")
     var priceProduct = localStorage.readDataString(context, "priceProduct")
@@ -68,7 +70,7 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
 
     val callDeliveryArea = RetrofitFactory
         .getDeliveryArea()
-        .getDeliveryArea(5)
+        .getDeliveryArea(idRestaurant)
 
     callDeliveryArea.enqueue(object : Callback<DeliveryAreaRestaurantList> {
         override fun onResponse(
@@ -88,8 +90,6 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
         }
 
     })
-
-    Log.e("TESTE", "ShoppingCartScreen: ${listDeliveryArea.valor_entrega}", )
 
     val sumDeliveryProduct = listDeliveryArea.valor_entrega!! + priceProduct.toFloat()
 

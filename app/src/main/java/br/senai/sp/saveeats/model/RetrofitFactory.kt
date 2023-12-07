@@ -21,12 +21,13 @@ import retrofit2.create
 object RetrofitFactory {
 
     private const val baseURL = "https://save-eats.azurewebsites.net/"
+    private const val baseURL2 = "http://192.168.100.164:8080"
 
     private const val baseViaCepURL = "https://viacep.com.br/"
 
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL)
+        .baseUrl(baseURL2)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
