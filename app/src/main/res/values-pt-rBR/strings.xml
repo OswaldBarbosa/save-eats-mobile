@@ -47,7 +47,7 @@
     <string name="add_to_cart">Adicionar ao carrinho</string>
     <string name="recipes_and_tips">Receitas e Dicas</string>
     <string name="description">Descrição</string>
-    <string name="method_of_preparation">Método de preparo</string>
+    <string name="how_to_preparation">Modo de preparo</string>
     <string name="ingredients">Ingredientes</string>
     <string name="shopping_cart">Carrinho de compras</string>
     <string name="summary_of_values">Resumo de valores</string>
@@ -74,4 +74,18 @@
     <string name="details_orders">Detalhes do Pedido</string>
     <string name="store_profile">Perfil da loja</string>
     <string name="menu">Cardápio</string>
+    <string name="unit">Unidade:</string>
+    <string name="delivery_forecast">Previsão de entrega</string>
+    <string name="order_status">Status do Pedido</string>
+    <string name="track_order">Acompanhar pedido</string>
+    <string name="order_confirmed">Pedido confirmado</string>
+    <string name="order_preparation">Pedido sendo preparado</string>
+    <string name="order_on_the_way">Pedido a caminho</string>
+    <string name="order_delivered">Pedido entregue</string>
+    <string name="portion">Porção:</string>
+    <string name="preparation_time">Preparo de tempo:</string>
+    <string name="payment">Pagamento:</string>
+    <string name="confirm_delivery">Confirmar entrega</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="save">Salvar</string>
 </resources>

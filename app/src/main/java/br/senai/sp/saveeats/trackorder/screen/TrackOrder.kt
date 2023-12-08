@@ -2,7 +2,6 @@ package br.senai.sp.saveeats.trackorder.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,19 +14,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
+import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import java.time.LocalDateTime
@@ -52,6 +53,12 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
     val currentTime = LocalDateTime.now()
     val formattedTime = currentTime.format(formatTime)
 
+    val timePreparation = currentTime.plusMinutes(5)
+    val formattedTimePreparation = timePreparation.format(formatTime)
+
+    val timeOnTheWay = currentTime.plusMinutes(20)
+    val formattedTimeOnTheWay = timeOnTheWay.format(formatTime)
+
     val timeDelivery = localStorage.readDataString(context, "timeDelivery")
     val timeDeliveryFormatted = timeDelivery.toString().replace("00:", "")
     val updatedTime = currentTime.plusMinutes(timeDeliveryFormatted.toLong())
@@ -63,8 +70,11 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
     val streetClient = localStorage.readDataString(context, "streetClient")
     val numberAddressClient = localStorage.readDataInt(context, "numberAddressClient")
     val cityClient = localStorage.readDataString(context, "cityClient")
-    val stateClient = localStorage.readDataString(context, "stateClient")
 
+    val namePaymentForm = localStorage.readDataString(context, "namePaymentForm")
+
+    val nameProduct = localStorage.readDataString(context, "nameProduct")
+    val imageProduct = localStorage.readDataString(context, "imageProduct")
     var priceProduct = localStorage.readDataString(context, "priceProduct")
 
     priceProduct = priceProduct!!.replace(",", ".")
@@ -91,42 +101,17 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(100.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
 
-                Box(
-                    modifier = Modifier.offset(x = 30.dp, y = 58.dp)
-                ) {
-
-                    IconButton(modifier = Modifier.size(20.dp), onClick = {
-                        navController.popBackStack()
-                    }) {
-
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIosNew,
-                            contentDescription = "Arrow",
-                            tint = Color(76, 132, 62)
-                        )
-
-                    }
-
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-
-                    Text(
-                        text = "ACOMPANHAR PEDIDO",
-                        fontSize = 18.sp,
-                        fontFamily = fontFamily,
-                        fontWeight = FontWeight.W400
-                    )
-
-                }
+                Text(
+                    text = stringResource(id = R.string.track_order).uppercase(),
+                    fontSize = 18.sp,
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.W400
+                )
 
             }
 
@@ -165,13 +150,13 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido Confirmado",
+                                        text = stringResource(id = R.string.order_confirmed),
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
 
                                     Text(
-                                        text = "18:40",
+                                        text = formattedTime,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
@@ -203,13 +188,13 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido sendo preparado",
+                                        text = stringResource(id = R.string.order_preparation),
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
 
                                     Text(
-                                        text = "18:40",
+                                        text = formattedTimePreparation.toString(),
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
@@ -241,13 +226,13 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido a caminho",
+                                        text = stringResource(id = R.string.order_on_the_way),
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
 
                                     Text(
-                                        text = "18:40",
+                                        text = formattedTimeOnTheWay,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
@@ -279,13 +264,13 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                                 ) {
 
                                     Text(
-                                        text = "Pedido entregue",
+                                        text = stringResource(id = R.string.order_delivered),
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
                                     )
 
                                     Text(
-                                        text = "18:40",
+                                        text = formattedTimeUpdated,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Black,
                                         fontFamily = fontFamily
@@ -299,23 +284,24 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
 
                         Column(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(end = 15.dp, top = 15.dp),
+                                .fillMaxSize(),
                             horizontalAlignment = Alignment.End,
                             verticalArrangement = Arrangement.SpaceBetween
                         ) {
 
-                            Column {
+                            Column(
+                                modifier = Modifier
+                                    .padding(top = 15.dp),
+                            ) {
 
                                 Text(
-                                    text = "Status do pedido",
+                                    text = stringResource(id = R.string.order_details),
+                                    fontSize = 15.sp,
                                     fontFamily = fontFamily
                                 )
 
                                 Text(
-                                    modifier = Modifier
-                                        .offset(x = 35.dp),
-                                    text = "Despachado",
+                                    text = stringResource(id = R.string.order_confirmed),
                                     fontFamily = fontFamily,
                                     color = colorResource(
                                         id =
@@ -325,44 +311,27 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
 
                             }
 
-                            Column {
+                            Column(
+                                modifier = Modifier
+                                    .padding(bottom = 15.dp)
+                                    .offset(x = -(15).dp)
+                            ) {
 
                                 Text(
-                                    text = "Previsão de entrega",
+                                    text = stringResource(id = R.string.delivery_forecast),
+                                    fontSize = 15.sp,
                                     fontFamily = fontFamily
                                 )
 
-                                Column(
+                                Spacer(modifier = Modifier.height(5.dp))
+
+                                Text(
                                     modifier = Modifier
-                                        .padding(bottom = 15.dp)
-                                        .offset(x = 10.dp)
-                                ) {
-
-//                                    Icon(
-//                                        imageVector = Icons.Default.AccessTime,
-//                                        contentDescription = "Icon Time",
-//                                        tint = colorResource(id = R.color.green_save_eats_light)
-//                                    )
-
-                                    Text(
-                                        text = formattedTime.toString(),
-                                        fontFamily = fontFamily,
-                                        fontWeight = FontWeight.Black
-                                    )
-
-//                                    Divider(
-//                                        modifier = Modifier
-//                                            .width(5.dp)
-//                                            .height(1.5.dp)
-//                                    )
-
-                                    Text(
-                                        text = formattedTimeUpdated.toString(),
-                                        fontFamily = fontFamily,
-                                        fontWeight = FontWeight.Black
-                                    )
-
-                                }
+                                        .offset(x = 95.dp),
+                                    text = formattedTimeUpdated.toString(),
+                                    fontFamily = fontFamily,
+                                    fontWeight = FontWeight.Black
+                                )
 
                             }
 
@@ -373,7 +342,7 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                 }
 
             }
-            
+
             Spacer(modifier = Modifier.height(10.dp))
 
             Column(
@@ -383,11 +352,14 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.order_details),
-                    fontSize = 22.sp,
+                    text = stringResource(id = R.string.order_details).uppercase(),
+                    fontSize = 18.sp,
                     fontFamily = fontFamily,
+                    fontWeight = FontWeight.Black,
                     color = colorResource(id = R.color.green_save_eats_light)
                 )
+
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Row {
 
@@ -404,13 +376,16 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                     Column {
 
                         Text(
-                            text = nameRestaurant!!
+                            text = nameRestaurant!!,
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily
                         )
 
                         Text(
                             modifier = Modifier
                                 .clickable { navController.navigate("products_restaurant_screen") },
                             text = stringResource(id = R.string.see_menu),
+                            fontSize = 16.sp,
                             fontFamily = fontFamily,
                             color = colorResource(id = R.color.green_save_eats_light)
                         )
@@ -433,6 +408,8 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                         fontFamily = fontFamily
                     )
 
+                    Spacer(modifier = Modifier.width(5.dp))
+
                     Row {
 
                         Text(
@@ -453,17 +430,8 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
 
                         Spacer(modifier = Modifier.width(2.dp))
 
-                       Text(
-                            text = "$cityClient -",
-                            fontSize = 16.sp,
-                            fontFamily = fontFamily,
-                            fontWeight = FontWeight.Black
-                        )
-
-                        Spacer(modifier = Modifier.width(2.dp))
-
                         Text(
-                            text = stateClient!!,
+                            text = "$cityClient",
                             fontSize = 16.sp,
                             fontFamily = fontFamily,
                             fontWeight = FontWeight.Black
@@ -477,7 +445,8 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     Text(
@@ -486,8 +455,11 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                         fontFamily = fontFamily
                     )
 
+                    Spacer(modifier = Modifier.width(5.dp))
+
                     Text(
                         text = ": R$ $formattedSum",
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Black,
                         fontFamily = fontFamily
                     )
@@ -503,14 +475,118 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                 ) {
 
                     Text(
-                        text = "Pagamento:",
+                        text = stringResource(id = R.string.payment),
+                        fontSize = 18.sp,
                         fontFamily = fontFamily
                     )
 
+                    Spacer(modifier = Modifier.width(5.dp))
+
                     Text(
-                        text = "Pagamento feito pelo aplicativo",
+                        text = namePaymentForm!!,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Black,
                         fontFamily = fontFamily
+                    )
+
+                }
+
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(x = 25.dp)
+            ) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+
+                    Surface(
+                        modifier = Modifier
+                            .size(60.dp),
+                        shape = CircleShape
+                    ) {
+
+                        AsyncImage(
+                            model = imageProduct,
+                            contentDescription = "Image Product",
+                            contentScale = ContentScale.FillHeight
+                        )
+
+                    }
+
+                    Spacer(modifier = Modifier.width(15.dp))
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+
+                        Text(
+                            text = nameProduct!!,
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily
+                        )
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+
+                            Text(
+                                text = stringResource(id = R.string.unit),
+                                fontSize = 16.sp,
+                                fontFamily = fontFamily
+                            )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Text(
+                                text = priceProduct,
+                                fontSize = 16.sp,
+                                fontFamily = fontFamily
+                            )
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                androidx.compose.material.Button(
+                    modifier = Modifier
+                        .width(255.dp)
+                        .height(55.dp),
+                    onClick = { /*TODO*/ }, shape = RoundedCornerShape(30.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(76, 132, 62)
+                    )
+                ) {
+
+                    Text(
+                        text = stringResource(id = R.string.order_delivered).uppercase(),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Black,
+                        fontFamily = fontFamily,
+                        color = colorResource(id = R.color.white)
                     )
 
                 }

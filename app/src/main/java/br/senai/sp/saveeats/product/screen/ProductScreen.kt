@@ -1,6 +1,5 @@
 package br.senai.sp.saveeats.product.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -144,7 +142,7 @@ fun ProductScreen(
                     )
 
                     Text(
-                        text = "from R$ $priceProduct",
+                        text = "R$ $priceProduct",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500,
                         letterSpacing = 2.sp,
@@ -175,7 +173,6 @@ fun ProductScreen(
                         value = "",
                         onValueChange = {}
                     )
-
 
                 }
 

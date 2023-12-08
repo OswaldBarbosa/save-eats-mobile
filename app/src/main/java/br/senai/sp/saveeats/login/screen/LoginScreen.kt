@@ -1,6 +1,5 @@
 package br.senai.sp.saveeats.login.screen
 
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -102,8 +101,6 @@ fun LoginScreen(
 
                 if (response.isSuccessful) {
 
-                    Log.e("TESTE", "login: ${response.body()}", )
-
                     val json = response.body().toString()
 
                     val jsonObject = JSONObject(json)
@@ -116,13 +113,22 @@ fun LoginScreen(
 
                     val name = clientObject.getString("nome")
 
+                    val emailClient = clientObject.getString("email")
+
+                    val passwordClient = clientObject.getString("senha")
+
                     val photo = clientObject.getString("foto")
+
+                    val phone = clientObject.getString("telefone")
 
                     Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")
                     localStorage.saveDataString(context, cpf, "cpfClient")
                     localStorage.saveDataString(context, name, "nameClient")
                     localStorage.saveDataString(context, photo, "photoClient")
+                    localStorage.saveDataString(context, phone, "phoneClient")
+                    localStorage.saveDataString(context, emailClient, "emailClient")
+                    localStorage.saveDataString(context, passwordClient, "passwordClient")
                     navController.navigate("home_screen")
 
                 } else {

@@ -467,6 +467,7 @@ fun OrderScreen(
                                         isExpanded = false
 
                                         localStorage.saveDataInt(context, it.id_restaurante_forma_pagamento, "idPaymentForm")
+                                        localStorage.saveDataString(context, it.nome_forma_pagamento, "namePaymentForm")
 
                                     }
 
@@ -524,6 +525,7 @@ fun OrderScreen(
             ) {
 
                 val idPaymentForm = localStorage.readDataInt(context, "idPaymentForm")
+                val namePaymentForm = localStorage.readDataString(context, "namePaymentForm")
 
                 CustomButton(
                     onClick = {
@@ -534,6 +536,7 @@ fun OrderScreen(
                         localStorage.saveDataInt(context, addressClient[0].numero_endereco_cliente!!, "numberAddressClient")
                         localStorage.saveDataString(context, addressClient[0].localidade_cliente!!, "cityClient")
                         localStorage.saveDataString(context, addressClient[0].uf_cliente!!, "stateClient")
+                        localStorage.saveDataString(context, namePaymentForm!!, "namePaymentForm")
 
                         localStorage.saveDataString(context, timeDelivery.tempo_entrega!!, "timeDelivery")
 

@@ -47,7 +47,7 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="recipes_and_tips">Recipes and Tips</string>
     <string name="description">Description</string>
-    <string name="method_of_preparation">Method of preparation</string>
+    <string name="how_to_preparation">How to preparation</string>
     <string name="ingredients">Ingredients</string>
     <string name="shopping_cart">Shopping cart</string>
     <string name="summary_of_values">Summary of values</string>
@@ -74,4 +74,18 @@
     <string name="details_orders">Order Details</string>
     <string name="store_profile">Store profile</string>
     <string name="menu">Menu</string>
+    <string name="unit">Unit:</string>
+    <string name="delivery_forecast">Delivery forecast</string>
+    <string name="order_status">Order status</string>
+    <string name="track_order">Track order</string>
+    <string name="order_confirmed">Order Confirmed</string>
+    <string name="order_preparation">Order preparation</string>
+    <string name="order_on_the_way">Order on the way</string>
+    <string name="order_delivered">Order delivered</string>
+    <string name="portion">Portion:</string>
+    <string name="preparation_time">Preparation time:</string>
+    <string name="payment">Payment:</string>
+    <string name="confirm_delivery">Confirm delivery</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="save">Save</string>
 </resources>

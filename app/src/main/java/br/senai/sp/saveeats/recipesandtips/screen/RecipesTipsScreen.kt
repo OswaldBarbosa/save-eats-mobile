@@ -1,7 +1,6 @@
 package br.senai.sp.saveeats.recipesandtips.screen
 
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,15 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +44,7 @@ import br.senai.sp.saveeats.model.RecipesList
 import br.senai.sp.saveeats.model.RetrofitFactory
 import br.senai.sp.saveeats.model.Tips
 import br.senai.sp.saveeats.model.TipsList
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,10 +57,6 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
 
     var progressState by remember {
         mutableStateOf(true)
-    }
-
-    var searchState by remember {
-        mutableStateOf(TextFieldValue(""))
     }
 
     var listRecipes by remember {
@@ -192,24 +182,22 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                 .fillMaxSize()
         ) {
 
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .height(100.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.recipes_and_tips),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.W300,
-                    color = Color(76, 77, 76)
+                    text = stringResource(id = R.string.recipes_and_tips).uppercase(),
+                    fontSize = 18.sp,
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.W400
                 )
 
             }
-
-            Spacer(modifier = Modifier.height(15.dp))
 
             Row(
                 modifier = Modifier
@@ -220,9 +208,10 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                     modifier = Modifier
                         .padding(start = 55.dp)
                         .clickable { progressState = true },
-                    text = stringResource(id = R.string.recipes),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight(400)
+                    text = stringResource(id = R.string.recipes).uppercase(),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Black,
+                    fontFamily = fontFamily
                 )
 
                 Spacer(modifier = Modifier.width(170.dp))
@@ -231,9 +220,10 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                     modifier = Modifier
                         .padding(end = 50.dp)
                         .clickable { progressState = false },
-                    text = stringResource(id = R.string.tips),
+                    text = stringResource(id = R.string.tips).uppercase(),
                     fontSize = 18.sp,
-                    fontWeight = FontWeight(400)
+                    fontWeight = FontWeight.Black,
+                    fontFamily = fontFamily
                 )
 
             }
@@ -274,76 +264,6 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
             Spacer(modifier = Modifier.height(25.dp))
 
             if (progressState) {
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .width(360.dp)
-                            .height(45.dp),
-                        value = searchState,
-                        onValueChange = {
-                            searchState = it
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                                tint = Color.Gray
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = "Search",
-                            )
-                        },
-                        shape = RoundedCornerShape(100)
-
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.height(25.dp))
-
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-
-                    items(listCategoryRecipes) {
-
-                        Surface(
-                            modifier = Modifier
-                                .width(120.dp)
-                                .height(40.dp)
-                                .padding(end = 20.dp),
-                            shape = RoundedCornerShape(30.dp),
-                            border = BorderStroke(0.8.dp, Color(212, 212, 212))
-                        ) {
-
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-
-                                Text(text = it.categoria)
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                Spacer(modifier = Modifier.height(25.dp))
 
                 LazyColumn(
                     modifier = Modifier
@@ -424,20 +344,45 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
                                 Text(
                                     text = it.nome_receita,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.W500
+                                    fontWeight = FontWeight.Black,
+                                    fontFamily = fontFamily
                                 )
+                                
+                                Row {
+                                    
+                                    Text(
+                                        text = stringResource(id = R.string.portion),
+                                        fontSize = 15.sp,
+                                        fontFamily = fontFamily
+                                    )
 
-                                Text(
-                                    text = "Porção: ${it.numero_porcoes}",
-                                    fontSize = 15.sp,
-                                    fontWeight = FontWeight.W400
-                                )
+                                    Spacer(modifier = Modifier.width(5.dp))
 
-                                Text(
-                                    text = "Tempo de preparo: ${it.tempo_preparo}",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.W400
-                                )
+                                    Text(
+                                        text = it.numero_porcoes.toString(),
+                                        fontSize = 15.sp,
+                                        fontFamily = fontFamily
+                                    )   
+                                    
+                                }
+
+                                Row {
+
+                                    Text(
+                                        text = stringResource(id = R.string.preparation_time),
+                                        fontSize = 15.sp,
+                                        fontFamily = fontFamily
+                                    )
+
+                                    Spacer(modifier = Modifier.width(5.dp))
+
+                                    Text(
+                                        text = it.tempo_preparo,
+                                        fontSize = 15.sp,
+                                        fontFamily = fontFamily
+                                    )
+
+                                }
 
                             }
 
@@ -449,151 +394,82 @@ fun RecipesTipsScreen(navController: NavController, localStorage: Storage) {
 
             } else {
 
-                Column(
+                LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxWidth()
+                        .padding(bottom = 50.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .width(360.dp)
-                            .height(45.dp),
-                        value = searchState,
-                        onValueChange = {
-                            searchState = it
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                                tint = Color.Gray
-                            )
-                        },
-                        label = {
-                            Text(text = stringResource(id = R.string.search))
-                        },
-                        shape = RoundedCornerShape(100)
+                    items(listTips) {
 
-                    )
-
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 30.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-
-                        items(listCategoryTips) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
 
                             Surface(
                                 modifier = Modifier
                                     .width(160.dp)
-                                    .height(45.dp)
-                                    .padding(end = 20.dp),
-                                shape = RoundedCornerShape(30.dp),
-                                border = BorderStroke(0.8.dp, Color(212, 212, 212))
+                                    .height(160.dp)
+                                    .padding(20.dp)
+                                    .clickable {
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.foto_da_receita,
+                                            "imageTip"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.nome_da_receita,
+                                            "nameTip"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.descricao_da_receita,
+                                            "descriptionTip"
+                                        )
+                                        localStorage.saveDataString(
+                                            context,
+                                            it.categoria,
+                                            "categoryTip"
+                                        )
+                                        navController.navigate("tip_screen")
+                                    },
+                                shape = RoundedCornerShape(20.dp),
+                                elevation = 10.dp
                             ) {
 
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-
-                                    Text(
-                                        text = it.categoria,
-                                        color = Color(20, 58, 11),
-                                        textAlign = TextAlign.Center
-                                    )
-
-                                }
+                                AsyncImage(
+                                    model = it.foto_da_receita,
+                                    contentDescription = "Image Tips"
+                                )
 
                             }
 
-                        }
-
-                    }
-
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        items(listTips) {
-
-                            Row(
+                            Column(
                                 modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceAround,
-                                verticalAlignment = Alignment.CenterVertically
+                                    .fillMaxWidth()
                             ) {
 
-                                Surface(
-                                    modifier = Modifier
-                                        .width(160.dp)
-                                        .height(160.dp)
-                                        .padding(20.dp)
-                                        .clickable {
-                                            localStorage.saveDataString(
-                                                context,
-                                                it.foto_da_receita,
-                                                "imageTip"
-                                            )
-                                            localStorage.saveDataString(
-                                                context,
-                                                it.nome_da_receita,
-                                                "nameTip"
-                                            )
-                                            localStorage.saveDataString(
-                                                context,
-                                                it.descricao_da_receita,
-                                                "descriptionTip"
-                                            )
-                                            localStorage.saveDataString(
-                                                context,
-                                                it.categoria,
-                                                "categoryTip"
-                                            )
-                                            navController.navigate("tip_screen")
-                                        },
-                                    shape = RoundedCornerShape(20.dp),
-                                    elevation = 10.dp
-                                ) {
+                                localStorage.saveDataInt(context, it.id_categoria, "idRecipe")
 
-                                    AsyncImage(
-                                        model = it.foto_da_receita,
-                                        contentDescription = "Image Tips"
-                                    )
+                                Text(
+                                    modifier = Modifier.width(220.dp),
+                                    text = it.nome_da_receita,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Black,
+                                    fontFamily = fontFamily,
+                                    textAlign = TextAlign.Justify
+                                )
 
-                                }
-
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-
-                                    localStorage.saveDataInt(context, it.id_categoria, "idRecipe")
-
-                                    Text(
-                                        text = it.nome_da_receita,
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.W500
-                                    )
-
-                                    Text(
-                                        text = it.categoria,
-                                        fontSize = 15.sp,
-                                        fontWeight = FontWeight.W400
-                                    )
-
-                                }
+                                Text(
+                                    text = it.categoria,
+                                    fontSize = 15.sp,
+                                    fontFamily = fontFamily
+                                )
 
                             }
 

@@ -4,6 +4,7 @@ import br.senai.sp.saveeats.service.CategoryRestaurantService
 import br.senai.sp.saveeats.service.CategoryService
 import br.senai.sp.saveeats.service.ClientService
 import br.senai.sp.saveeats.service.DeliveryAreaService
+import br.senai.sp.saveeats.service.EditProfileService
 import br.senai.sp.saveeats.service.FormPaymentService
 import br.senai.sp.saveeats.service.HistoricService
 import br.senai.sp.saveeats.service.LoginService
@@ -13,21 +14,18 @@ import br.senai.sp.saveeats.service.RecipesService
 import br.senai.sp.saveeats.service.RestaurantService
 import br.senai.sp.saveeats.service.SignupService
 import br.senai.sp.saveeats.service.TipsService
-import br.senai.sp.saveeats.service.ViaCepService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object RetrofitFactory {
 
-    private const val baseURL = "https://save-eats.azurewebsites.net/"
-    private const val baseURL2 = "http://192.168.100.164:8080"
+    private const val baseURL = "https://save-eats-backend.azurewebsites.net/"
 
     private const val baseViaCepURL = "https://viacep.com.br/"
 
     private var retrofitFactory = Retrofit
         .Builder()
-        .baseUrl(baseURL2)
+        .baseUrl(baseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -37,12 +35,6 @@ object RetrofitFactory {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-    private var viaCep = Retrofit
-        .Builder()
-        .baseUrl(baseViaCepURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
     fun getSignup(): SignupService {
         return retrofitFactory.create(SignupService::class.java)
@@ -110,6 +102,10 @@ object RetrofitFactory {
 
     fun getOrderById(): OrderService{
         return  retrofitFactory.create(OrderService::class.java)
+    }
+
+    fun getEditProfile(): EditProfileService{
+        return  retrofitFactory.create(EditProfileService::class.java)
     }
 
 }

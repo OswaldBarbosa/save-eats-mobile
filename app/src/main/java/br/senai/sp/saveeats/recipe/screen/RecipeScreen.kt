@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,11 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,6 +45,8 @@ import br.senai.sp.saveeats.model.RecipeDetails
 import br.senai.sp.saveeats.model.RecipeDetailsList
 import br.senai.sp.saveeats.model.RecipeIngredients
 import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.recipe.components.HeaderRecipes
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -132,249 +129,211 @@ fun RecipeScreen(
         color = colorResource(id = R.color.white)
     ) {
 
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
         ) {
 
-            Box (
+            HeaderRecipes(text = listRecipeDetails.nome_receita!!, navController = navController)
+
+            Row(
                 modifier = Modifier
-                    .offset(x = -(170.dp), y = 50.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
-                IconButton(
-                    modifier = Modifier.size(20.dp),
-                    onClick = {
-                    navController.popBackStack()
-                }) {
+                Column {
 
-                    Icon(
-                        imageVector = Icons.Default.ArrowBackIosNew,
-                        contentDescription = "Arrow Back",
-                        tint = Color(20, 58, 11)
-                    )
+                    Row(
+                        modifier = Modifier
+                            .width(110.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Icon(
+                            modifier = Modifier
+                                .size(30.dp),
+                            painter = painterResource(id = R.drawable.clock),
+                            contentDescription = "Icon Time"
+                        )
+
+                        Spacer(modifier = Modifier.width(15.dp))
+
+                        Text(
+                            text = timeRecipe!!,
+                            fontWeight = FontWeight.W300
+                        )
+
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .width(150.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Icon(
+                            modifier = Modifier
+                                .size(35.dp),
+                            painter = painterResource(id = R.drawable.dish),
+                            contentDescription = "Icon Dish"
+                        )
+
+                        Spacer(modifier = Modifier.width(15.dp))
+
+                        Text(
+                            text = "$portionRecipe portions",
+                            fontWeight = FontWeight.W300
+                        )
+
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(
+                        modifier = Modifier
+                            .width(110.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Icon(
+                            modifier = Modifier
+                                .size(35.dp),
+                            painter = painterResource(id = R.drawable.chef),
+                            contentDescription = "Icon Chef"
+                        )
+
+                        Spacer(modifier = Modifier.width(15.dp))
+
+                        Text(
+                            text = levelRecipe!!,
+                            fontWeight = FontWeight.W300
+                        )
+
+                    }
+
+                }
+
+                Column {
+
+                    Surface(
+                        modifier = Modifier
+                            .size(160.dp),
+                        shape = CircleShape,
+                        shadowElevation = 10.dp
+                    ) {
+
+                        AsyncImage(
+                            model = imageRecipe,
+                            contentDescription = "Image Recipe",
+                            contentScale = ContentScale.FillBounds
+                        )
+
+                    }
 
                 }
 
             }
 
-            if (status) {
-                Text(
-                    modifier = Modifier
-                        .width(250.dp)
-                        .offset(y = 20.dp),
-                    text = listRecipeDetails.nome_receita!!,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.W500,
-                    color = Color(20, 58, 11),
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                CircularProgressIndicator()
-            }
+            Spacer(modifier = Modifier.height(25.dp))
 
-
-        }
-
-        Spacer(modifier = Modifier.height(55.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Column {
-
-                Row(
-                    modifier = Modifier
-                        .width(110.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Icon(
-                        modifier = Modifier
-                            .size(30.dp),
-                        painter = painterResource(id = R.drawable.clock),
-                        contentDescription = "Icon Time"
-                    )
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    Text(
-                        text = timeRecipe!!,
-                        fontWeight = FontWeight.W300
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Row(
-                    modifier = Modifier
-                        .width(150.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Icon(
-                        modifier = Modifier
-                            .size(35.dp),
-                        painter = painterResource(id = R.drawable.dish),
-                        contentDescription = "Icon Dish"
-                    )
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    Text(
-                        text = "$portionRecipe portions",
-                        fontWeight = FontWeight.W300
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Row(
-                    modifier = Modifier
-                        .width(110.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Icon(
-                        modifier = Modifier
-                            .size(35.dp),
-                        painter = painterResource(id = R.drawable.chef),
-                        contentDescription = "Icon Chef"
-                    )
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    Text(
-                        text = levelRecipe!!,
-                        fontWeight = FontWeight.W300
-                    )
-
-                }
-
-            }
-
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
 
                 Surface(
                     modifier = Modifier
-                        .size(180.dp),
-                    shape = CircleShape,
-                    shadowElevation = 10.dp
+                        .fillMaxSize(),
+                    color = Color(246, 246, 246),
+                    shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                 ) {
 
-                    AsyncImage(
-                        model = imageRecipe,
-                        contentDescription = "Image Recipe",
-                        contentScale = ContentScale.FillBounds
-                    )
-
-                }
-
-            }
-
-        }
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize(),
-                color = Color(246, 246, 246),
-                shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-            ) {
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp)
-                ) {
-
-                    Text(
+                    Row(
                         modifier = Modifier
-                            .padding(start = 55.dp)
-                            .clickable { progressState = true },
-                        text = stringResource(id = R.string.description),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight(400)
-                    )
-
-                    Spacer(modifier = Modifier.width(40.dp))
-
-                    Text(
-                        modifier = Modifier
-                            .clickable { progressState = false },
-                        text = stringResource(id = R.string.method_of_preparation),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight(400)
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                if (progressState) {
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .offset(x = 20.dp, y = 80.dp)
+                            .fillMaxWidth()
+                            .padding(top = 20.dp)
                     ) {
 
                         Text(
-                            text = stringResource(id = R.string.description),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W500,
-                            color = Color(20, 58, 11)
+                            modifier = Modifier
+                                .padding(start = 55.dp)
+                                .clickable { progressState = true },
+                            text = stringResource(id = R.string.description).uppercase(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Black,
+                            fontFamily = fontFamily
                         )
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.width(40.dp))
 
                         Text(
                             modifier = Modifier
-                                .width(380.dp),
-                            text = descriptionRecipe!!,
-                            textAlign = TextAlign.Start
+                                .clickable { progressState = false },
+                            text = stringResource(id = R.string.how_to_preparation).uppercase(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Black,
+                            fontFamily = fontFamily
                         )
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                    }
 
-                        Text(
-                            text = stringResource(id = R.string.ingredients),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W500,
-                            color = Color(20, 58, 11)
-                        )
+                    Spacer(modifier = Modifier.height(10.dp))
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                    if (progressState) {
 
-                        LazyColumn() {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .offset(x = 20.dp, y = 80.dp)
+                        ) {
 
-                            items(listRecipeIngredients) {
+                            Text(
+                                text = stringResource(id = R.string.description).uppercase(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Black,
+                                fontFamily = fontFamily,
+                                color = colorResource(id = R.color.green_save_eats_light)
+                            )
 
-                                Row {
+                            Spacer(modifier = Modifier.height(20.dp))
 
-                                    AsyncImage(model = it.foto_ingrediente, contentDescription = "")
+                            Text(
+                                modifier = Modifier
+                                    .width(350.dp),
+                                text = descriptionRecipe!!,
+                                textAlign = TextAlign.Justify
+                            )
 
-                                    Text(text = it.nome_ingrediente)
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            Text(
+                                text = stringResource(id = R.string.ingredients).uppercase(),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Black,
+                                fontFamily = fontFamily,
+                                color = colorResource(id = R.color.green_save_eats_light)
+                            )
+
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            LazyColumn {
+
+                                items(listRecipeIngredients) {
+
+                                    Row {
+
+                                        AsyncImage(
+                                            model = it.foto_ingrediente,
+                                            contentDescription = ""
+                                        )
+
+                                        Text(text = it.nome_ingrediente)
+
+                                    }
 
                                 }
 
@@ -382,22 +341,22 @@ fun RecipeScreen(
 
                         }
 
-                    }
+                    } else {
 
-                } else {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .offset(x = 20.dp, y = 80.dp)
+                        ) {
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .offset(x = 20.dp, y = 80.dp)
-                    ) {
+                            Text(
+                                text = methodOfPreparation!!,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.W500,
+                                color = Color(20, 58, 11)
+                            )
 
-                        Text(
-                            text = methodOfPreparation!!,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W500,
-                            color = Color(20, 58, 11)
-                        )
+                        }
 
                     }
 

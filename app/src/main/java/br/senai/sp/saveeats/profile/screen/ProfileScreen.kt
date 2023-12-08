@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -52,14 +53,11 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
     val nameClient = localStorage.readDataString(context, "nameClient")
 
     Surface(
-        modifier = Modifier
-            .fillMaxSize(),
-        color = colorResource(id = R.color.white)
+        modifier = Modifier.fillMaxSize(), color = colorResource(id = R.color.white)
     ) {
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
 
             Row(
@@ -69,18 +67,38 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                AsyncImage(
-                    modifier = Modifier
-                        .size(55.dp)
-                        .clip(shape = CircleShape),
-                    model = photo,
-                    contentScale = ContentScale.FillHeight,
-                    contentDescription = "Image Client"
-                )
+                if (photo == "") {
+
+                    Surface(
+                        modifier = Modifier
+                            .size(50.dp),
+                        color = colorResource(id = R.color.gray),
+                        shape = CircleShape
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Icon Person",
+                            tint = colorResource(id = R.color.white)
+                        )
+
+                    }
+
+                } else {
+
+                    AsyncImage(
+                        modifier = Modifier
+                            .size(55.dp)
+                            .clip(shape = CircleShape),
+                        model = photo,
+                        contentScale = ContentScale.Crop,
+                        contentDescription = "Image Client",
+                    )
+
+                }
 
                 Text(
-                    modifier = Modifier
-                        .padding(start = 20.dp),
+                    modifier = Modifier.padding(start = 20.dp),
                     text = nameClient!!,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W500
@@ -102,31 +120,26 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                         .height(65.dp)
                         .clickable {
                             navController.navigate("edit_profile_screen")
-                        },
-                    color = colorResource(id = R.color.white)
+                        }, color = colorResource(id = R.color.white)
                 ) {
 
                     Row(
-                        modifier = Modifier
-                            .padding(start = 18.dp, top = 5.dp),
+                        modifier = Modifier.padding(start = 18.dp, top = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
                         Icon(
-                            modifier = Modifier
-                                .size(28.dp),
+                            modifier = Modifier.size(28.dp),
                             painter = painterResource(id = R.drawable.profile),
                             contentDescription = "Profile"
                         )
 
                         Column(
-                            modifier = Modifier
-                                .padding(start = 10.dp)
+                            modifier = Modifier.padding(start = 10.dp)
                         ) {
 
                             Text(
-                                text = stringResource(id = R.string.my_data),
-                                fontSize = 15.sp
+                                text = stringResource(id = R.string.my_data), fontSize = 15.sp
                             )
 
                             Text(
@@ -163,8 +176,7 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
             Spacer(modifier = Modifier.height(450.dp))
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
 
                 Surface(
@@ -175,13 +187,11 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                             val uri = Uri.parse(websiteUrl)
                             val intent = Intent(Intent.ACTION_VIEW, uri)
                             context.startActivity(intent)
-                        },
-                    color = colorResource(id = R.color.white)
+                        }, color = colorResource(id = R.color.white)
                 ) {
 
                     Row(
-                        modifier = Modifier
-                            .padding(start = 18.dp, top = 5.dp),
+                        modifier = Modifier.padding(start = 18.dp, top = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
@@ -202,8 +212,7 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                         Spacer(modifier = Modifier.width(280.dp))
 
                         Icon(
-                            modifier = Modifier
-                                .size(18.dp),
+                            modifier = Modifier.size(18.dp),
                             imageVector = Icons.Default.KeyboardArrowRight,
                             tint = Color(123, 125, 123),
                             contentDescription = "Arrow Right"
@@ -227,13 +236,11 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                         .height(65.dp)
                         .clickable {
                             navController.navigate("login_screen")
-                        },
-                    color = colorResource(id = R.color.white)
+                        }, color = colorResource(id = R.color.white)
                 ) {
 
                     Row(
-                        modifier = Modifier
-                            .padding(start = 18.dp, top = 5.dp),
+                        modifier = Modifier.padding(start = 18.dp, top = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
@@ -254,8 +261,7 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
                         Spacer(modifier = Modifier.width(292.dp))
 
                         Icon(
-                            modifier = Modifier
-                                .size(18.dp),
+                            modifier = Modifier.size(18.dp),
                             imageVector = Icons.Default.KeyboardArrowRight,
                             tint = Color(123, 125, 123),
                             contentDescription = "Arrow Right"

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -158,11 +159,23 @@ fun ShoppingCartScreen(navController: NavController, localStorage: Storage) {
                                 fontWeight = FontWeight.Black
                             )
 
-                            Text(
-                                text = "Unit: R$$priceProduct",
-                                fontSize = 15.sp,
-                                fontFamily = fontFamily
-                            )
+                            Row {
+
+                                Text(
+                                    text = stringResource(id = R.string.unit),
+                                    fontSize = 15.sp,
+                                    fontFamily = fontFamily
+                                )
+                                
+                                Spacer(modifier = Modifier.width(5.dp))
+
+                                Text(
+                                    text = "R$ $priceProduct",
+                                    fontSize = 15.sp,
+                                    fontFamily = fontFamily
+                                )
+
+                            }
 
                         }
 
