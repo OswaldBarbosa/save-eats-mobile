@@ -18,7 +18,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircleOutline
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -37,7 +36,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
-import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import java.time.LocalDateTime
@@ -575,7 +573,9 @@ fun TrackOrder(navController: NavController, localStorage: Storage) {
                     modifier = Modifier
                         .width(255.dp)
                         .height(55.dp),
-                    onClick = { /*TODO*/ }, shape = RoundedCornerShape(30.dp),
+                    onClick = {
+                        navController.navigate("evaluation_request_screen")
+                    }, shape = RoundedCornerShape(30.dp),
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color(76, 132, 62)
                     )

@@ -5,12 +5,14 @@ import br.senai.sp.saveeats.service.CategoryService
 import br.senai.sp.saveeats.service.ClientService
 import br.senai.sp.saveeats.service.DeliveryAreaService
 import br.senai.sp.saveeats.service.EditProfileService
+import br.senai.sp.saveeats.service.EvaluationService
 import br.senai.sp.saveeats.service.FormPaymentService
 import br.senai.sp.saveeats.service.HistoricService
 import br.senai.sp.saveeats.service.LoginService
 import br.senai.sp.saveeats.service.OrderService
 import br.senai.sp.saveeats.service.ProductsRestaurantService
 import br.senai.sp.saveeats.service.RecipesService
+import br.senai.sp.saveeats.service.RecommendationService
 import br.senai.sp.saveeats.service.RestaurantService
 import br.senai.sp.saveeats.service.SignupService
 import br.senai.sp.saveeats.service.TipsService
@@ -106,6 +108,21 @@ object RetrofitFactory {
 
     fun getEditProfile(): EditProfileService{
         return  retrofitFactory.create(EditProfileService::class.java)
+    }
+    fun getAddressByIdRestaurant() : RestaurantService{
+        return  retrofitFactory.create(RestaurantService::class.java)
+    }
+    fun getOpeningHoursByIdRestaurant() : RestaurantService{
+        return  retrofitFactory.create(RestaurantService::class.java)
+    }
+    fun getEvaluationByIdRestaurant(): RestaurantService{
+        return  retrofitFactory.create(RestaurantService::class.java)
+    }
+    fun getEvaluation(): EvaluationService{
+        return  retrofitFactory.create(EvaluationService::class.java)
+    }
+    fun getRecommendation(): RecommendationService{
+        return retrofitFactory.create(RecommendationService::class.java)
     }
 
 }

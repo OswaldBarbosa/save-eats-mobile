@@ -218,6 +218,8 @@ fun ProductsRestaurantScreen(navController: NavController, localStorage: Storage
                                 Spacer(modifier = Modifier.height(10.dp))
 
                                 Text(
+                                    modifier = Modifier
+                                        .clickable { navController.navigate("profile_restaurant_screen") },
                                     text = stringResource(id = R.string.store_profile),
                                     fontSize = 14.sp,
                                     fontFamily = fontFamily,

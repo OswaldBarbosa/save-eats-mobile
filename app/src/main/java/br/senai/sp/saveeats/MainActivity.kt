@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.saveeats.evaluationorder.screen.EvaluationScreen
 import br.senai.sp.saveeats.categoryrestaurant.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.editprofile.screen.EditProfileScreen
 import br.senai.sp.saveeats.historic.screen.DetalhesPedidoHistoricoScreen
@@ -19,6 +20,7 @@ import br.senai.sp.saveeats.presentation.screen.ThirdPresentationScreen
 import br.senai.sp.saveeats.product.screen.ProductScreen
 import br.senai.sp.saveeats.productsrestaurant.screen.ProductsRestaurantScreen
 import br.senai.sp.saveeats.profile.screen.ProfileScreen
+import br.senai.sp.saveeats.profilerestaurant.ProfileRestaurantScreen
 import br.senai.sp.saveeats.recipe.screen.RecipeScreen
 import br.senai.sp.saveeats.shoppingcart.screen.ShoppingCartScreen
 import br.senai.sp.saveeats.singup.screen.FirstSignup
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = "splash_screen"
+                    startDestination = "login_screen"
                 ) {
 
                     composable("splash_screen") {
@@ -126,6 +128,14 @@ class MainActivity : ComponentActivity() {
 
                     composable("track_order_screen") {
                         TrackOrder(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("profile_restaurant_screen") {
+                        ProfileRestaurantScreen(navController = navController, localStorage = Storage())
+                    }
+
+                    composable("evaluation_request_screen") {
+                        EvaluationScreen(navController = navController, localStorage = Storage(), lifecycleScope = lifecycleScope)
                     }
 
                     composable("detalhes_pedido_historico_screen") {

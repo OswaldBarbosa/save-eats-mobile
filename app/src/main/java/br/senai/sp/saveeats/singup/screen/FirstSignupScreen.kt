@@ -1,8 +1,14 @@
 package br.senai.sp.saveeats.singup.screen
 
+import android.net.Uri
 import android.util.Patterns
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,12 +19,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,6 +40,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -52,10 +64,12 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
+    val scrollState = rememberScrollState()
 
     var name by rememberSaveable { mutableStateOf("") }
     var cpf by rememberSaveable { mutableStateOf("") }
     var phone by rememberSaveable { mutableStateOf("") }
+    var imageUri by rememberSaveable { mutableStateOf("") }
 
     var validateName by rememberSaveable { mutableStateOf(true) }
     var validateCpf by rememberSaveable { mutableStateOf(true) }
@@ -64,6 +78,12 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
     val validateNameError = stringResource(id = R.string.name_error)
     val validateCpfError = stringResource(id = R.string.cpf_error)
     val validatePhoneError = stringResource(id = R.string.phone_error)
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let { imageUri = uri.toString() }
+    }
 
     fun validateData(
         name: String, cpf: String, phone: String
@@ -166,7 +186,50 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 40.dp)
+                            .verticalScroll(scrollState),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+
+                        Surface(
+                            color = Color(255,255,255)
+                        ) {
+
+                            Icon(
+                                modifier = Modifier
+                                .clip(CircleShape)
+                                .size(150.dp)
+                                .background(Color.White),
+                                imageVector = Icons.Default.Person,
+                                contentDescription = "Icon Person"
+                            )
+
+                            Box(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 100.dp,
+                                        start = 100.dp
+                                    )
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color(72, 138, 39),
+                                        shape = CircleShape
+                                    )
+                                    .clickable { launcher.launch("image/*") }
+                            ) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .background(Color.White)
+                                        .size(40.dp)
+                                        .padding(5.dp),
+                                    imageVector = Icons.Default.CameraAlt,
+                                    contentDescription = "Icon Camera"
+                                )
+
+                            }
+
+                        }
 
                         InputOutlineTextField(
                             value = name,
@@ -241,6 +304,7 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                                         localStorage.saveDataString(context, name, "name")
                                         localStorage.saveDataString(context, cpf, "cpf")
                                         localStorage.saveDataString(context, phone, "phone")
+                                        localStorage.saveDataString(context, imageUri,"photoClient")
 
                                         navController.navigate("second_signup_screen")
 

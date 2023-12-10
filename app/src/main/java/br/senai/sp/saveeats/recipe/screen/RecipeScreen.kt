@@ -2,6 +2,7 @@ package br.senai.sp.saveeats.recipe.screen
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -318,20 +320,41 @@ fun RecipeScreen(
                                 color = colorResource(id = R.color.green_save_eats_light)
                             )
 
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(10.dp))
 
-                            LazyColumn {
+                            LazyColumn (
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 100.dp)
+                            ) {
 
                                 items(listRecipeIngredients) {
+                                    
+                                    Spacer(modifier = Modifier.height(10.dp))
 
                                     Row {
 
                                         AsyncImage(
                                             model = it.foto_ingrediente,
-                                            contentDescription = ""
-                                        )
+                                            contentDescription = "",
+                                            modifier = Modifier
+                                                .size(45.dp)
+                                                .border(
+                                                    1.dp,
+                                                    Color(41, 95, 27),
+                                                    RoundedCornerShape(30)
+                                                )
+                                                .clip(RoundedCornerShape(30)),
+                                            contentScale = ContentScale.Crop,
 
-                                        Text(text = it.nome_ingrediente)
+                                            )
+
+                                        Spacer(modifier = Modifier.width(20.dp))
+
+                                        Text(
+                                            text = it.nome_ingrediente,
+                                            fontFamily = fontFamily
+                                        )
 
                                     }
 
@@ -345,12 +368,12 @@ fun RecipeScreen(
 
                         Column(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .offset(x = 20.dp, y = 80.dp)
+                                .offset(x = 20.dp,y = 80.dp)
+                                .width(370.dp)
                         ) {
 
                             Text(
-                                text = methodOfPreparation!!,
+                                text = methodOfPreparation!!.replace(".", ".\n\n"),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.W500,
                                 color = Color(20, 58, 11)
