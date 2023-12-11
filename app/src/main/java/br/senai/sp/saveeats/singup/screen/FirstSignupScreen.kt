@@ -29,7 +29,6 @@ import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Numbers
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
@@ -58,6 +58,7 @@ import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
+import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun FirstSignup(navController: NavController, localStorage: Storage) {
@@ -85,6 +86,12 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
         uri?.let { imageUri = uri.toString() }
     }
 
+    val painter = rememberAsyncImagePainter(
+        imageUri.ifEmpty {
+            R.drawable.perfil
+        }
+    )
+
     fun validateData(
         name: String, cpf: String, phone: String
     ): Boolean {
@@ -104,7 +111,9 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
     ) {
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
         ) {
 
             Column(
@@ -185,8 +194,7 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 40.dp)
-                            .verticalScroll(scrollState),
+                            .padding(top = 40.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
@@ -194,42 +202,19 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                             color = Color(255,255,255)
                         ) {
 
-                            Icon(
+                            Image(
                                 modifier = Modifier
-                                .clip(CircleShape)
-                                .size(150.dp)
-                                .background(Color.White),
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Icon Person"
+                                    .clickable { launcher.launch("image/*") }
+                                    .clip(CircleShape)
+                                    .size(150.dp),
+                                painter = painter,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
                             )
 
-                            Box(
-                                modifier = Modifier
-                                    .padding(
-                                        top = 100.dp,
-                                        start = 100.dp
-                                    )
-                                    .border(
-                                        width = 1.dp,
-                                        color = Color(72, 138, 39),
-                                        shape = CircleShape
-                                    )
-                                    .clickable { launcher.launch("image/*") }
-                            ) {
-
-                                Icon(
-                                    modifier = Modifier
-                                        .clip(CircleShape)
-                                        .background(Color.White)
-                                        .size(40.dp)
-                                        .padding(5.dp),
-                                    imageVector = Icons.Default.CameraAlt,
-                                    contentDescription = "Icon Camera"
-                                )
-
-                            }
-
                         }
+                        
+                        Spacer(modifier = Modifier.height(20.dp))
 
                         InputOutlineTextField(
                             value = name,
@@ -301,9 +286,9 @@ fun FirstSignup(navController: NavController, localStorage: Storage) {
                                         )
                                     ) {
 
-                                        localStorage.saveDataString(context, name, "name")
-                                        localStorage.saveDataString(context, cpf, "cpf")
-                                        localStorage.saveDataString(context, phone, "phone")
+                                        localStorage.saveDataString(context, name, "nameClient")
+                                        localStorage.saveDataString(context, cpf, "cpfClient")
+                                        localStorage.saveDataString(context, phone, "phoneClient")
                                         localStorage.saveDataString(context, imageUri,"photoClient")
 
                                         navController.navigate("second_signup_screen")

@@ -43,7 +43,6 @@ import br.senai.sp.saveeats.components.Header
 import br.senai.sp.saveeats.model.DeliveryAreaRestaurant
 import br.senai.sp.saveeats.model.DeliveryAreaRestaurantList
 import br.senai.sp.saveeats.model.RetrofitFactory
-import br.senai.sp.saveeats.presentation.screen.teste
 import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import retrofit2.Call

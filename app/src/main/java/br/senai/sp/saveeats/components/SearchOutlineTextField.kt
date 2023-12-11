@@ -48,7 +48,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
+import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.model.RestaurantRepository
 import br.senai.sp.saveeats.ui.theme.fontFamily
 import br.senai.sp.saveeats.viewmodel.RestaurantViewModel
@@ -57,7 +59,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun SearchOutlineTextField(
     lifecycleScope: LifecycleCoroutineScope,
-    viewModel: RestaurantViewModel
+    viewModel: RestaurantViewModel,
+    navController: NavController,
+    localStorage: Storage
 ) {
 
     val context = LocalContext.current
@@ -81,7 +85,7 @@ fun SearchOutlineTextField(
     }
 
     val heightTextFields by remember {
-        mutableStateOf(55.dp)
+        mutableStateOf(65.dp)
     }
 
     fun loadingRestaurant(
@@ -234,7 +238,7 @@ fun SearchOutlineTextField(
                                     .sorted()
                             ) {
 
-                                CategoryItemsRestaurant(title = it) { title ->
+                                CategoryItemsRestaurant(title = it, navController = navController, localStorage = localStorage) { title ->
                                     restaurant = title
                                     viewModel.selectRestaurant = title
                                     isExpanded = false
@@ -246,7 +250,7 @@ fun SearchOutlineTextField(
                                 restaurants.sorted()
                             ) {
 
-                                CategoryItemsRestaurant(title = it) { title ->
+                                CategoryItemsRestaurant(title = it, navController = navController, localStorage = localStorage) { title ->
                                     restaurant = title
                                     viewModel.selectRestaurant = title
                                     isExpanded = false
@@ -271,14 +275,20 @@ fun SearchOutlineTextField(
 @Composable
 fun CategoryItemsRestaurant(
     title: String,
+    navController: NavController,
+    localStorage: Storage,
     onSelect: (String) -> Unit
-) {
+    ) {
+
+    val context = LocalContext.current
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 onSelect(title)
+                localStorage.saveDataString(context, title, "nameRestaurant")
+                navController.navigate("products_restaurant_screen")
             }
             .padding(10.dp)
     ) {

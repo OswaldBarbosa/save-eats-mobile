@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
@@ -47,6 +48,9 @@ import br.senai.sp.saveeats.Storage
 import br.senai.sp.saveeats.components.CustomButton
 import br.senai.sp.saveeats.components.InputOutlineTextField
 import br.senai.sp.saveeats.model.SignupRepository
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -56,19 +60,23 @@ fun ThirdSignupScreen(
     localStorage: Storage,
     lifecycleScope: LifecycleCoroutineScope
 ) {
+    lateinit var storageRef: StorageReference
+    storageRef = FirebaseStorage.getInstance().reference.child("images")
+    val fibaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
-    val name = localStorage.readDataString(context, "name")
-    val cpf = localStorage.readDataString(context, "cpf")
-    val phone = localStorage.readDataString(context, "phone")
+    val name = localStorage.readDataString(context, "nameClient")
+    val cpf = localStorage.readDataString(context, "cpfClient")
+    val phone = localStorage.readDataString(context, "phoneClient")
     val cep = localStorage.readDataString(context, "cep")
     val state = localStorage.readDataString(context, "state")
     val city = localStorage.readDataString(context, "city")
     val neighborhood = localStorage.readDataString(context, "neighborhood")
     val street = localStorage.readDataString(context, "street")
     val number = localStorage.readDataString(context, "number")
+    var imageUri = localStorage.readDataString(context, "photoClient")
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
@@ -113,7 +121,8 @@ fun ThirdSignupScreen(
         email: String,
         phone: String,
         password: String,
-        confirmPassword: String
+        confirmPassword: String,
+        photo: String
     ) {
 
         if (validateData(
@@ -139,7 +148,7 @@ fun ThirdSignupScreen(
                     email,
                     phone,
                     password,
-                    photo = "",
+                    photo,
                     complement = ""
                 )
 
@@ -153,14 +162,17 @@ fun ThirdSignupScreen(
 
                     val id = clientObject.getInt("id")
 
-                    val cpf = clientObject.getString("cpf")
+                    val cpfClient = clientObject.getString("cpf")
 
-                    val name = clientObject.getString("nome")
+                    val nameClient = clientObject.getString("nome")
 
                     Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")
-                    localStorage.saveDataString(context, cpf, "cpfClient")
-                    localStorage.saveDataString(context, name, "nameClient")
+                    localStorage.saveDataString(context, cpfClient, "cpfClient")
+                    localStorage.saveDataString(context, nameClient, "nameClient")
+                    localStorage.saveDataString(context, password, "passwordClient")
+                    localStorage.saveDataString(context, phone, "phoneClient")
+                    localStorage.saveDataString(context, email, "emailClient")
                     navController.navigate("home_screen")
 
                 } else {
@@ -337,21 +349,61 @@ fun ThirdSignupScreen(
 
                             CustomButton(
                                 onClick = {
+                                    if(imageUri == ""){
+                                        signup(
+                                            name!!,
+                                            cpf!!,
+                                            cep!!,
+                                            state!!,
+                                            city!!,
+                                            neighborhood!!,
+                                            street!!,
+                                            number!!,
+                                            email,
+                                            phone!!,
+                                            password,
+                                            confirmPassword,
+                                            ""
+                                        )
 
-                                    signup(
-                                        name!!,
-                                        cpf!!,
-                                        cep!!,
-                                        state!!,
-                                        city!!,
-                                        neighborhood!!,
-                                        street!!,
-                                        number!!,
-                                        email,
-                                        phone!!,
-                                        password,
-                                        confirmPassword
-                                    )
+                                    }else{
+                                        storageRef = storageRef.child(System.currentTimeMillis().toString())
+                                        imageUri.let {
+                                            it.let {
+                                                storageRef.putFile(it!!.toUri()).addOnCompleteListener{task ->
+                                                    if(task.isSuccessful){
+
+                                                        storageRef.downloadUrl.addOnSuccessListener { uri ->
+
+                                                            val map = HashMap<String, Any>()
+                                                            map["pic"] = uri.toString()
+                                                            imageUri = map.toString()
+                                                            fibaseFirestore.collection("images").add(map)
+
+                                                            signup(
+                                                                name!!,
+                                                                cpf!!,
+                                                                cep!!,
+                                                                state!!,
+                                                                city!!,
+                                                                neighborhood!!,
+                                                                street!!,
+                                                                number!!,
+                                                                email,
+                                                                phone!!,
+                                                                password,
+                                                                confirmPassword,
+                                                                imageUri!!.replace("{pic=", "").replace("}","")
+                                                            )
+
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
 
                                 }, text = stringResource(id = R.string.singup)
                             )

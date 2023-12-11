@@ -270,7 +270,7 @@ fun RecipeScreen(
                             fontFamily = fontFamily
                         )
 
-                        Spacer(modifier = Modifier.width(40.dp))
+                        Spacer(modifier = Modifier.width(50.dp))
 
                         Text(
                             modifier = Modifier
@@ -305,7 +305,7 @@ fun RecipeScreen(
 
                             Text(
                                 modifier = Modifier
-                                    .width(350.dp),
+                                    .width(370.dp),
                                 text = descriptionRecipe!!,
                                 textAlign = TextAlign.Justify
                             )
@@ -369,14 +369,14 @@ fun RecipeScreen(
                         Column(
                             modifier = Modifier
                                 .offset(x = 20.dp,y = 80.dp)
-                                .width(370.dp)
                         ) {
 
                             Text(
-                                text = methodOfPreparation!!.replace(".", ".\n\n"),
+                                modifier = Modifier
+                                    .width(370.dp),
+                                text = methodOfPreparation!!.replace(". ", ".\n\n"),
                                 fontSize = 18.sp,
-                                fontWeight = FontWeight.W500,
-                                color = Color(20, 58, 11)
+                                textAlign = TextAlign.Justify
                             )
 
                         }

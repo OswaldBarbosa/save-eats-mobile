@@ -101,7 +101,7 @@ fun FirstPresentationScreen(navController: NavController) {
 
                 Text(
                     modifier = Modifier
-                        .width(370.dp),
+                        .width(350.dp),
                     text = "Participe deste movimento sustentável que combate o desperdício de alimentos ao resgatar produtos frescos de restaurantes, padarias e hortifrutis com descontos de até 70%",
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp,

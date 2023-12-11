@@ -94,7 +94,7 @@ fun SecondPresentationScreen(navController: NavController) {
 
                 Text(
                     modifier = Modifier
-                        .width(350.dp),
+                        .width(340.dp),
                     text = "Descubra uma variedade de receitas e dicas para conservar e reaproveitar seus alimentos de forma criativa",
                     textAlign = TextAlign.Center,
                     fontSize = 18.sp,

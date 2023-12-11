@@ -1,7 +1,5 @@
 package br.senai.sp.saveeats.profile.screen
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Person
@@ -47,8 +44,6 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
     val context = LocalContext.current
 
     val photo = localStorage.readDataString(context, "photoClient")
-
-    val websiteUrl = "https://lion-school-frontend.vercel.app/"
 
     val nameClient = localStorage.readDataString(context, "nameClient")
 
@@ -173,62 +168,11 @@ fun ProfileScreen(navController: NavController, localStorage: Storage) {
 
             }
 
-            Spacer(modifier = Modifier.height(450.dp))
+            Spacer(modifier = Modifier.height(515.dp))
 
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(65.dp)
-                        .clickable {
-                            val uri = Uri.parse(websiteUrl)
-                            val intent = Intent(Intent.ACTION_VIEW, uri)
-                            context.startActivity(intent)
-                        }, color = colorResource(id = R.color.white)
-                ) {
-
-                    Row(
-                        modifier = Modifier.padding(start = 18.dp, top = 5.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.Help,
-                            contentDescription = "Help",
-                            tint = Color(123, 125, 123)
-                        )
-
-                        Spacer(modifier = Modifier.width(10.dp))
-
-                        Text(
-                            text = stringResource(id = R.string.help),
-                            fontSize = 15.sp,
-                            color = Color(123, 125, 123)
-                        )
-
-                        Spacer(modifier = Modifier.width(280.dp))
-
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = Icons.Default.KeyboardArrowRight,
-                            tint = Color(123, 125, 123),
-                            contentDescription = "Arrow Right"
-                        )
-
-                    }
-
-                }
-
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(.2.dp)
-                        .padding(start = 15.dp),
-                    color = Color.Black
-                )
 
                 Surface(
                     modifier = Modifier

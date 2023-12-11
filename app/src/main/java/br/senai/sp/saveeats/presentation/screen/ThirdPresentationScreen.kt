@@ -50,7 +50,8 @@ fun ThirdPresentationScreen(navController: NavController) {
 
         Column (
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(top = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -140,10 +141,4 @@ fun ThirdPresentationScreen(navController: NavController) {
 
     }
 
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun teste() {
-    ThirdPresentationScreen(navController = rememberNavController())
 }

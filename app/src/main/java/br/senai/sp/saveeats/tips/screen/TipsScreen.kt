@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
@@ -70,13 +71,16 @@ fun TipScreen(navController: NavController, localStorage: Storage) {
                 Column (
                     modifier = Modifier
                         .width(375.dp)
-                        .padding(start = 5.dp)
+                        .padding(start = 5.dp, bottom = 20.dp)
                         .verticalScroll(scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
                     Text(
-                        text = descriptionTip!!,
+                        modifier = Modifier
+                            .width(370.dp),
+                        text = descriptionTip!!.replace(". ", ".\n\n"),
+                        fontSize = 18.sp,
                         textAlign = TextAlign.Justify
                     )
 

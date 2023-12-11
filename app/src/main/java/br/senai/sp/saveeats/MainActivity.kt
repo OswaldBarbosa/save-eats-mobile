@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.saveeats.evaluationorder.screen.EvaluationScreen
 import br.senai.sp.saveeats.categoryrestaurant.screen.CategoryRestaurantScreen
 import br.senai.sp.saveeats.editprofile.screen.EditProfileScreen
-import br.senai.sp.saveeats.historic.screen.DetalhesPedidoHistoricoScreen
+import br.senai.sp.saveeats.detailshistoricorderscreen.screen.DetalhesPedidoHistoricoScreen
 import br.senai.sp.saveeats.login.screen.LoginScreen
 import br.senai.sp.saveeats.menubar.screen.MenuScreen
 import br.senai.sp.saveeats.order.screen.OrderScreen

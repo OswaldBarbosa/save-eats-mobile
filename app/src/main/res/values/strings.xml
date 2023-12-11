@@ -99,4 +99,5 @@
     <string name="what_can_we_improve">What can we improve?</string>
     <string name="choose_from_1_to_5_stars">Choose from 1 to 5 stars</string>
     <string name="what_did_you_think_of_your_order">What did you think of your order?</string>
+    <string name="order_history">Order history</string>
 </resources>

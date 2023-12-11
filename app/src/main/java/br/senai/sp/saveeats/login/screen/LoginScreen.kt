@@ -71,9 +71,8 @@ fun LoginScreen(
     var validatePassword by rememberSaveable { mutableStateOf(true) }
     var isPasswordVisibility by rememberSaveable { mutableStateOf(false) }
 
-    val validateEmailError = "The format of the email doesn't seem right"
-    val validatePasswordError =
-        "Must mix capital and non-capital letters, a number, special character and a minimum length of 8"
+    val validateEmailError = "O formato do e-mail não está correto"
+    val validatePasswordError = "A senha deve conter letras maiúsculas e minúsculas, um número, um carácter especial e um comprimento mínimo de 8 caracteres"
 
     fun validateData(email: String, password: String): Boolean {
 
@@ -121,7 +120,6 @@ fun LoginScreen(
 
                     val phone = clientObject.getString("telefone")
 
-                    Toast.makeText(context, "Welcome", Toast.LENGTH_SHORT).show()
                     localStorage.saveDataInt(context, id, "idClient")
                     localStorage.saveDataString(context, cpf, "cpfClient")
                     localStorage.saveDataString(context, name, "nameClient")
@@ -133,14 +131,14 @@ fun LoginScreen(
 
                 } else {
 
-                    Toast.makeText(context, "E-mail or password invalid", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Email ou senha inválidos", Toast.LENGTH_SHORT).show()
 
                 }
 
             }
 
         } else {
-            Toast.makeText(context, "Please, review fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Por favor, revise os campos", Toast.LENGTH_SHORT).show()
         }
 
     }

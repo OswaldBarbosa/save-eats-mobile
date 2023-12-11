@@ -226,6 +226,8 @@ fun HomeScreen(
 
                 SearchOutlineTextField(
                     lifecycleScope = lifecycle,
+                    navController = navController,
+                    localStorage = localStorage,
                     viewModel = RestaurantViewModel()
                 )
 
