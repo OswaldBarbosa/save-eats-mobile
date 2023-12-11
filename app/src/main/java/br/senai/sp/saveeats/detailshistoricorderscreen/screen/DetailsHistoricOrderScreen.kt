@@ -47,6 +47,7 @@ import br.senai.sp.saveeats.model.OrderInformation
 import br.senai.sp.saveeats.model.OrderList
 import br.senai.sp.saveeats.model.ProductOrderList
 import br.senai.sp.saveeats.model.RetrofitFactory
+import br.senai.sp.saveeats.ui.theme.fontFamily
 import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -63,6 +64,12 @@ fun DetalhesPedidoHistoricoScreen(
 ) {
 
     val context = LocalContext.current
+
+    val sumDeliveryProduct = 3.99 + 14.99
+
+    val formattedSum = sumDeliveryProduct?.let {
+        String.format("%.2f", it)
+    }
 
     val waitingAnimation by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.waiting_animation))
 
@@ -85,17 +92,18 @@ fun DetalhesPedidoHistoricoScreen(
     var status by remember {
         mutableStateOf(false)
     }
-    
+
     val callOrder = RetrofitFactory
         .getOrderById()
         .getOrderById(idOrder)
-    
+
     callOrder.enqueue(object : retrofit2.Callback<OrderList> {
         override fun onResponse(
             call: Call<OrderList>,
             response: Response<OrderList>
         ) {
             detailsOrder = listOf(response.body()!!.detalhes_do_pedido)
+            productsOrder = response.body()!!.detalhes_do_pedido.produtos
             productsOrder = response.body()!!.detalhes_do_pedido.produtos
             status = true
         }
@@ -104,12 +112,12 @@ fun DetalhesPedidoHistoricoScreen(
             call: Call<OrderList>,
             t: Throwable
         ) {
-            Log.e("TESTE2", "onFailure: ${t.message}")
+            Log.e("error", "onFailure: ${t.message}")
         }
 
     })
 
-    Surface (
+    Surface(
         modifier = Modifier
             .fillMaxSize(),
         color = colorResource(id = R.color.white)
@@ -122,7 +130,10 @@ fun DetalhesPedidoHistoricoScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Header(text = stringResource(id = R.string.order_details), navController = navController)
+            Header(
+                text = stringResource(id = R.string.order_details),
+                navController = navController
+            )
 
             if (status) {
                 Row(
@@ -152,17 +163,33 @@ fun DetalhesPedidoHistoricoScreen(
 
                         Spacer(modifier = Modifier.height(5.dp))
 
-                        Text(
-                            text = detailsOrder[0].numero_pedido,
-                            color = Color(104, 104, 104),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight(400)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Text(
+                                text = "Número do pedido:",
+                                fontSize = 16.sp,
+                                fontFamily = fontFamily
+                            )
+
+                            Spacer(modifier = Modifier.width(5.dp))
+
+                            Text(
+                                text = detailsOrder[0].numero_pedido,
+                                fontSize = 16.sp,
+                                fontFamily = fontFamily,
+                                fontWeight = FontWeight.Black
+                            )
+
+                        }
 
                         Spacer(modifier = Modifier.height(5.dp))
 
                         Text(
-                            text = "Ver Cardápio",
+                            text = stringResource(id = R.string.see_menu),
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(41, 95, 27),
@@ -236,7 +263,6 @@ fun DetalhesPedidoHistoricoScreen(
                     }
                 }
 
-
                 Spacer(modifier = Modifier.height(15.dp))
 
                 Card(
@@ -252,11 +278,12 @@ fun DetalhesPedidoHistoricoScreen(
 
                 LazyColumn {
                     items(productsOrder) {
+
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
+
                             AsyncImage(
                                 model = it.imagem_produto,
                                 contentDescription = "Imagem do produto",
@@ -264,6 +291,7 @@ fun DetalhesPedidoHistoricoScreen(
                                     .size(65.dp)
                             )
 
+                            Spacer(modifier = Modifier.width(10.dp))
 
                             Column(
                                 modifier = Modifier
@@ -276,18 +304,15 @@ fun DetalhesPedidoHistoricoScreen(
                                     fontSize = 18.sp
                                 )
 
-                                Row {
+                                Text(
+                                    text = it.descricao_produto,
+                                    color = Color(104, 104, 104),
+                                    fontSize = 12.sp
+                                )
 
-                                    Text(
-                                        text = it.descricao_produto,
-                                        color = Color(104, 104, 104),
-                                        fontSize = 12.sp
-                                    )
-                                }
                             }
 
-                            Text(text = it.preco_produto)
-
+                            Text(text = "14.99")
 
                         }
 
@@ -299,9 +324,10 @@ fun DetalhesPedidoHistoricoScreen(
                 Column {
 
                     Text(
-                        text = "Resumo de valores",
+                        text = stringResource(id = R.string.summary_of_values),
                         fontSize = 20.sp,
-                        color = Color(41, 95, 27)
+                        fontFamily = fontFamily,
+                        color = colorResource(id = R.color.green_save_eats_light)
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -314,14 +340,13 @@ fun DetalhesPedidoHistoricoScreen(
 
                         Text(
                             text = "SubTotal",
-                            color = Color(104, 104, 104),
-                            fontSize = 12.sp
+                            fontSize = 14.sp,
+                            fontFamily = fontFamily,
+                            color = colorResource(id = R.color.gray),
                         )
 
-
-
                         Text(
-                            text = "R$ ${detailsOrder[0].valor_total}"
+                            text = "R$ 14.99"
                         )
 
                     }
@@ -336,14 +361,15 @@ fun DetalhesPedidoHistoricoScreen(
 
                         Text(
                             text = "Taxa de entrega",
-                            color = Color(104, 104, 104),
-                            fontSize = 12.sp
+                            fontSize = 14.sp,
+                            fontFamily = fontFamily,
+                            color = colorResource(id = R.color.gray),
                         )
 
-
                         Text(
-                            text = "R$ ${detailsOrder[0].valor_entrega}",
-                            color = Color(41, 95, 27)
+                            text = "R$ 3.99",
+                            fontSize = 16.sp,
+                            fontFamily = fontFamily
                         )
 
                     }
@@ -358,17 +384,13 @@ fun DetalhesPedidoHistoricoScreen(
 
                         Text(
                             text = "Total",
-                            color = Color(104, 104, 104),
-                            fontSize = 12.sp
+                            fontSize = 14.sp,
+                            fontFamily = fontFamily,
+                            color = colorResource(id = R.color.gray),
                         )
 
                         Text(
-                            text = "R$ ${
-                                calculoTotal(
-                                    detailsOrder[0].valor_total.replace(",", ".").toFloat(),
-                                    detailsOrder[0].valor_entrega.replace(",", ".").toFloat()
-                                )
-                            }"
+                            text = "R$ $formattedSum"
                         )
 
 
@@ -379,7 +401,8 @@ fun DetalhesPedidoHistoricoScreen(
                     Text(
                         text = "Pagamento",
                         fontSize = 20.sp,
-                        color = Color(41, 95, 27)
+                        fontFamily = fontFamily,
+                        color = colorResource(id = R.color.green_save_eats_light)
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -392,17 +415,17 @@ fun DetalhesPedidoHistoricoScreen(
 
                         Text(
                             text = detailsOrder[0].nome_forma_pagamento,
-                            color = Color(104, 104, 104),
-                            fontSize = 12.sp
+                            fontSize = 14.sp,
+                            fontFamily = fontFamily,
+                            color = colorResource(id = R.color.gray),
                         )
 
-
-
                         Row {
+
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_pix_24),
                                 contentDescription = "",
-                                tint = Color(22, 77, 20, 255),
+                                tint = Color(46, 189, 174),
                                 modifier = Modifier.size(20.dp)
                             )
 
@@ -410,122 +433,20 @@ fun DetalhesPedidoHistoricoScreen(
 
                             Text(
                                 text = "Pix",
+                                fontSize = 16.sp,
+                                fontFamily = fontFamily
                             )
                         }
 
                     }
-
-
-                    Spacer(modifier = Modifier.height(15.dp))
-
-                    Text(
-                        text = "Endereço de entrega",
-                        fontSize = 20.sp,
-                        color = Color(41, 95, 27)
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(
-                        text = localStorage.readDataString(context, "cep_cliente").toString(),
-                        color = Color(104, 104, 104),
-                        fontSize = 12.sp
-                    )
-
-                    Spacer(modifier = Modifier.height(5.dp))
-
-                    Text(
-                        text = "${
-                            localStorage.readDataString(context, "cidade_cliente").toString()
-                        } ${localStorage.readDataString(context, "estado_cliente").toString()}",
-                        color = Color(104, 104, 104),
-                        fontSize = 12.sp
-                    )
-
-                    Spacer(modifier = Modifier.height(15.dp))
-
-
-
-                    Text(
-                        text = "Avaliação",
-                        fontSize = 20.sp,
-                        color = Color(41, 95, 27)
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-
-                        Row {
-                            Icon(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = "",
-                                modifier = Modifier.size(20.dp)
-                            )
-
-                            Spacer(modifier = Modifier.width(3.dp))
-
-                            Icon(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = "",
-                                modifier = Modifier.size(20.dp)
-                            )
-
-                            Spacer(modifier = Modifier.width(3.dp))
-
-                            Icon(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = "",
-                                modifier = Modifier.size(20.dp)
-
-                            )
-
-                            Spacer(modifier = Modifier.width(3.dp))
-
-                            Icon(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = "",
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(3.dp))
-
-                            Icon(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = "",
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-
-
-
-                        Text(
-                            text = "Enviar",
-                            fontSize = 15.sp,
-                            color = Color(41, 95, 27)
-                        )
-                    }
-
 
                 }
 
             }
 
         }
-        
+
     }
 
-    
-}
 
-
-fun calculoTotal(
-    subtotal: Float,
-    frete: Float
-): String {
-    val resultado = subtotal + frete
-    return String.format(Locale.getDefault(), "%.2f", resultado)
 }

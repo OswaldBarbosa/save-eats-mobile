@@ -187,7 +187,7 @@ fun RecipeScreen(
                         Spacer(modifier = Modifier.width(15.dp))
 
                         Text(
-                            text = "$portionRecipe portions",
+                            text = "$portionRecipe porções",
                             fontWeight = FontWeight.W300
                         )
 
@@ -332,7 +332,11 @@ fun RecipeScreen(
                                     
                                     Spacer(modifier = Modifier.height(10.dp))
 
-                                    Row {
+                                    Row (
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
 
                                         AsyncImage(
                                             model = it.foto_ingrediente,

@@ -194,7 +194,7 @@ fun OrderScreen(
 
             } else {
 
-                Log.e("ds3t", "order: ${response.body()}")
+                Log.e("ds3t", "order: ${response.message()}")
 
             }
 

@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.saveeats.R
 import br.senai.sp.saveeats.Storage
-import br.senai.sp.saveeats.components.Header
 import br.senai.sp.saveeats.model.Historic
 import br.senai.sp.saveeats.model.HistoricList
 import br.senai.sp.saveeats.model.RetrofitFactory
@@ -70,10 +69,6 @@ fun HistoricScreen(
 
     val idClient = localStorage.readDataInt(context, "idClient")
 
-    var status by remember {
-        mutableStateOf(false)
-    }
-
     var listOrders by remember {
         mutableStateOf(
             listOf<Historic>()
@@ -89,9 +84,7 @@ fun HistoricScreen(
             call: Call<HistoricList>,
             response: Response<HistoricList>
         ) {
-
             listOrders = response.body()!!.detalhes_do_pedido_do_cliente
-
         }
 
         override fun onFailure(
